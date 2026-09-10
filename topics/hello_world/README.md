@@ -1,8 +1,9 @@
-# TITLE OF PROJECT
+# Helo World Challenge
 
-AUTHOR NAME
+Nicholas Roy
 
-[View this project online](URL_FOR_THE_RUNNING_PROJECT)
+[View this project online]
+Hello World Challenge
 
 ## Description
 
@@ -18,7 +19,7 @@ This description should help the reader understand what the program is, anything
 
 This bit should have some images of the program running so that the reader has a sense of what it looks like. For example:
 
-> ![Image of a clown face](./assets/images/clown.png)
+> ![Image of a clown face](./assets/images/silly_cat.jpg)
 
 ## Attribution
 
