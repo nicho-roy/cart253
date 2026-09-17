@@ -9,14 +9,14 @@ This is a repo containing a collection of short programing projects for my CART 
 
 ## Journal
 
-> https://nicho-roy.github.io/cart253/journal.md
+> [Journal](https://nicho-roy.github.io/cart253/journal.md)
 
 
 ## Links
 
-> Main page: https://nicho-roy.github.io/cart253
+> [Main Page](https://nicho-roy.github.io/cart253)
 
->hello_world: https://nicho-roy.github.io/cart253/topics/hello_world
+> [hello_world](https://nicho-roy.github.io/cart253/topics/hello_world)
 
 
 ## License
