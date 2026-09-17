@@ -29,11 +29,19 @@ function draw() {
     orbitControl();
     
     //# EARTH
+    push();
+    //rotate earth
+    rotateX(0.1);
+    rotateZ(0.1);
+    rotateY(angle);
 
     //draw earth
     sphere();
 
+    pop();
+
     //# MOON
+    push();
     //moves the sphere
     angle +=  angleStep;
     let xPos = cos(angle);
@@ -42,4 +50,8 @@ function draw() {
 
     //draw moon
     sphere(10);
+
+    pop();
+
+    console.log('frame');
 }
