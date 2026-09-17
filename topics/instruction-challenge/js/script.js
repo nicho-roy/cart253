@@ -11,13 +11,19 @@ const amplitude = 200;
 const angleStep = 0.01; //SPEED, 0.01 idealy
 
 let angle = 0;
+let earthImage
+let moonImage;
 
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
-function setup() {
-    createCanvas(720,400,WEBGL)
-    //noStroke(); //removes mesh outline
+async function setup() {
+    earthImage = await loadImage('./assets/images/earthImage.jpg');
+    moonImage = await loadImage('./assets/images/moonImage.jpg');
+
+    createCanvas(720,400,WEBGL);
+    noStroke(); //removes mesh outline
+    describe('Earth and moon celestial model');
 }
 
 
@@ -35,6 +41,9 @@ function draw() {
     rotateZ(0.1);
     rotateY(angle);
 
+    //texture
+    texture(earthImage);
+
     //draw earth
     sphere();
 
@@ -47,6 +56,9 @@ function draw() {
     let xPos = cos(angle);
     let yPos = sin(angle);
     translate(amplitude*xPos, amplitude/10*yPos, amplitude*yPos); 
+
+    //texture
+    texture(moonImage);
 
     //draw moon
     sphere(10);
