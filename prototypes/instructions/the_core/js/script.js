@@ -25,7 +25,7 @@ async function setup() {
     earthImage = await loadImage('./assets/images/earthImage.jpg');
     moonImage = await loadImage('./assets/images/moonImage.jpg');
     skyboxImage = await loadImage('./assets/images/endPortal.jpg');
-    vaporSkyImage = await loadImage('./assets/images/sunImage.jpg');
+    sunImage = await loadImage('./assets/images/sunImage.jpg');
 
     createCanvas(720,400,WEBGL);
     noStroke(); //remov. es mesh outline
@@ -45,7 +45,7 @@ function draw() {
     //skybox
     push();
     texture(earthImage);
-    sphere(5000);
+    sphere(3000);
     pop();
     
     // randomSeed(1);
@@ -68,10 +68,6 @@ function draw() {
     //     pop();
     // }
 
-
-
-
-    
     
     //# EARTH
     push();
@@ -81,7 +77,7 @@ function draw() {
     rotateY(angle/3);
 
     //texture
-    texture(earthImage);
+    texture(sunImage);
 
     //draw earth
     sphere();
