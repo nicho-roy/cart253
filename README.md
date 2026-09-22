@@ -9,14 +9,21 @@ This is a repo containing a collection of short programing projects for my CART 
 
 ## Journal
 
-> [Journal](https://nicho-roy.github.io/cart253/journal.md)
+[Journal](./journal.md)
 
 
 ## Links
+### Hello World
+[hello_world](./topics/hello_world/index.html)
 
-> [Main Page](https://nicho-roy.github.io/cart253)
+### Instructions
+[Instructions](./topics/instruction-challenge/index.html)
 
-> [hello_world](https://nicho-roy.github.io/cart253/topics/hello_world)
+[Vaporwave](./prototypes/instructions/vaporwave/index.html)
+
+[Sky Full Of Stars](./prototypes/instructions/sky_full_of_stars/index.html)
+
+[Impending](./prototypes/instructions/sky_full_of_stars/index.html)
 
 
 ## License
