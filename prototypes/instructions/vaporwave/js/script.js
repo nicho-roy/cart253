@@ -16,6 +16,7 @@ let angle = 0;
 let earthImage
 let moonImage;
 let skyboxImage;
+let vaporSkyImage;
 
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
@@ -24,6 +25,7 @@ async function setup() {
     earthImage = await loadImage('./assets/images/earthImage.jpg');
     moonImage = await loadImage('./assets/images/moonImage.jpg');
     skyboxImage = await loadImage('./assets/images/endPortal.jpg');
+    vaporSkyImage = await loadImage('./assets/images/vaporwave_skybox.jpg');
 
     createCanvas(720,400,WEBGL);
     noStroke(); //remov. es mesh outline
@@ -39,26 +41,34 @@ function draw() {
     orbitControl();
 
     //# SKYBOX
+
+    //skybox
+    push();
+    texture(vaporSkyImage);
+    sphere(5000);
+    pop();
     
-    randomSeed(1);
-    let randX, randY, randZ;
-    for(let i = 0; i < 1; i++) {
-        //TODON: add random colors for stars
-        push();
-        randX = random(PI*2);
-        randY = random(PI*2);
-        randZ = random(PI*2);
+    // randomSeed(1);
+    // let randX, randY, randZ;
+    // for(let i = 0; i < 1; i++) {
+    //     //TODON: add random colors for stars
+    //     push();
+    //     randX = random(PI*2);
+    //     randY = random(PI*2);
+    //     randZ = random(PI*2);
         
-        fill(255,240,200);
-        // translate(randX*amplitude,randY*amplitude,randZ*amplitude);
+    //     fill(255,240,200);
+    //     // translate(randX*amplitude,randY*amplitude,randZ*amplitude);
         
-        rotateX(randX);
-        rotateY(randY);
-        rotateZ(randZ);
+    //     rotateX(randX);
+    //     rotateY(randY);
+    //     rotateZ(randZ);
         
-        sphere(10);
-        pop();
-    }
+    //     sphere(10);
+    //     pop();
+    // }
+
+
 
 
     
