@@ -7,7 +7,7 @@
  */
 
 "use strict";
-const amplitude = 200;
+const amplitude = 50;
 const angleStep = 0.01; //SPEED, 0.01 idealy
 const starCount = 4000;
 const starDistance = 5000;
@@ -27,7 +27,7 @@ async function setup() {
     skyboxImage = await loadImage('./assets/images/endPortal.jpg');
     sunImage = await loadImage('./assets/images/sunImage.jpg');
 
-    createCanvas(720,400,WEBGL);
+    createCanvas(1920,1080,WEBGL);
     noStroke(); //remov. es mesh outline
     describe('Earth and moon celestial model');
 }
@@ -37,7 +37,7 @@ async function setup() {
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
 */
 function draw() {
-    background(0);
+    background(150, 15, 0);
     orbitControl();
 
     //# SKYBOX
@@ -59,7 +59,7 @@ function draw() {
     texture(earthImage);
 
     //draw earth
-    sphere();
+    sphere(5);
 
     pop();
 
@@ -75,28 +75,38 @@ function draw() {
     texture(moonImage);
 
     //draw moon
-    sphere(10);
+    sphere(1);
 
     pop();
 
 
+    //# THE SUN
     push();
-
-    randomSeed(1);
-    for(let i = 0; i < starCount; i++) {
-        push();
-        let theta = random(2*PI);
-        let phi = acos(random(-1, 1)); // gives uniform spherical distribution
-        let xPos = sin(phi) * cos(theta);
-        let yPos = sin(phi) * sin(theta);
-        let zPos = cos(phi);
-        translate(starDistance*xPos, starDistance*yPos, starDistance*zPos); 
-        texture(sunImage);
-        sphere(random(3,5));
-        pop();
-    }
+    translate(5800, 0, 0); 
+    texture(sunImage);
+    sphere(5405,1000); //to scale
 
     pop();
+
+
+    //# STARS
+    // push();
+
+    // randomSeed(1);
+    // for(let i = 0; i < starCount; i++) {
+    //     push();
+    //     let theta = random(2*PI);
+    //     let phi = acos(random(-1, 1)); // gives uniform spherical distribution
+    //     let xPos = sin(phi) * cos(theta);
+    //     let yPos = sin(phi) * sin(theta);
+    //     let zPos = cos(phi);
+    //     translate(starDistance*xPos, starDistance*yPos, starDistance*zPos); 
+    //     texture(sunImage);
+    //     sphere(random(3,5));
+    //     pop();
+    // }
+
+    // pop();
 
     // randomSeed(1);
     // let randX, randY, randZ;
