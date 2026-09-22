@@ -27,7 +27,7 @@ async function setup() {
     skyboxImage = await loadImage('./assets/images/endPortal.jpg');
     vaporSkyImage = await loadImage('./assets/images/vaporwave_skybox.jpg');
 
-    createCanvas(720,400,WEBGL);
+    createCanvas(1920,1080,WEBGL);
     noStroke(); //remov. es mesh outline
     describe('Earth and moon celestial model');
 }

@@ -9,7 +9,7 @@
 "use strict";
 const amplitude = 200;
 const angleStep = 0.01; //SPEED, 0.01 idealy
-const starCount = 4000;
+const starCount = 3000;
 const starDistance = 5000;
 
 let angle = 0;
@@ -27,7 +27,7 @@ async function setup() {
     skyboxImage = await loadImage('./assets/images/endPortal.jpg');
     sunImage = await loadImage('./assets/images/sunImage.jpg');
 
-    createCanvas(720,400,WEBGL);
+    createCanvas(1920,1080,WEBGL);
     noStroke(); //remov. es mesh outline
     describe('Earth and moon celestial model');
 }
