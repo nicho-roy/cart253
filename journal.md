@@ -23,4 +23,4 @@
 > Lastly i wanted a piece that captured the truly incomprehansible size of celestial bodies. So, using the sun texture form before, I place a giant sun right next to the earth. I made the model to scale for the most part, with the sun being 109 times larger than the earth.
 > ![impending_ss](./assets/images/impending.png)
 > Overall, the scene makes our sun appear very imposing, almost like it's about to swallow the earth.
-> [Impending](./prototypes/instructions/sky_full_of_stars/index.html)
+> [Impending](./prototypes/instructions/impending/index.html)
