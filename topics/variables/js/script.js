@@ -7,12 +7,12 @@
 
 "use strict";
 
+
 let backgroundColor = {
     r: 135,
     g: 206,
     b: 250
-}
-
+};
 
 
 // Our friend Mr. Furious
@@ -26,13 +26,24 @@ let mrFurious = {
         r: 255,
         g: 225,
         b: 225
-    }
+    },
+    rageOffset: 0.1,
+    rage: 1,
 };
+
+let bird = {
+    image: "./assets/images/chicken.jpg",
+    angle: 0,
+    x: 0,
+    y: 0,
+}
+
 
 /**
  * Create the canvas
  */
-function setup() {
+async function setup() {
+    bird.image = await loadImage(bird.image);
     createCanvas(400, 400);
 }
 
@@ -41,6 +52,7 @@ function setup() {
  */
 function draw() {
     background(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+    darkenSky();
 
     // Draw Mr. Furious as a coloured circle
     push();
@@ -48,13 +60,23 @@ function draw() {
     fill(mrFurious.fill.r, mrFurious.fill.g, mrFurious.fill.b);
 
     turnRed();
+
     //shake
-    let xShake = random(-5, 5);
-    let yShake = random(-5, 5);
+    let xShake = random(-mrFurious.rageOffset, mrFurious.rageOffset);
+    let yShake = random(-mrFurious.rageOffset, mrFurious.rageOffset);
+    mrFurious.rageOffset += mrFurious.rage;
     ellipse(mrFurious.x + xShake, mrFurious.y + yShake, mrFurious.size);
     pop();
 
-    darkenSky();
+
+    push();
+    bird.angle += 0.5;
+    bird.x += 1;
+    bird.y = 100 + sin(bird.angle) * 30;
+    image(bird.image,bird.x,bird.y,80,80)
+
+    pop();
+   
 
 }
 
@@ -73,10 +95,5 @@ function darkenSky() {
     backgroundColor.b = constrain(backgroundColor.b, 112, 255);
 }
 
-function shake() {
-    let x = random(-3,3);
-    let y = random(-3,3);
 
-
-}
 
