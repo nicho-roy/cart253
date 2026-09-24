@@ -48,11 +48,13 @@ function draw() {
     fill(mrFurious.fill.r, mrFurious.fill.g, mrFurious.fill.b);
 
     turnRed();
-    darkenSky();
-
-    ellipse(mrFurious.x, mrFurious.y, mrFurious.size);
+    //shake
+    let xShake = random(-5, 5);
+    let yShake = random(-5, 5);
+    ellipse(mrFurious.x + xShake, mrFurious.y + yShake, mrFurious.size);
     pop();
 
+    darkenSky();
 
 }
 
@@ -69,5 +71,12 @@ function darkenSky() {
     backgroundColor.r = constrain(backgroundColor.r, 25, 255);
     backgroundColor.g = constrain(backgroundColor.g, 25, 255);
     backgroundColor.b = constrain(backgroundColor.b, 112, 255);
+}
+
+function shake() {
+    let x = random(-3,3);
+    let y = random(-3,3);
+
+
 }
 
