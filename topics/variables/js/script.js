@@ -7,42 +7,67 @@
 
 "use strict";
 
+let backgroundColor = {
+    r: 135,
+    g: 206,
+    b: 250
+}
+
+
+
 // Our friend Mr. Furious
 let mrFurious = {
-  // Position and size
-  x: 200,
-  y: 200,
-  size: 100,
-  // Colour
-  fill: {
-    r: 255,
-    g: 225,
-    b: 225
-  }
+    // Position and size
+    x: 200,
+    y: 200,
+    size: 100,
+    // Colour
+    fill: {
+        r: 255,
+        g: 225,
+        b: 225
+    }
 };
 
 /**
  * Create the canvas
  */
 function setup() {
-  createCanvas(400, 400);
+    createCanvas(400, 400);
 }
 
 /**
  * Draw (and update) Mr. Furious
  */
 function draw() {
-  background(160, 180, 200);
-  
-  // Draw Mr. Furious as a coloured circle
-  push();
-  noStroke();
-  fill(mrFurious.fill.r, mrFurious.fill.g, mrFurious.fill.b);
+    background(backgroundColor.r, backgroundColor.g, backgroundColor.b);
 
-  //turn red
-  mrFurious.fill.g -= 1;
-  mrFurious.fill.b -= 1;
+    // Draw Mr. Furious as a coloured circle
+    push();
+    noStroke();
+    fill(mrFurious.fill.r, mrFurious.fill.g, mrFurious.fill.b);
 
-  ellipse(mrFurious.x, mrFurious.y, mrFurious.size);
-  pop();
+    turnRed();
+    darkenSky();
+
+    ellipse(mrFurious.x, mrFurious.y, mrFurious.size);
+    pop();
+
+
 }
+
+function turnRed() {
+    mrFurious.fill.g -= 0.8;
+    mrFurious.fill.b -= 0.5;
+}
+
+function darkenSky() {
+    backgroundColor.r -= 0.5;
+    backgroundColor.g -= 0.5;
+    backgroundColor.b -= 0.5;
+
+    backgroundColor.r = constrain(backgroundColor.r, 25, 255);
+    backgroundColor.g = constrain(backgroundColor.g, 25, 255);
+    backgroundColor.b = constrain(backgroundColor.b, 112, 255);
+}
+
