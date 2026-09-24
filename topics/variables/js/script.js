@@ -7,6 +7,7 @@
 
 "use strict";
 
+let whistle = "./assets/sounds/whistle.mp3";
 
 let backgroundColor = {
     r: 135,
@@ -27,8 +28,9 @@ let mrFurious = {
         g: 225,
         b: 225
     },
+    image: "./assets/images/angry.jpg",
     rageOffset: 0.1,
-    rage: 1,
+    rage: 0.01,
 };
 
 let bird = {
@@ -44,7 +46,11 @@ let bird = {
  */
 async function setup() {
     bird.image = await loadImage(bird.image);
+    whistle = await loadSound(whistle);
+    mrFurious.image = await loadImage(mrFurious.image);
     createCanvas(400, 400);
+    //sound
+    whistle.play();
 }
 
 /**
@@ -65,10 +71,14 @@ function draw() {
     let xShake = random(-mrFurious.rageOffset, mrFurious.rageOffset);
     let yShake = random(-mrFurious.rageOffset, mrFurious.rageOffset);
     mrFurious.rageOffset += mrFurious.rage;
+    mrFurious.rageOffset = constrain(mrFurious.rageOffset,0,100);
+    //texture(mrFurious.image);
     ellipse(mrFurious.x + xShake, mrFurious.y + yShake, mrFurious.size);
     pop();
 
 
+
+    //bird
     push();
     bird.angle += 0.5;
     bird.x += 1;
