@@ -25,6 +25,9 @@ This is a repo containing a collection of short programing projects for my CART 
 
 [Impending](./prototypes/instructions/impending/index.html)
 
+### Variables
+[Mr Furious](./topics/variables/index.html) (with Sawyer)
+
 
 ## License
 
