@@ -11,23 +11,42 @@ let canvas = {
     height: 700
 }
 let fishArr = [];
+let fishImg = "./assets/images/cod.png";
 let algaeArr = [];
-let algaeSpawnChance = 0.1;
+let algaeSpawnChance = 0.001;
 
 //CLASSES
 class Fish {
-    constructor (posX,posY,size,metabolism) {
+    constructor (posX,posY,size=50,speed=5) {
         this.posX = posX;
         this.posY = posY; 
         this.size = size;
-        this.metabolism = metabolism;
+        this.speed = speed;
+        fishArr.push(this);
     }
 
-    GetClosestFoodPostion() {
+    ChaseFood() {
 
     }
 
-    MoveTowardsDestination(destinationX,destinationY) {
+    GetClosestFood() {
+        let closest;
+        algaeArr.forEach(e => {
+            if (closest = null) {
+                closest = e;
+                return;
+            }
+            // let newDistance = Math.sqrt((e.posX-this.posX)**2 + (e.posY-this.posY)**2)
+            let oldDist = dist(this.posX,this.posY,closest.posX,closests.posY);
+            let newDist = dist(this.posX,this.posY,e.posX,e.posY);
+            if (newDist < oldDist) {
+                closest = e;
+            }
+        });
+        return closest;
+    }
+
+    MoveTowardsDestination(food) {
         
     }
 
@@ -35,8 +54,16 @@ class Fish {
 
     }
 
-    Draw() {
+    static SpawnBatch(count) {
+        for (let i = 0; i < count; i++) {
+            let fish = new Fish(random(0,canvas.width),random(0,canvas.height));
+        }
+    }
 
+    Draw() {
+        push();
+        image(fishImg,this.posX,this.posY,this.size,this.size)
+        pop();
     }
 }
 
@@ -65,6 +92,12 @@ class Algae {
         let algae = new Algae(this.posX+randX,this.posY+randY);
     }
 
+    static SpawnBatch(count) {
+        for (let i = 0; i < count; i++) {
+            let algae = new Algae(random(0,canvas.width),random(0,canvas.height));
+        }
+    }
+
     Draw() {
         push();
         // randomSeed(1);
@@ -77,11 +110,12 @@ class Algae {
 }
 
 
-function setup() {
+async function setup() {
+    fishImg = await loadImage(fishImg);
     createCanvas(canvas.width, canvas.height);
 
-    new Algae(100,100);
-    //noCursor();
+    Algae.SpawnBatch(5);
+    Fish.SpawnBatch(5);
 }
 
 
@@ -102,12 +136,13 @@ function eventTick() {
 }
 
 function drawObjects() {
+    console.log("=======");
     fishArr.forEach(e => {
         e.Draw();
     });
-    console.log("fish: ",fishArr);
+    console.log("fish: ",fishArr.length);
     algaeArr.forEach(e => {
         e.Draw();
     });
-    console.log("algae: ",algaeArr);
+    console.log("algae: ",algaeArr.length);
 }
