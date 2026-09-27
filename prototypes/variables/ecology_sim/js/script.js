@@ -14,7 +14,7 @@ let fishArr = [];
 let fishImg = "./assets/images/cod.png";
 let fishEatRange = 15;
 let algaeArr = [];
-let algaeSpawnChance = 0.001;
+let algaeSpawnChance = 0.1;
 
 //CLASSES
 class Fish {
@@ -106,11 +106,11 @@ class Algae {
 
     Duplicate() {
         randomSeed();
-        let randX = random(-50,50);
-        let randY = random(-50,50);
-        randX = constrain(randX,0,canvas.width);
-        randY = constrain(randY,0,canvas.height);
-        let algae = new Algae(this.posX+randX,this.posY+randY);
+        let randX = random(-100,100);
+        let randY = random(-100,100);
+        let spawnX = constrain(this.posX+randX,0,canvas.width);
+        let spawnY = constrain(this.posY+randY,0,canvas.height);
+        let algae = new Algae(spawnX,spawnY);
     }
 
     static SpawnBatch(count) {
@@ -135,7 +135,7 @@ async function setup() {
     fishImg = await loadImage(fishImg);
     createCanvas(canvas.width, canvas.height);
 
-    Algae.SpawnBatch(5);
+    Algae.SpawnBatch(20);
     Fish.SpawnBatch(5);
 }
 
