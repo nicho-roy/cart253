@@ -135,8 +135,8 @@ async function setup() {
     fishImg = await loadImage(fishImg);
     createCanvas(canvas.width, canvas.height);
 
-    Algae.SpawnBatch(5);
-    Fish.SpawnBatch(5);
+    Algae.SpawnBatch(500);
+    Fish.SpawnBatch(1);
 }
 
 
