@@ -12,9 +12,13 @@ let canvas = {
 }
 let fishArr = [];
 let fishImg = "./assets/images/cod.png";
-let fishEatRange = 15;
+let fishInteractRange = 15;
+let mutationMult = 1.01;
 let algaeArr = [];
-let algaeSpawnChance = 0.1;
+let startingFish = 5;
+let startingAlgae = 80;
+let algaeSpawnChance = 0.5;
+
 
 //CLASSES
 class Fish {
@@ -23,15 +27,50 @@ class Fish {
         this.posY = posY; 
         this.size = size;
         this.speed = speed;
-        this.hunger = size*10
+        this.hunger = size - (size/4)
         fishArr.push(this);
     }
 
-    ChaseFood() {
-        let target = this.GetClosestFood();
+    Act() {
+        let target
+        if (this.CanMate()) {
+            target = this.GetClosestPartner();
+        } else {
+            target = this.GetClosestFood();
+        }
+
         if (target) {
             this.MoveTowardsDestination(target);
         }
+
+        //death condition here
+        this.hunger -= this.speed/this.size;
+        if (this.hunger <= 0) {
+            this.Die();
+        }
+    }
+
+    GetClosestPartner() {
+        let closest;
+        fishArr.forEach(e => {
+            if (e==this) {
+                return;
+            }
+            if (!e.CanMate()) {
+                return;
+            }
+            if (!closest) {
+                closest = e;
+                return;
+            }
+            // let newDistance = Math.sqrt((e.posX-this.posX)**2 + (e.posY-this.posY)**2)
+            let oldDist = dist(this.posX,this.posY,closest.posX,closest.posY);
+            let newDist = dist(this.posX,this.posY,e.posX,e.posY);
+            if (abs(newDist) < abs(oldDist)) {
+                closest = e;
+            }
+        });
+        return closest;
     }
 
     GetClosestFood() {
@@ -54,27 +93,55 @@ class Fish {
         return closest;
     }
 
-    //death condition here
+     
+    Die () {
+        let index = fishArr.indexOf(this);
+        fishArr.splice(index,1);
+    }
+
     MoveTowardsDestination(target) {
         let v = createVector(target.posX-this.posX,target.posY-this.posY);
         // console.log("vector",v);
         v.normalize();
         // console.log("vectornorm",v);
         this.posX += v.x * this.speed;
-        this.posY += v.y * this.speed/3.5;
+        this.posY += v.y * this.speed/2;
+        
+        if (this.CanMate()&&target.CanMate() && (dist(this.posX,this.posY,target.posX,target.posY) <= fishInteractRange)) {
+            this.Duplicate();
+            this.hunger -= this.size;
+            target.hunger -= target.size;
+        } 
+        this.AttemptEat();
+    }
+
+    Duplicate() { //lmao sex
+        randomSeed();
+        let randX = random(-100,100);
+        let randY = random(-100,100);
+        let spawnX = constrain(this.posX+randX,0,canvas.width);
+        let spawnY = constrain(this.posY+randY,0,canvas.height);
+        let randSize = random(this.size * (1 - mutationMult),this.size*mutationMult)
+        let randSpeed = random(this.speed * (1 - mutationMult),this.speed*mutationMult)
+        let fish = new Fish(spawnX,spawnY,randSize,randSpeed);
+    }
+
+    CanMate() {
+        if (this.hunger>this.size) {
+            return true
+        } else {
+            return false;
+        }
     }
 
     AttemptEat() {
         algaeArr.forEach(e => {
-            if (dist(this.posX,this.posY,e.posX,e.posY) <= fishEatRange) {
+            if (dist(this.posX,this.posY,e.posX,e.posY) <= fishInteractRange) {
                 let index = algaeArr.indexOf(e);
                 algaeArr.splice(index,1);
+                this.hunger += 1;
             }
         });
-    }
-
-    Duplicate() { //lmao sex
-
     }
 
     static SpawnBatch(count) {
@@ -101,6 +168,8 @@ class Algae {
         randomSeed();
         let rng = random(0,100);
         // console.log(rng);
+        //let spawnChance = (algaeSpawnChance * Math.E) ** -algaeArr.length //formula for exponential decay
+        // console.log(spawnChance)
         if (rng<=algaeSpawnChance) {
             this.Duplicate();
         }
@@ -137,8 +206,8 @@ async function setup() {
     fishImg = await loadImage(fishImg);
     createCanvas(canvas.width, canvas.height);
 
-    Algae.SpawnBatch(20);
-    Fish.SpawnBatch(5);
+    Algae.SpawnBatch(startingAlgae);
+    Fish.SpawnBatch(startingFish);
 }
 
 
@@ -157,8 +226,7 @@ function eventTick() {
         e.AttemptReproduction();
     });
     fishArr.forEach(e => {
-        e.ChaseFood();
-        e.AttemptEat();
+        e.Act();
     });
 }
 
