@@ -28,10 +28,15 @@ class Fish {
 
     ChaseFood() {
         let target = this.GetClosestFood();
-        this.MoveTowardsDestination(target);
+        if (target) {
+            this.MoveTowardsDestination(target);
+        }
     }
 
     GetClosestFood() {
+        if (algaeArr.length<=0) {
+            return false;
+        }
         let closest;
         algaeArr.forEach(e => {
             if (!closest) {
