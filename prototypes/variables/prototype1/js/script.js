@@ -26,6 +26,8 @@ class Fish {
     }
 }
 
+class Algae 
+
 
 function setup() {
     createCanvas(1920, 1080);
