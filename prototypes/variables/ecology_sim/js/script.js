@@ -23,6 +23,7 @@ class Fish {
         this.posY = posY; 
         this.size = size;
         this.speed = speed;
+        this.hunger = size*10
         fishArr.push(this);
     }
 
@@ -53,13 +54,14 @@ class Fish {
         return closest;
     }
 
+    //death condition here
     MoveTowardsDestination(target) {
         let v = createVector(target.posX-this.posX,target.posY-this.posY);
         // console.log("vector",v);
         v.normalize();
         // console.log("vectornorm",v);
-        this.posX += v.x;
-        this.posY += v.y;
+        this.posX += v.x * this.speed;
+        this.posY += v.y * this.speed/3.5;
     }
 
     AttemptEat() {
