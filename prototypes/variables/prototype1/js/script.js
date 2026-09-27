@@ -12,7 +12,7 @@ let canvas = {
 }
 let fishArr = [];
 let algaeArr = [];
-let algaeSpawnRate = 100;
+let algaeSpawnChance = 0.1;
 
 //CLASSES
 class Fish {
@@ -47,18 +47,29 @@ class Algae {
         algaeArr.push(this);
     }
 
+    AttemptReproduction() {
+        randomSeed();
+        let rng = random(0,100);
+        // console.log(rng);
+        if (rng<=algaeSpawnChance) {
+            this.Duplicate();
+        }
+    }
+
     Duplicate() {
+        randomSeed();
         let randX = random(-50,50);
         let randY = random(-50,50);
         randX = constrain(randX,0,canvas.width);
         randY = constrain(randY,0,canvas.height);
-        let algae = new Algae();
+        let algae = new Algae(this.posX+randX,this.posY+randY);
     }
 
     Draw() {
         push();
-        randomSeed(1);
-        fill(random(0,100),random(50,255),random(0,100));
+        // randomSeed(1);
+        // fill(random(0,100),random(50,255),random(0,100));
+        fill(80,200,45)
         noStroke();
         rect(this.posX,this.posY,10,10)
         pop();
@@ -78,10 +89,17 @@ function draw() {
     background(43, 116, 189);
 
 
-    
+    eventTick();
     drawObjects();
 }
 
+
+//defines behaviours that will occur each frame
+function eventTick() {
+    algaeArr.forEach(e => {
+        e.AttemptReproduction();
+    });
+}
 
 function drawObjects() {
     fishArr.forEach(e => {
