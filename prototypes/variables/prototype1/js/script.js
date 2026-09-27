@@ -12,6 +12,7 @@ let canvas = {
 }
 let fishArr = [];
 let fishImg = "./assets/images/cod.png";
+let fishEatRange = 15;
 let algaeArr = [];
 let algaeSpawnChance = 0.001;
 
@@ -26,28 +27,42 @@ class Fish {
     }
 
     ChaseFood() {
-
+        let target = this.GetClosestFood();
+        this.MoveTowardsDestination(target);
     }
 
     GetClosestFood() {
         let closest;
         algaeArr.forEach(e => {
-            if (closest = null) {
+            if (!closest) {
                 closest = e;
                 return;
             }
             // let newDistance = Math.sqrt((e.posX-this.posX)**2 + (e.posY-this.posY)**2)
-            let oldDist = dist(this.posX,this.posY,closest.posX,closests.posY);
+            let oldDist = dist(this.posX,this.posY,closest.posX,closest.posY);
             let newDist = dist(this.posX,this.posY,e.posX,e.posY);
-            if (newDist < oldDist) {
+            if (abs(newDist) < abs(oldDist)) {
                 closest = e;
             }
         });
         return closest;
     }
 
-    MoveTowardsDestination(food) {
-        
+    MoveTowardsDestination(target) {
+        let v = createVector(target.posX-this.posX,target.posY-this.posY);
+        console.log("vector",v);
+        v.normalize();
+        console.log("vectornorm",v);
+        this.posX += v.x;
+        this.posY += v.y;
+    }
+
+    AttemptEat() {
+        algaeArr.forEach(e => {
+            if (dist(this.posX,this.posY,e.posX,e.posY) <= fishEatRange) {
+                algaeArr.pop(e);
+            }
+        });
     }
 
     Duplicate() { //lmao sex
@@ -62,7 +77,7 @@ class Fish {
 
     Draw() {
         push();
-        image(fishImg,this.posX,this.posY,this.size,this.size)
+        image(fishImg,this.posX-(this.size/2),this.posY-(this.size/2),this.size,this.size)
         pop();
     }
 }
@@ -132,6 +147,9 @@ function draw() {
 function eventTick() {
     algaeArr.forEach(e => {
         e.AttemptReproduction();
+    });
+    fishArr.forEach(e => {
+        e.ChaseFood();
     });
 }
 
