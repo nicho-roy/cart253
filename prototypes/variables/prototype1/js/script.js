@@ -50,9 +50,9 @@ class Fish {
 
     MoveTowardsDestination(target) {
         let v = createVector(target.posX-this.posX,target.posY-this.posY);
-        console.log("vector",v);
+        // console.log("vector",v);
         v.normalize();
-        console.log("vectornorm",v);
+        // console.log("vectornorm",v);
         this.posX += v.x;
         this.posY += v.y;
     }
@@ -60,7 +60,8 @@ class Fish {
     AttemptEat() {
         algaeArr.forEach(e => {
             if (dist(this.posX,this.posY,e.posX,e.posY) <= fishEatRange) {
-                algaeArr.pop(e);
+                let index = algaeArr.indexOf(e);
+                algaeArr.splice(index,1);
             }
         });
     }
@@ -150,6 +151,7 @@ function eventTick() {
     });
     fishArr.forEach(e => {
         e.ChaseFood();
+        e.AttemptEat();
     });
 }
 
