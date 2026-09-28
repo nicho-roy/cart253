@@ -28,6 +28,12 @@ This is a repo containing a collection of short programing projects for my CART 
 ### Variables
 [Mr Furious](./topics/variables/index.html) (with Sawyer)
 
+[Sisyfish](./prototypes/variables/sisyfish/index.html)
+
+[Cambrian Explosion](./prototypes/variables/cambrian_explosion/index.html)
+
+[Fihmulation](./prototypes/variables/fihmulation/index.html)
+
 
 ## License
 
