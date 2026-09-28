@@ -16,8 +16,10 @@ let fishInteractRange = 15;
 let mutationMult = 1.01;
 let algaeArr = [];
 let startingFish = 5;
-let startingAlgae = 80;
-let algaeSpawnChance = 0.5;
+let fishStartingSize = 50;
+let fishstartingSpeed = 5;
+let startingAlgae = 400;
+let algaeSpawnChance = 0.2;
 
 
 //CLASSES
@@ -27,7 +29,8 @@ class Fish {
         this.posY = posY; 
         this.size = size;
         this.speed = speed;
-        this.hunger = size - (size/4)
+        this.hunger = size -1//- (size/4)
+        this.readyToMate = false;
         fishArr.push(this);
     }
 
@@ -35,6 +38,9 @@ class Fish {
         let target
         if (this.CanMate()) {
             target = this.GetClosestPartner();
+            if (!target) {
+                target = this.GetClosestFood();
+            }
         } else {
             target = this.GetClosestFood();
         }
@@ -121,16 +127,20 @@ class Fish {
         let randY = random(-100,100);
         let spawnX = constrain(this.posX+randX,0,canvas.width);
         let spawnY = constrain(this.posY+randY,0,canvas.height);
-        let randSize = random(this.size * (1 - mutationMult),this.size*mutationMult)
-        let randSpeed = random(this.speed * (1 - mutationMult),this.speed*mutationMult)
+        let randSize = random(this.size / mutationMult,this.size*mutationMult)
+        let randSpeed = random(this.speed / mutationMult,this.speed*mutationMult)
         let fish = new Fish(spawnX,spawnY,randSize,randSpeed);
     }
 
     CanMate() {
-        if (this.hunger>this.size) {
-            return true
+        if (this.hunger>this.size*1.5) {
+            this.readyToMate = true;
+            return this.readyToMate;
+        } else if (this.hunger<this.size) {
+            this.readyToMate = false;
+            return this.readyToMate
         } else {
-            return false;
+            return this.readyToMate;
         }
     }
 
@@ -146,13 +156,19 @@ class Fish {
 
     static SpawnBatch(count) {
         for (let i = 0; i < count; i++) {
-            let fish = new Fish(random(0,canvas.width),random(0,canvas.height));
+            let fish = new Fish(random(0,canvas.width),random(0,canvas.height),
+            random(fishStartingSize / mutationMult,fishStartingSize*mutationMult),
+            random(fishstartingSpeed / mutationMult,fishstartingSpeed*mutationMult));
         }
     }
 
     Draw() {
         push();
         image(fishImg,this.posX-(this.size/2),this.posY-(this.size/2),this.size,this.size)
+        text("Hunger: " + this.hunger + 
+            "\nSize: " + this.size +
+            "\nSpeed: " + this.speed
+            ,this.posX,this.posY);
         pop();
     }
 }
