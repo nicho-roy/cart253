@@ -135,7 +135,7 @@ class Fish {
         let spawnY = constrain(this.posY+randY,0,canvas.height);
         let randSize = random(this.size / mutationMult,this.size*mutationMult)
         let randSpeed = random(this.speed / mutationMult,this.speed*mutationMult)
-        let fish = new Fish(spawnX,spawnY,randSize,randSpeed,this.generation++);
+        let fish = new Fish(spawnX,spawnY,randSize,randSpeed,this.generation+1);
     }
 
     CanMate() {
@@ -174,8 +174,8 @@ class Fish {
         text("Gen: " + this.generation +
             "\nHunger: " + this.hunger.toPrecision(3) + 
             "\nSize: " + this.size.toPrecision(3) +
-            "\nSpeed: " + this.speed.toPrecision(3)
-            ,this.posX,this.posY);
+            "\nSpeed: " + this.speed.toPrecision(3),
+            this.posX,this.posY);
         pop();
     }
 }
