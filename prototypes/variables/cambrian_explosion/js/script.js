@@ -13,27 +13,30 @@ let canvas = {
 let fishArr = [];
 let fishImg = "./assets/images/cod.png";
 let fishInteractRange = 15;
-let mutationMult = 1.25;
+let mutationMult = 2;
 let algaeArr = [];
 let startingFish = 5;
 let fishStartingSize = 50;
-let fishstartingSpeed = 2;
-let startingAlgae = 700;
-let algaeDuplicateRange = 400;
-let algaeSpawnChance = 0.1;
+let fishstartingSpeed = 1;
+let startingAlgae = 500;
+let algaeDuplicateRange = 300;
+// let algaeRangeAmtMax = 100;
+let algaeGlobalMax = 800;
+let algaeSpawnChance = 80;
 
 //TODON range detection for algae threshokld
 
 
 //CLASSES
 class Fish {
-    constructor (posX,posY,size=50,speed=5) {
+    constructor (posX,posY,size=50,speed=5,generation=1) {
         this.posX = posX;
         this.posY = posY; 
         this.size = size;
         this.speed = speed;
-        this.hunger = size -1//- (size/4)
-        this.hunger = constrain(this.hunger,0,this.hunger*2)
+        this.hunger = size -1; //- (size/4)
+        this.hunger = constrain(this.hunger,0,this.hunger*2);
+        this.generation = generation;
         this.readyToMate = false;
         fishArr.push(this);
     }
@@ -115,7 +118,7 @@ class Fish {
         v.normalize();
         // console.log("vectornorm",v);
         this.posX += v.x * this.speed;
-        this.posY += v.y * this.speed/2;
+        this.posY += v.y * this.speed;
         
         if (this.CanMate() && target instanceof Fish && target.CanMate() && (dist(this.posX,this.posY,target.posX,target.posY) <= fishInteractRange)) {
             this.Duplicate();
@@ -133,7 +136,7 @@ class Fish {
         let spawnY = constrain(this.posY+randY,0,canvas.height);
         let randSize = random(this.size / mutationMult,this.size*mutationMult)
         let randSpeed = random(this.speed / mutationMult,this.speed*mutationMult)
-        let fish = new Fish(spawnX,spawnY,randSize,randSpeed);
+        let fish = new Fish(spawnX,spawnY,randSize,randSpeed,this.generation+1);
     }
 
     CanMate() {
@@ -169,10 +172,11 @@ class Fish {
     Draw() {
         push();
         image(fishImg,this.posX-(this.size/2),this.posY-(this.size/2),this.size,this.size)
-        text("Hunger: " + this.hunger + 
-            "\nSize: " + this.size +
-            "\nSpeed: " + this.speed
-            ,this.posX,this.posY);
+        text("Gen: " + this.generation +
+            "\nHunger: " + this.hunger.toPrecision(3) + 
+            "\nSize: " + this.size.toPrecision(3) +
+            "\nSpeed: " + this.speed.toPrecision(3),
+            this.posX,this.posY);
         pop();
     }
 }
@@ -185,11 +189,24 @@ class Algae {
     }
 
     AttemptReproduction() {
+        //local max
+        // let algaeRangeAmt = 0;
+        // algaeArr.forEach(e => {
+        //     let distance = dist(this.posX,this.posY,e.posX,e.posY);
+        //     if (distance <= algaeDuplicateRange) {
+        //         algaeRangeAmt += 1;
+        //     }
+        // });
+        // if (algaeRangeAmt>algaeRangeAmtMax) {
+        //     return
+        // }
+        //global max
+        if (algaeArr.length>algaeGlobalMax) {
+            return;
+        }
+        //init spawn
         randomSeed();
         let rng = random(0,100);
-        // console.log(rng);
-        //let spawnChance = (algaeSpawnChance * Math.E) ** -algaeArr.length //formula for exponential decay
-        // console.log(spawnChance)
         if (rng<=algaeSpawnChance) {
             this.Duplicate();
         }
