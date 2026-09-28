@@ -13,13 +13,16 @@ let canvas = {
 let fishArr = [];
 let fishImg = "./assets/images/cod.png";
 let fishInteractRange = 15;
-let mutationMult = 1.01;
+let mutationMult = 1.25;
 let algaeArr = [];
 let startingFish = 5;
 let fishStartingSize = 50;
-let fishstartingSpeed = 5;
-let startingAlgae = 400;
-let algaeSpawnChance = 0.2;
+let fishstartingSpeed = 2;
+let startingAlgae = 700;
+let algaeDuplicateRange = 400;
+let algaeSpawnChance = 0.1;
+
+//TODON range detection for algae threshokld
 
 
 //CLASSES
@@ -30,6 +33,7 @@ class Fish {
         this.size = size;
         this.speed = speed;
         this.hunger = size -1//- (size/4)
+        this.hunger = constrain(this.hunger,0,this.hunger*2)
         this.readyToMate = false;
         fishArr.push(this);
     }
@@ -113,7 +117,7 @@ class Fish {
         this.posX += v.x * this.speed;
         this.posY += v.y * this.speed/2;
         
-        if (this.CanMate()&&target.CanMate() && (dist(this.posX,this.posY,target.posX,target.posY) <= fishInteractRange)) {
+        if (this.CanMate() && target instanceof Fish && target.CanMate() && (dist(this.posX,this.posY,target.posX,target.posY) <= fishInteractRange)) {
             this.Duplicate();
             this.hunger -= this.size;
             target.hunger -= target.size;
@@ -193,8 +197,8 @@ class Algae {
 
     Duplicate() {
         randomSeed();
-        let randX = random(-100,100);
-        let randY = random(-100,100);
+        let randX = random(-algaeDuplicateRange,algaeDuplicateRange);
+        let randY = random(-algaeDuplicateRange,algaeDuplicateRange);
         let spawnX = constrain(this.posX+randX,0,canvas.width);
         let spawnY = constrain(this.posY+randY,0,canvas.height);
         let algae = new Algae(spawnX,spawnY);
