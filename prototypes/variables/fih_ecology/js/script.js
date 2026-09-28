@@ -17,23 +17,25 @@ let mutationMult = 1.25;
 let algaeArr = [];
 let startingFish = 5;
 let fishStartingSize = 50;
-let fishstartingSpeed = 2;
-let startingAlgae = 700;
+let fishstartingSpeed = 1;
+let startingAlgae = 500;
 let algaeDuplicateRange = 400;
-let algaeSpawnChance = 0.1;
+let algaeRangeAmtMax = 100;
+let algaeSpawnChance = 0.3;
 
 //TODON range detection for algae threshokld
 
 
 //CLASSES
 class Fish {
-    constructor (posX,posY,size=50,speed=5) {
+    constructor (posX,posY,size=50,speed=5,generation=1) {
         this.posX = posX;
         this.posY = posY; 
         this.size = size;
         this.speed = speed;
-        this.hunger = size -1//- (size/4)
-        this.hunger = constrain(this.hunger,0,this.hunger*2)
+        this.hunger = size -1; //- (size/4)
+        this.hunger = constrain(this.hunger,0,this.hunger*2);
+        this.generation = generation;
         this.readyToMate = false;
         fishArr.push(this);
     }
@@ -133,7 +135,7 @@ class Fish {
         let spawnY = constrain(this.posY+randY,0,canvas.height);
         let randSize = random(this.size / mutationMult,this.size*mutationMult)
         let randSpeed = random(this.speed / mutationMult,this.speed*mutationMult)
-        let fish = new Fish(spawnX,spawnY,randSize,randSpeed);
+        let fish = new Fish(spawnX,spawnY,randSize,randSpeed,this.generation++);
     }
 
     CanMate() {
@@ -169,9 +171,10 @@ class Fish {
     Draw() {
         push();
         image(fishImg,this.posX-(this.size/2),this.posY-(this.size/2),this.size,this.size)
-        text("Hunger: " + this.hunger + 
-            "\nSize: " + this.size +
-            "\nSpeed: " + this.speed
+        text("Gen: " + this.generation +
+            "\nHunger: " + this.hunger.toPrecision(3) + 
+            "\nSize: " + this.size.toPrecision(3) +
+            "\nSpeed: " + this.speed.toPrecision(3)
             ,this.posX,this.posY);
         pop();
     }
@@ -185,11 +188,20 @@ class Algae {
     }
 
     AttemptReproduction() {
+        //checc if valid
+        let algaeRangeAmt = 0;
+        algaeArr.forEach(e => {
+            let distance = dist(this.posX,this.posY,e.posX,e.posY);
+            if (distance <= algaeDuplicateRange) {
+                algaeRangeAmt += 1;
+            }
+        });
+        if (algaeRangeAmt>algaeRangeAmtMax) {
+            return
+        }
+        //init spawn
         randomSeed();
         let rng = random(0,100);
-        // console.log(rng);
-        //let spawnChance = (algaeSpawnChance * Math.E) ** -algaeArr.length //formula for exponential decay
-        // console.log(spawnChance)
         if (rng<=algaeSpawnChance) {
             this.Duplicate();
         }
