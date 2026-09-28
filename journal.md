@@ -33,7 +33,13 @@
 >![Sisyfish](./assets/images/sisyfish.png)
 > With this basic system allowing objects to be stored in memory and moved around, I decided experimenting with species reproduction by allowing fish to reproduce when they've filled their stomachs. This went horribly wrong for a while, leading to wars between fish and algae populations attempting to overpower the other.
 >![population_bomb_ss](./assets/images/population_bomb.png)
-> I finally bit the bullet and manually capped the amount of algae that can spawn in a given region. Perhaps I'll implement a more intricate system for flattening algae population at high concentrations later, but this will do for now.
+> After much trial and error, I finally bit the bullet and manually capped the amount of algae that can spawn in a given region, making the simulation play out much more predicatbly. Perhaps I'll implement a more intricate system for flattening algae population at high concentrations later, but this will do for now.
 >[Fihmulation](./prototypes/variables/fihmulation/index.html)
 >![fihmulation](./assets/images/fihmulation.png)
->After much trial and error, I've created a rudimentary evolution simulator that mimics the process of natural selection by creating competition for limited food resources, as well as allowing fish to reproduce with a chance of random mutations being bestowed to their offspring. The Fihmulation is mesmerizing.
+> This iteration behaves more like a rudimentary evolution simulator, mimicking the process of natural selection by creating competition for limited food resources, as well as allowing fish to reproduce with a chance of random mutations being bestowed to their offspring. The Fihmulation is mesmerizing.
+
+## 2026-09-28
+
+> I decided to embrace the chaos and created a version of the basic fish simulation idea but with boosted mutation rates and algae spawns. This Leads us to an environment akin to the Cambrian Explosion.
+>[Cambrian Explosion](./prototypes/variables/cambrian_explosion/index.html)
+>![cambrian_explosion_ss](./assets/images/cambrian_explosion.png)
