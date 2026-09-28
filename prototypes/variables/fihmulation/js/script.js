@@ -216,7 +216,7 @@ class Algae {
         // fill(random(0,100),random(50,255),random(0,100));
         fill(80,200,45)
         noStroke();
-        rect(this.posX,this.posY,10,10)
+        rect(this.posX-5,this.posY-5,10,10)
         pop();
     }
 }
