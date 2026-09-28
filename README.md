@@ -21,7 +21,7 @@ This is a repo containing a collection of short programing projects for my CART 
 
 [Vaporwave](./prototypes/instructions/vaporwave/index.html)
 
-[Sky Full Of Stars](./prototypes/instructions/sky_full_of_stars/index.html)
+>[Sky Full Of Stars](./prototypes/instructions/sky_full_of_stars/index.html)
 
 [Impending](./prototypes/instructions/impending/index.html)
 
@@ -32,7 +32,7 @@ This is a repo containing a collection of short programing projects for my CART 
 
 [Cambrian Explosion](./prototypes/variables/cambrian_explosion/index.html)
 
-[Fihmulation](./prototypes/variables/fihmulation/index.html)
+>[Fihmulation](./prototypes/variables/fihmulation/index.html)
 
 
 ## License

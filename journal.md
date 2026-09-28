@@ -26,3 +26,14 @@
 > ![impending_ss](./assets/images/impending.png)
 > Overall, the scene makes our sun appear very imposing, almost like it's about to swallow the earth.
 > [Impending](./prototypes/instructions/impending/index.html)
+
+## 2026-09-27
+> Working on the Mr. Furious challenge made me realise the potential p5 holds in making a simulation type of scene. I designed a rudimentary version of what I'd later expand into evolution simulators, with a simple Sisyphean fish that endlessly eats algae for all of eternity. I say its eternal, since in theory each individual algae has a very small chance to duplicate, which can lead to a real eternal ordeal given enough of them on screen.
+>[Sisyfish](./prototypes/variables/sisyfish/index.html)
+>![Sisyfish](./assets/images/sisyfish.png)
+> With this basic system allowing objects to be stored in memory and moved around, I decided experimenting with species reproduction by allowing fish to reproduce when they've filled their stomachs. This went horribly wrong for a while, leading to wars between fish and algae populations attempting to overpower the other.
+>![population_bomb_ss](./assets/images/population_bomb.png)
+> I finally bit the bullet and manually capped the amount of algae that can spawn in a given region. Perhaps I'll implement a more intricate system for flattening algae population at high concentrations later, but this will do for now.
+>[Fihmulation](./prototypes/variables/fihmulation/index.html)
+>![fihmulation](./assets/images/fihmulation.png)
+>After much trial and error, I've created a rudimentary evolution simulator that mimics the process of natural selection by creating competition for limited food resources, as well as allowing fish to reproduce with a chance of random mutations being bestowed to their offspring. The Fihmulation is mesmerizing.
