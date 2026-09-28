@@ -20,7 +20,8 @@ let fishStartingSize = 50;
 let fishstartingSpeed = 1;
 let startingAlgae = 500;
 let algaeDuplicateRange = 400;
-let algaeRangeAmtMax = 100;
+// let algaeRangeAmtMax = 100;
+let algaeGlobalMax = 1200;
 let algaeSpawnChance = 0.3;
 
 //TODON range detection for algae threshokld
@@ -188,16 +189,20 @@ class Algae {
     }
 
     AttemptReproduction() {
-        //checc if valid
-        let algaeRangeAmt = 0;
-        algaeArr.forEach(e => {
-            let distance = dist(this.posX,this.posY,e.posX,e.posY);
-            if (distance <= algaeDuplicateRange) {
-                algaeRangeAmt += 1;
-            }
-        });
-        if (algaeRangeAmt>algaeRangeAmtMax) {
-            return
+        //local max
+        // let algaeRangeAmt = 0;
+        // algaeArr.forEach(e => {
+        //     let distance = dist(this.posX,this.posY,e.posX,e.posY);
+        //     if (distance <= algaeDuplicateRange) {
+        //         algaeRangeAmt += 1;
+        //     }
+        // });
+        // if (algaeRangeAmt>algaeRangeAmtMax) {
+        //     return
+        // }
+        //global max
+        if (algaeArr.length>algaeGlobalMax) {
+            return;
         }
         //init spawn
         randomSeed();
