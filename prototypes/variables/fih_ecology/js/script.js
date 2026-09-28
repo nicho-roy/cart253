@@ -117,7 +117,7 @@ class Fish {
         v.normalize();
         // console.log("vectornorm",v);
         this.posX += v.x * this.speed;
-        this.posY += v.y * this.speed/2;
+        this.posY += v.y * this.speed;
         
         if (this.CanMate() && target instanceof Fish && target.CanMate() && (dist(this.posX,this.posY,target.posX,target.posY) <= fishInteractRange)) {
             this.Duplicate();
