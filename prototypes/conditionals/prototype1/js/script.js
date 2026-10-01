@@ -12,12 +12,7 @@ const CANVAS = {
     x: 1300,
     y: 700,
 };
-const COLOR_INDICES = { //lowest altitude to highest
-    0.2: color(42, 24, 133),
-    0.4: color(100, 109, 242),
-    0.6: color(91, 207, 64),
-    0.8: color(52, 133, 33),
-}
+let colorIndices;
 
 let noiseMap = [CANVAS.x][CANVAS.y];
 let colorMap = [CANVAS.x][CANVAS.y];
@@ -32,7 +27,17 @@ let colorMap = [CANVAS.x][CANVAS.y];
 
 
 function setup() {
-    createCanvas(canvas.x,canvas.y);
+    colorIndices = { //lowest altitude to highest
+        0.2: color(42, 24, 133),
+        0.4: color(100, 109, 242),
+        0.6: color(91, 207, 64),
+        0.8: color(52, 133, 33),
+    };
+
+    createCanvas(CANVAS.x,CANVAS.y); 
+    // console.log(noise(1));
+    generateNoiseMap();
+    console.log(noiseMap);
 }
 
 
@@ -46,13 +51,21 @@ function generateNoiseMap() {
     for (let y = 0; y < CANVAS.y; y++) {
         //left to right
         for (let x = 0; x < CANVAS.x; x++) {
-
-
-            
+            noiseMap[x,y] = noise(1);
         }
     }
 }
 
 function generateColorMap() {
 
+}
+
+function DrawArrayToCanvas(arr) {
+    for (let y = 0; y < CANVAS.y; y++) {
+        for (let x = 0; x < CANVAS.x; x++) {
+            fill(arr[x][y]);
+            //TODON custom cell size
+            rect(x,y,1,1);
+        }
+    }
 }
