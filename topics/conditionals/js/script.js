@@ -20,6 +20,14 @@ const user = {
     fill: "#000000"
 };
 
+let target = {
+    x: 500,
+    y: 600,
+    size: 100,
+    fill: "#3c00ff"
+
+}
+
 /**
  * Create the canvas
  */
@@ -44,7 +52,39 @@ function draw() {
     // Draw the user and puck
     drawUser();
     drawPuck();
+    drawTarget();
 }
+
+function drawTarget() {
+    push();
+    noStroke();
+
+    if (checkTarget()) {
+        target.fill = "#3c00ff"
+
+    } else {
+        target.fill = "#eaff00"
+
+
+    }
+    fill(target.fill);
+    ellipse(target.x, target.y, target.size)
+    pop();
+    ;
+
+
+}
+
+function checkTarget() {
+    let d = dist(puck.x, puck.y, target.x, target.y);
+    if (d > ((puck.size / 2) + (target.size / 2))) {
+        return false;
+    } else {
+        return true;
+    }
+
+}
+
 
 /**
  * Sets the user position to the mouse position
