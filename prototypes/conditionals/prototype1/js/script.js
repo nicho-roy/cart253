@@ -51,7 +51,9 @@ function generateNoiseMap() {
     for (let y = 0; y < CANVAS.y; y++) {
         //left to right
         for (let x = 0; x < CANVAS.x; x++) {
-            noiseMap[x,y] = noise(1);
+            console.log(noise(1));
+            noiseMap[x][y] = noise(1);
+            console.log(noiseMap[0][0]);
         }
     }
 }
