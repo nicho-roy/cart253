@@ -13,9 +13,8 @@ const CANVAS = {
     y: 700,
 };
 let colorIndices;
-
-let noiseMap = [CANVAS.x][CANVAS.y];
-let colorMap = [CANVAS.x][CANVAS.y];
+let noiseMap = generateArray(CANVAS.x,CANVAS.y);
+let colorMap = generateArray(CANVAS.x,CANVAS.y);
 
 
 //OCTAVES, PERSISTANCE, LACUNARITY
@@ -35,14 +34,19 @@ function setup() {
     };
 
     createCanvas(CANVAS.x,CANVAS.y); 
-    // console.log(noise(1));
     generateNoiseMap();
-    console.log(noiseMap);
+    console.log("pre generate color map");
+    generateColorMap();
+    console.log("post generate color map");
+    drawArrayToCanvas(colorMap)
+    console.log("noiseMap",noiseMap);
+    console.log("colorMap",colorMap);
 }
 
 
 function draw() {
     background(200);
+    
 }
 
 
@@ -51,18 +55,30 @@ function generateNoiseMap() {
     for (let y = 0; y < CANVAS.y; y++) {
         //left to right
         for (let x = 0; x < CANVAS.x; x++) {
-            console.log(noise(1));
-            noiseMap[x][y] = noise(1);
-            console.log(noiseMap[0][0]);
+            noiseMap[x][y] = noise(random(1));
         }
     }
 }
 
 function generateColorMap() {
-
+    console.log("IN genereColorMap");
+    if (!noiseMap) {
+        console.log("error");
+        console.error("generateColorMap: noiseMap DNE")
+        return;
+    }
+    for (let y = 0; y < CANVAS.y; y++) {
+        for (let x = 0; x < CANVAS.x; x++) {
+            let noiseValue = noiseMap[x][y];
+            let colorValue = lerp(0,255,noiseValue);
+            colorMap[x][y] = colorValue;
+            console.log("lerp",colorMap[x][y]);
+        }
+    }
 }
 
-function DrawArrayToCanvas(arr) {
+
+function drawArrayToCanvas(arr) {
     for (let y = 0; y < CANVAS.y; y++) {
         for (let x = 0; x < CANVAS.x; x++) {
             fill(arr[x][y]);
@@ -70,4 +86,19 @@ function DrawArrayToCanvas(arr) {
             rect(x,y,1,1);
         }
     }
+}
+
+//NUTIL
+function generateArray(lengthX,lengthY) {
+    let array = new Array(lengthX);
+    for (let x = 0; x < lengthX; x++) {
+        array[x] = new Array(lengthY);
+    }
+
+    return array;
+    // for (let y = 0; y < lengthY; y++) {
+    //     for (let x = 0; x < lengthX; x++) {
+    //         array[x] = new Array(lengthY);
+    //     }
+    // }
 }
