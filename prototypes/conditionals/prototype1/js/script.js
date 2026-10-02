@@ -38,6 +38,7 @@ function setup() {
     console.log("pre generate color map");
     generateColorMap();
     console.log("post generate color map");
+    //TODON draw to canvas not working, and remove prints
     drawArrayToCanvas(colorMap)
     console.log("noiseMap",noiseMap);
     console.log("colorMap",colorMap);
