@@ -9,8 +9,8 @@
 
 
 const CANVAS = {
-    x: 1300,
-    y: 700,
+    x: 600, 
+    y: 400,
 };
 let colorIndices;
 let noiseMap = generateArray(CANVAS.x,CANVAS.y);
@@ -33,20 +33,24 @@ function setup() {
         0.8: color(52, 133, 33),
     };
 
-    createCanvas(CANVAS.x,CANVAS.y); 
-    generateNoiseMap();
-    console.log("pre generate color map");
-    generateColorMap();
-    console.log("post generate color map");
-    //TODON draw to canvas not working, and remove prints
-    drawArrayToCanvas(colorMap)
-    console.log("noiseMap",noiseMap);
-    console.log("colorMap",colorMap);
+    // createCanvas(CANVAS.x,CANVAS.y); 
+    // generateNoiseMap();
+    // generateColorMap();
+    // //TODON draw to canvas not working, and remove prints
+    // drawArrayToCanvas(colorMap)
+    // console.log("noiseMap",noiseMap);
+    // console.log("colorMap",colorMap);
+
+    push();
+    fill(200, 0, 0);
+    //TODON custom cell size
+    rect(0, 0, 100, 100);
+    pop();
 }
 
 
 function draw() {
-    background(200);
+    // background(0,200,0);
     
 }
 
@@ -62,9 +66,7 @@ function generateNoiseMap() {
 }
 
 function generateColorMap() {
-    console.log("IN genereColorMap");
     if (!noiseMap) {
-        console.log("error");
         console.error("generateColorMap: noiseMap DNE")
         return;
     }
@@ -73,7 +75,6 @@ function generateColorMap() {
             let noiseValue = noiseMap[x][y];
             let colorValue = lerp(0,255,noiseValue);
             colorMap[x][y] = colorValue;
-            console.log("lerp",colorMap[x][y]);
         }
     }
 }
@@ -82,9 +83,12 @@ function generateColorMap() {
 function drawArrayToCanvas(arr) {
     for (let y = 0; y < CANVAS.y; y++) {
         for (let x = 0; x < CANVAS.x; x++) {
-            fill(arr[x][y]);
+            push();
+            // fill(arr[x][y]);
+            fill(200,0,0);
             //TODON custom cell size
             rect(x,y,1,1);
+            pop();
         }
     }
 }
