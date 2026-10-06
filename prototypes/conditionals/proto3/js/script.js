@@ -18,7 +18,7 @@ let terrainImg;
 let colorIndices; // to be converted to pixel color thresholds later
 let pixelColorThresholds = []; //list of {thresholds, r, g, b}
 //NOISE VARS
-const RESOLUTION = 0.015;
+const RESOLUTION = 0.005;
 let noiseOffsetX = 2;
 let noiseOffsetY = 0;
 //PLAYER
@@ -60,7 +60,6 @@ function setup() {
 
     noiseSeed();
 
-    generateNoiseMap();
     rebuildTerrain();
 
     player.pos = createVector(CANVAS.x/2,CANVAS.y/2);
@@ -75,6 +74,8 @@ function draw() {
     let moveVector = getInputVector();
     moveVector.mult(player.speed);
     player.pos.add(moveVector);
+
+    checkMapBounds();
 
     drawPlayer();
 
@@ -103,6 +104,7 @@ function getInputVector(){
 
 
 function rebuildTerrain() {
+    generateNoiseMap();
     terrainImg.loadPixels();
 
     for (let y = 0; y < CANVAS.y; y++) {
@@ -132,9 +134,24 @@ function rebuildTerrain() {
 
 
 
-function updateTerrain() {
-    
-    console.log("updated Screen");
+function checkMapBounds() {
+    if (player.pos.x > CANVAS.x) {
+        noiseOffsetX += CANVAS.x;
+        player.pos.x -= CANVAS.x;
+        rebuildTerrain();
+    } else if (player.pos.x < 0) {
+        noiseOffsetX -= CANVAS.x;
+        player.pos.x += CANVAS.x;
+        rebuildTerrain();
+    } else if (player.pos.y > CANVAS.y) {
+        noiseOffsetY += CANVAS.y;
+        player.pos.y -= CANVAS.y;
+        rebuildTerrain();
+    } else if (player.pos.y < 0) {
+        noiseOffsetY -= CANVAS.y;
+        player.pos.y += CANVAS.y;
+        rebuildTerrain();
+    }
 }
 
 
