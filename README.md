@@ -15,9 +15,11 @@ This is a repo containing a collection of short programing projects for my CART 
 ## Links
 ### Hello World
 [hello_world](./topics/hello_world/index.html)
+[Code](./topics/hello_world/js/script.js)
 
 ### Instructions
 [Instructions](./topics/instruction-challenge/index.html)
+[Code](./topics/instruction-challenge/js/script.js)
 
 >[Vaporwave](./prototypes/instructions/vaporwave/index.html)
 ![Vaporwave-img](./assets/images/vaporwave.png)
@@ -33,6 +35,7 @@ This is a repo containing a collection of short programing projects for my CART 
 
 ### Variables
 [Mr Furious](./topics/variables/index.html) (with Sawyer)
+[Code](./topics/variables/js/script.js) 
 
 >[Sisyfish](./prototypes/variables/sisyfish/index.html)
 ![sisyfish-img](./assets/images/sisyfish.png)
@@ -43,8 +46,13 @@ This is a repo containing a collection of short programing projects for my CART 
 [code](./prototypes/variables/cambrian_explosion/js/script.js)
 
 >[Fihmulation](./prototypes/variables/fihmulation/index.html)
-![-img](./assets/images/fihmulation.png)
+![fihmulation-img](./assets/images/fihmulation.png)
 [code](./prototypes/variables/fihmulation/js/script.js)
+
+
+### Conditionals
+[Puck Challenge](./topics/conditionals/index.html)
+[Code](./topics/conditionals/js/script.js)
 
 
 ## License
