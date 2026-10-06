@@ -69,8 +69,8 @@ function setup() {
 function draw() {
     image(terrainImg,0,0);
 
-    getInputVector();
-
+    let moveVector = getInputVector();
+    console.log(moveVector);
 
     //console.log("frame");
 }
@@ -78,11 +78,21 @@ function draw() {
 
 //MOVEMENT
 function getInputVector(){
-    
+    let vector = createVector(0,0);
     if (keyIsDown('w')) {
-
+        vector.add(createVector(0,1));
     }
-    
+    if (keyIsDown('a')) {
+        vector.add(createVector(1,0));
+    }
+    if (keyIsDown('s')) {
+        vector.add(createVector(0,-1));
+    }
+    if (keyIsDown('d')) {
+        vector.add(createVector(-1,0));
+    }
+    vector.normalize();
+    return vector;
 }
 
 
