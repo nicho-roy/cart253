@@ -54,6 +54,7 @@ function draw() {
     //updateScreen();
 }
 
+
 function updateTerrain() {
     generateNoiseMap();
     generateMonoColorMap();
