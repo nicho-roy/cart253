@@ -16,7 +16,7 @@ let colorIndices;
 let noiseMap = generateArray(CANVAS.x,CANVAS.y);
 let colorMap = generateArray(CANVAS.x,CANVAS.y);
 //NOISE VARS
-const RESOLUTION = 0.03;
+const RESOLUTION = 0.03; //ideal @ 0.03
 let noiseOffsetX = 2;
 let noiseOffsetY = 0;
 
@@ -48,7 +48,7 @@ function setup() {
     ]);
 
 
-    noiseSeed(1);
+    noiseSeed();
 
     createCanvas(CANVAS.x,CANVAS.y); 
     generateNoiseMap();
