@@ -9,14 +9,14 @@
 
 
 const CANVAS = {
-    x: 1920, 
-    y: 1080,
+    x: 800, 
+    y: 800,
 };
 let colorIndices;
 let noiseMap = generateArray(CANVAS.x,CANVAS.y);
 let colorMap = generateArray(CANVAS.x,CANVAS.y);
 //NOISE VARS
-const RESOLUTION = 0.03; //ideal @ 0.03
+const RESOLUTION = 0.015; //ideal @ 0.03
 let noiseOffsetX = 2;
 let noiseOffsetY = 0;
 
@@ -29,22 +29,14 @@ let noiseOffsetY = 0;
 
 
 function setup() {
-
-    // colorIndices = new Map([
-    //     [0.2, color(42, 24, 133)],
-    //     [0.4, color(100, 109, 242)],
-    //     [0.6, color(91, 207, 64)],
-    //     [0.8, color(52, 133, 33)],
-    //     [1, color(60,200,20)]
-    // ]);
-
     colorIndices = new Map([
-        [0.4, "#0c223b"],
+        [0.25, "#0e003c"],
+        [0.35, "#000061"],
         [0.5, "#3675bc"],
-        [0.6, "#d9dc7d"],
-        [0.7, "#0e6222"],
-        [0.8, "#0d3617"],
-        [1, "#22130b"]
+        [0.6, "#ed8bf1"],
+        [0.7, "#e4123f"],
+        [0.8, "#5a052b"],
+        [1, "#32003b"]
     ]);
 
 
