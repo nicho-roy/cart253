@@ -9,8 +9,8 @@
 
 
 const CANVAS = {
-    x: 600, 
-    y: 400,
+    x: 1920, 
+    y: 1080,
 };
 let colorIndices;
 let noiseMap = generateArray(CANVAS.x,CANVAS.y);
