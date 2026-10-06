@@ -15,7 +15,10 @@ const CANVAS = {
 let colorIndices;
 let noiseMap = generateArray(CANVAS.x,CANVAS.y);
 let colorMap = generateArray(CANVAS.x,CANVAS.y);
-
+//NOISE VARS
+const RESOLUTION = 0.01;
+let noiseOffsetX = 2;
+let noiseOffsetY = 0;
 
 //OCTAVES, PERSISTANCE, LACUNARITY
 
@@ -32,26 +35,30 @@ function setup() {
         0.6: color(91, 207, 64),
         0.8: color(52, 133, 33),
     };
+    noiseSeed(1);
 
-    // createCanvas(CANVAS.x,CANVAS.y); 
-    // generateNoiseMap();
-    // generateColorMap();
-    // //TODON draw to canvas not working, and remove prints
-    // drawArrayToCanvas(colorMap)
-    // console.log("noiseMap",noiseMap);
-    // console.log("colorMap",colorMap);
+    createCanvas(CANVAS.x,CANVAS.y); 
+    generateNoiseMap();
+    generateMonoColorMap();
+    drawArrayToCanvas(colorMap)
 
-    push();
-    fill(200, 0, 0);
-    //TODON custom cell size
-    rect(0, 0, 100, 100);
-    pop();
+
+
+    console.log("noiseMap",noiseMap);
+    console.log("colorMap",colorMap);
 }
 
 
 function draw() {
-    // background(0,200,0);
     
+    //updateScreen();
+}
+
+function updateTerrain() {
+    generateNoiseMap();
+    generateMonoColorMap();
+    drawArrayToCanvas(colorMap);
+    console.log("updated Screen");
 }
 
 
@@ -60,14 +67,14 @@ function generateNoiseMap() {
     for (let y = 0; y < CANVAS.y; y++) {
         //left to right
         for (let x = 0; x < CANVAS.x; x++) {
-            noiseMap[x][y] = noise(random(1));
+            noiseMap[x][y] = noise((x+noiseOffsetX)*RESOLUTION,(y+noiseOffsetY)*RESOLUTION);
         }
     }
 }
 
-function generateColorMap() {
+function generateMonoColorMap() {
     if (!noiseMap) {
-        console.error("generateColorMap: noiseMap DNE")
+        console.error("generateMonoColorMap: noiseMap DNE")
         return;
     }
     for (let y = 0; y < CANVAS.y; y++) {
@@ -80,13 +87,31 @@ function generateColorMap() {
 }
 
 
+function generateTerrainColorMap() {
+    if (!noiseMap) {
+        console.error("generateTerrainColorMap: noiseMap DNE")
+        return;
+    }
+    for (let y = 0; y < CANVAS.y; y++) {
+        for (let x = 0; x < CANVAS.x; x++) {
+            let noiseValue = noiseMap[x][y];
+            let colorValue = lerp(0,255,noiseValue);
+            colorMap[x][y] = colorValue;
+        }
+    }
+}
+
+
+//! USE POINT(x,y)
+//TODON custom cell size
 function drawArrayToCanvas(arr) {
     for (let y = 0; y < CANVAS.y; y++) {
         for (let x = 0; x < CANVAS.x; x++) {
             push();
-            // fill(arr[x][y]);
-            fill(200,0,0);
-            //TODON custom cell size
+            noStroke();
+            fill(arr[x][y]);
+            // fill(200,0,0);
+            
             rect(x,y,1,1);
             pop();
         }
@@ -101,9 +126,4 @@ function generateArray(lengthX,lengthY) {
     }
 
     return array;
-    // for (let y = 0; y < lengthY; y++) {
-    //     for (let x = 0; x < lengthX; x++) {
-    //         array[x] = new Array(lengthY);
-    //     }
-    // }
 }
