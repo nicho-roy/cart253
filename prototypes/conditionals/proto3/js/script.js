@@ -19,7 +19,7 @@ let colorIndices; // to be converted to pixel color thresholds later
 let pixelColorThresholds = []; //list of {thresholds, r, g, b}
 //NOISE VARS
 const RESOLUTION = 0.005;
-let noiseOffsetX = 2;
+let noiseOffsetX = 0;
 let noiseOffsetY = 0;
 //PLAYER
 let player = {
@@ -27,7 +27,13 @@ let player = {
     speed: 5,
     size: 10,
     fill: "red",
+    chunk: {
+        x: 0,
+        y: 0,
+    }
 }
+//GAMEPLAY
+const TRANSITION_THRESHOLD = 0.80; //.8 means at 80% of the screen, it will transition
 
 
 //OCTAVES, PERSISTANCE, LACUNARITY
@@ -135,22 +141,30 @@ function rebuildTerrain() {
 
 
 function checkMapBounds() {
-    if (player.pos.x > CANVAS.x) {
-        noiseOffsetX += CANVAS.x;
-        player.pos.x -= CANVAS.x;
+    const rightTrigger = CANVAS.x * TRANSITION_THRESHOLD;
+    const leftTrigger  = CANVAS.x * (1 - TRANSITION_THRESHOLD);
+    const shiftDist = rightTrigger - leftTrigger;
+
+    if (player.pos.x > rightTrigger) {
+        noiseOffsetX += shiftDist;
         rebuildTerrain();
-    } else if (player.pos.x < 0) {
-        noiseOffsetX -= CANVAS.x;
-        player.pos.x += CANVAS.x;
+        player.pos.x -= shiftDist;
+        player.chunk.x += 1;
+    } else if (player.pos.x < leftTrigger) {
+        noiseOffsetX -= shiftDist;
         rebuildTerrain();
-    } else if (player.pos.y > CANVAS.y) {
-        noiseOffsetY += CANVAS.y;
-        player.pos.y -= CANVAS.y;
+        player.pos.x += shiftDist;
+        player.chunk.x += -1;
+    } else if (player.pos.y > rightTrigger) {
+        noiseOffsetY += shiftDist;
         rebuildTerrain();
-    } else if (player.pos.y < 0) {
-        noiseOffsetY -= CANVAS.y;
-        player.pos.y += CANVAS.y;
+        player.pos.y -= shiftDist;
+        player.chunk.y += 1;
+    } else if (player.pos.y < leftTrigger) {
+        noiseOffsetY -= shiftDist;
         rebuildTerrain();
+        player.pos.y += shiftDist;
+        player.chunk.y += -1;
     }
 }
 
