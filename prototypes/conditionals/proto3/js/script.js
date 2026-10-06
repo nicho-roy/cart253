@@ -24,8 +24,9 @@ let noiseOffsetY = 0;
 //PLAYER
 let player = {
     pos: 0,
-    vel: 0,
-    fill: "red"
+    speed: 5,
+    size: 10,
+    fill: "red",
 }
 
 
@@ -62,6 +63,8 @@ function setup() {
     generateNoiseMap();
     rebuildTerrain();
 
+    player.pos = createVector(CANVAS.x/2,CANVAS.y/2);
+
     console.log("noiseMap",noiseMap);
 }
 
@@ -70,7 +73,10 @@ function draw() {
     image(terrainImg,0,0);
 
     let moveVector = getInputVector();
-    console.log(moveVector);
+    moveVector.mult(player.speed);
+    player.pos.add(moveVector);
+
+    drawPlayer();
 
     //console.log("frame");
 }
@@ -80,16 +86,16 @@ function draw() {
 function getInputVector(){
     let vector = createVector(0,0);
     if (keyIsDown('w')) {
-        vector.add(createVector(0,1));
-    }
-    if (keyIsDown('a')) {
-        vector.add(createVector(1,0));
-    }
-    if (keyIsDown('s')) {
         vector.add(createVector(0,-1));
     }
-    if (keyIsDown('d')) {
+    if (keyIsDown('a')) {
         vector.add(createVector(-1,0));
+    }
+    if (keyIsDown('s')) {
+        vector.add(createVector(0,1));
+    }
+    if (keyIsDown('d')) {
+        vector.add(createVector(1,0));
     }
     vector.normalize();
     return vector;
@@ -175,6 +181,14 @@ function generateTerrainColorMap() {
             colorMap[x][y] = colorValue;
         }
     }
+}
+
+
+function drawPlayer() {
+    push();
+    fill(player.fill);
+    rect(player.pos.x,player.pos.y,player.size,player.size);
+    pop();
 }
 
 
