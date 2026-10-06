@@ -9,14 +9,14 @@
 
 
 const CANVAS = {
-    x: 1920, 
-    y: 1080,
+    x: 1280, 
+    y: 720,
 };
 let colorIndices;
 let noiseMap = generateArray(CANVAS.x,CANVAS.y);
 let colorMap = generateArray(CANVAS.x,CANVAS.y);
 //NOISE VARS
-const RESOLUTION = 0.03; //ideal @ 0.03
+const RESOLUTION = 0.015;
 let noiseOffsetX = 2;
 let noiseOffsetY = 0;
 
