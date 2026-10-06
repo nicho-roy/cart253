@@ -9,16 +9,25 @@
 
 
 const CANVAS = {
-    x: 1280, 
-    y: 720,
+    x: 800, 
+    y: 800,
 };
-let colorIndices;
 let noiseMap = generateArray(CANVAS.x,CANVAS.y);
 let colorMap = generateArray(CANVAS.x,CANVAS.y);
+let terrainImg;
+let colorIndices; // to be converted to pixel color thresholds later
+let pixelColorThresholds = []; //list of {thresholds, r, g, b}
 //NOISE VARS
 const RESOLUTION = 0.015;
 let noiseOffsetX = 2;
 let noiseOffsetY = 0;
+//PLAYER
+let player = {
+    pos: 0,
+    vel: 0,
+    fill: "red"
+}
+
 
 //OCTAVES, PERSISTANCE, LACUNARITY
 
@@ -29,17 +38,9 @@ let noiseOffsetY = 0;
 
 
 function setup() {
-
-    // colorIndices = new Map([
-    //     [0.2, color(42, 24, 133)],
-    //     [0.4, color(100, 109, 242)],
-    //     [0.6, color(91, 207, 64)],
-    //     [0.8, color(52, 133, 33)],
-    //     [1, color(60,200,20)]
-    // ]);
-
+    //for human use
     colorIndices = new Map([
-        [0.4, "#0c223b"],
+        [0.4, "#050c45"],
         [0.5, "#3675bc"],
         [0.6, "#d9dc7d"],
         [0.7, "#0e6222"],
@@ -47,26 +48,72 @@ function setup() {
         [1, "#22130b"]
     ]);
 
+    //convert to pixel color thresholds
+    for (const [threshold, hexColor] of colorIndices) {
+        const rgbColor = color(hexColor);
+        pixelColorThresholds.push({threshold: threshold, r: red(rgbColor), g: green(rgbColor), b: blue(rgbColor)})
+    }
+
+    createCanvas(CANVAS.x,CANVAS.y); 
+    terrainImg = createImage(CANVAS.x,CANVAS.y);
 
     noiseSeed();
 
-    createCanvas(CANVAS.x,CANVAS.y); 
     generateNoiseMap();
-    // generateMonoColorMap();
-    generateTerrainColorMap();
-    drawArrayToCanvasRect(colorMap)
-
-
+    rebuildTerrain();
 
     console.log("noiseMap",noiseMap);
-    console.log("colorMap",colorMap);
 }
 
 
 function draw() {
-    
-    //updateScreen();
+    image(terrainImg,0,0);
+
+    getInputVector();
+
+
+    //console.log("frame");
 }
+
+
+//MOVEMENT
+function getInputVector(){
+    
+    if (keyIsDown('w')) {
+
+    }
+    
+}
+
+
+function rebuildTerrain() {
+    terrainImg.loadPixels();
+
+    for (let y = 0; y < CANVAS.y; y++) {
+        for (let x = 0; x < CANVAS.x; x++) {
+            let noiseValue = noiseMap[x][y];
+            let colorValue;
+
+            let band = pixelColorThresholds.length - 1
+            for (const pct of pixelColorThresholds) {
+                if (noiseValue < pct.threshold) {
+                    band = pct;
+                    break;
+                }  
+            }
+
+            const i = 4 * (y * CANVAS.x + x);
+            terrainImg.pixels[i] = band.r;
+            terrainImg.pixels[i + 1] = band.g;
+            terrainImg.pixels[i + 2] = band.b;
+            terrainImg.pixels[i + 3] = 255;
+        }
+    }
+
+
+    terrainImg.updatePixels();
+}
+
 
 
 function updateTerrain() {
@@ -121,9 +168,10 @@ function generateTerrainColorMap() {
 }
 
 
-//! point mode not working
+//! to be depricated
+//! point mode not working in this ver
 //TODON custom cell size
-function drawArrayToCanvasRect(arr,mode) {
+function drawArrayToCanvas(arr,mode) {
     for (let y = 0; y < CANVAS.y; y++) {
         for (let x = 0; x < CANVAS.x; x++) {
             if (!mode || mode == "rect") {

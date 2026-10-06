@@ -1,5 +1,5 @@
 /**
- * Title of Project
+ * Perlin Terrain
  * Nicholas Roy
  * 
  * Prototype 1
