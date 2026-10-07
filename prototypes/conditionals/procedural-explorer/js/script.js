@@ -1,8 +1,8 @@
 /**
- * Title of Project
+ * Procedural explorer
  * Nicholas Roy
  * 
- * Prototype 1
+ * Prototype 3
  */
 
 "use strict";

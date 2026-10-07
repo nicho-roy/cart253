@@ -54,6 +54,20 @@ This is a repo containing a collection of short programing projects for my CART 
 [Puck Challenge](./topics/conditionals/index.html)
 [Code](./topics/conditionals/js/script.js)
 
+>[Perlin Terrain](/prototypes/conditionals/perlin-terrain/index.html)
+![perlin-img](./assets/images/perlin.png)
+[code](./prototypes/conditionals/perlin-terrain/js/script.js)
+
+
+>[Blue Sand Desert](./prototypes/conditionals/blue-sand-desert/index.html)
+![blue-sand-img](./assets/images/blue-sand.png)
+[code](./prototypes/conditionals/blue-sand-desert/js/script.js)
+
+
+>[Procedural Explorer](./prototypes/conditionals/procedural-explorer/index.html)
+![procedural-img](./assets/images/procedural.png)
+[code](./prototypes/conditionals/procedural-explorer/js/script.js)
+
 
 ## License
 
