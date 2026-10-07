@@ -55,5 +55,6 @@
 >![blue-sand-img](./assets/images/blue-sand.png)
 
 > For the last protoype, I wanted to make an explorable terrain map with a movable player. I'm not going to bore with details since its mostly technical. What I can say is I wouldve liked to feature some sort of goal to turn this piece into a game, but due to time concerns there isn't much to do other than endlessly wander the terrain. Good thing it's infinite!
+**Player can be controlled with WASD!**
 >[Procedural Explorer](/prototypes/conditionals/procedural-explorer/index.html)
 >![procedural-img](./assets/images/procedural.png) 
