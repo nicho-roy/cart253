@@ -33,7 +33,7 @@ const TRANSITION_THRESHOLD = 0.80; //.8 means at 80% of the screen, it will tran
 
 
 
-function setup() {
+function setupTerrain() {
     //for human use
     colorIndices = new Map([
         [0.4, "#050c45"],
@@ -63,18 +63,10 @@ function setup() {
 }
 
 
-function draw() {
+function drawTerrain() {
     image(terrainImg,0,0);
 
-    let moveVector = getInputVector();
-    moveVector.mult(player.speed);
-    player.pos.add(moveVector);
-
     checkMapBounds();
-
-    drawPlayer();
-
-    console.log("frame-terrain");
 }
 
 

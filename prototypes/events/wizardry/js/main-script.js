@@ -9,22 +9,32 @@
 
 let player = {
     pos: 0,
-    speed: 5,
-    size: 10,
+    speed: 10,
+    size: 100,
     fill: "red",
     chunk: {
         x: 0,
         y: 0,
-    }
+    },
+    image: "./assets/images/wizard.gif"
 }
 
-function setup() {
+async function setup() {
+    setupTerrain();
+    player.image = await loadImage(player.image);
     
 }
 
 
 function draw() {
+    background(0);
+    // drawTerrain();
 
+    let moveVector = getInputVector();
+    moveVector.mult(player.speed);
+    player.pos.add(moveVector);
+
+    drawPlayer();
 
     console.log("frame");
 }
@@ -83,8 +93,8 @@ function checkMapBounds() {
 
 function drawPlayer() {
     push();
-    fill(player.fill);
-    rect(player.pos.x,player.pos.y,player.size,player.size);
+    image(player.image,player.pos.x,player.pos.y,player.size,player.size);
     pop();
+    // console.log("player drawn");
 }
 
