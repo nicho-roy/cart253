@@ -18,7 +18,7 @@ let terrainImg;
 let colorIndices; // to be converted to pixel color thresholds later
 let pixelColorThresholds = []; //list of {thresholds, r, g, b}
 //NOISE VARS
-const RESOLUTION = 0.005;
+const RESOLUTION = 0.01;
 let noiseOffsetX = 0;
 let noiseOffsetY = 0;
 //PLAYER
