@@ -1,8 +1,7 @@
 /**
- * Blue Sand Desert
+ * Perlin Colors
  * Nicholas Roy
  * 
- * Prototype 2
  */
 
 "use strict";
