@@ -10,7 +10,7 @@
 let player = {
     pos: 0,
     speed: 10,
-    size: 100,
+    size: 150,
     fill: "red",
     chunk: {
         x: 0,
@@ -58,6 +58,9 @@ function getInputVector(){
     vector.normalize();
     return vector;
 }
+
+
+
 
 
 
