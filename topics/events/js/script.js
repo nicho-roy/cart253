@@ -34,6 +34,32 @@ function draw() {
     displayUI();
 }
 
+function lose() {
+    gameOver = true;
+}
+
+function mouseClicked() {
+    console.log("click");
+    lose();
+}
+
+function keyTyped() {
+    console.log("typed");
+    lose();
+}
+
+function mouseMoved() {
+    console.log("moved");
+    lose();
+}
+
+function mouseWheel(event) {
+    // Access the scroll distance via event.delta
+    console.log("scrolled, distance: ",event.delta);
+    lose();
+
+}
+
 /**
  * Show the game over message if needed, and the current score
  */
