@@ -101,7 +101,33 @@ function rebuildTerrain() {
 }
 
 
+function checkMapBounds() {
+    const rightTrigger = CANVAS.x * TRANSITION_THRESHOLD;
+    const leftTrigger = CANVAS.x * (1 - TRANSITION_THRESHOLD);
+    const shiftDist = rightTrigger - leftTrigger;
 
+    if (player.pos.x > rightTrigger) {
+        noiseOffsetX += shiftDist;
+        rebuildTerrain();
+        player.pos.x -= shiftDist;
+        player.chunk.x += 1;
+    } else if (player.pos.x < leftTrigger) {
+        noiseOffsetX -= shiftDist;
+        rebuildTerrain();
+        player.pos.x += shiftDist;
+        player.chunk.x += -1;
+    } else if (player.pos.y > rightTrigger) {
+        noiseOffsetY += shiftDist;
+        rebuildTerrain();
+        player.pos.y -= shiftDist;
+        player.chunk.y += 1;
+    } else if (player.pos.y < leftTrigger) {
+        noiseOffsetY -= shiftDist;
+        rebuildTerrain();
+        player.pos.y += shiftDist;
+        player.chunk.y += -1;
+    }
+}
 
 
 function generateNoiseMap() {

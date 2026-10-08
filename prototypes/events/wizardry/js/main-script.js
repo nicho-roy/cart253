@@ -18,6 +18,65 @@ let player = {
     },
     image: "./assets/images/wizard.gif"
 }
+let cast = {
+    speed: 10,
+    size: 10,
+    power: 10,
+}
+let loadedSpellIndex = 0;
+const spellSlots = ["fireball","magicMissle","lightningBolt"];
+
+class Fireball {
+    constructor(x,y) {
+        this.power = 20;
+        this.size = 20;
+        this.power = 5;
+        this.manaCost = 30;
+        this.x=x;
+        this.y=y;
+    }
+
+    draw() {
+
+    }
+}
+
+class MagicMissle {
+    constructor(x, y) {
+        this.power = 10;
+        this.size = 5;
+        this.speed = 15;
+        this.manaCost = 10;
+        this.x = x;
+        this.y = y;
+    }
+
+    draw() {
+
+    }
+}
+
+class ThunderBolt {
+    constructor(x, y) {
+        this.power = 15;
+        this.size = 10;
+        this.speed = 15;
+        this.manaCost = 15;
+        this.x = x;
+        this.y = y;
+    }
+
+    draw() {
+
+    }
+}
+
+
+//ARRAYS
+let spellsArr = [];
+
+
+
 
 async function setup() {
     setupTerrain();
@@ -34,9 +93,19 @@ function draw() {
     moveVector.mult(player.speed);
     player.pos.add(moveVector);
 
-    drawPlayer();
+
+    drawAllEntities();
 
     console.log("frame");
+}
+
+
+//controls casting
+function mousePressed() {
+    let castVector = createVector(mouseX - player.pos.x, mouseY - player.pos.y);
+    castVector.normalize();
+
+    cast(castVector);
 }
 
 
@@ -61,43 +130,30 @@ function getInputVector(){
 
 
 
+function cast(vectorDirection) {
+    let spell = [loadedSpellIndex];
 
-
-
-function checkMapBounds() {
-    const rightTrigger = CANVAS.x * TRANSITION_THRESHOLD;
-    const leftTrigger  = CANVAS.x * (1 - TRANSITION_THRESHOLD);
-    const shiftDist = rightTrigger - leftTrigger;
-
-    if (player.pos.x > rightTrigger) {
-        noiseOffsetX += shiftDist;
-        rebuildTerrain();
-        player.pos.x -= shiftDist;
-        player.chunk.x += 1;
-    } else if (player.pos.x < leftTrigger) {
-        noiseOffsetX -= shiftDist;
-        rebuildTerrain();
-        player.pos.x += shiftDist;
-        player.chunk.x += -1;
-    } else if (player.pos.y > rightTrigger) {
-        noiseOffsetY += shiftDist;
-        rebuildTerrain();
-        player.pos.y -= shiftDist;
-        player.chunk.y += 1;
-    } else if (player.pos.y < leftTrigger) {
-        noiseOffsetY -= shiftDist;
-        rebuildTerrain();
-        player.pos.y += shiftDist;
-        player.chunk.y += -1;
-    }
 }
 
 
 
+//GRAPHICS
 function drawPlayer() {
     push();
     image(player.image,player.pos.x,player.pos.y,player.size,player.size);
     pop();
     // console.log("player drawn");
+}
+
+function drawAllEntities() {
+    drawSpells();
+
+    drawPlayer();
+}
+
+function drawSpells() {
+    spellsArr.forEach(e => {
+        
+    });
 }
 
