@@ -70,6 +70,13 @@ This is a repo containing a collection of short programing projects for my CART 
 [code](./prototypes/conditionals/procedural-explorer/js/script.js)
 
 
+## Events
+[Lose challenge](./topics/events/index.html)
+[code](./topics/events/js/script.js)
+
+
+
+
 ## License
 
 This bit should include the license you want to apply to your work. For example:
