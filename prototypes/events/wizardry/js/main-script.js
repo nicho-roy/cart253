@@ -1,8 +1,8 @@
 /**
- * Procedural explorer
+ * Wizardry
  * Nicholas Roy
  * 
- * Prototype 3
+ * Prototype 1
  */
 
 "use strict";
@@ -18,7 +18,7 @@ let player = {
     },
     image: "./assets/images/wizard.gif"
 }
-let cast = {
+let castStat = {
     speed: 10,
     size: 10,
     power: 10,
@@ -26,14 +26,25 @@ let cast = {
 let loadedSpellIndex = 0;
 const spellSlots = ["fireball","magicMissle","lightningBolt"];
 
-class Fireball {
+//ARRAYS
+let spellsArr = [];
+let enemyArr = [];
+
+//CLASSES
+class Spell {
     constructor(x,y) {
+        this.x=x;
+        this.y=y;
+    }
+}
+
+class Fireball extends Spell {
+    constructor(x,y) {
+        super(x,y);
         this.power = 20;
         this.size = 20;
         this.power = 5;
         this.manaCost = 30;
-        this.x=x;
-        this.y=y;
     }
 
     draw() {
@@ -41,6 +52,7 @@ class Fireball {
     }
 }
 
+//TODON UPDATE FROM FIREBALL
 class MagicMissle {
     constructor(x, y) {
         this.power = 10;
@@ -56,6 +68,7 @@ class MagicMissle {
     }
 }
 
+//TODON UPDATE FROM FIREBALL
 class ThunderBolt {
     constructor(x, y) {
         this.power = 15;
@@ -72,9 +85,6 @@ class ThunderBolt {
 }
 
 
-//ARRAYS
-let spellsArr = [];
-
 
 
 
@@ -87,7 +97,7 @@ async function setup() {
 
 function draw() {
     background(0);
-    // drawTerrain();
+    //drawTerrain();
 
     let moveVector = getInputVector();
     moveVector.mult(player.speed);
@@ -109,6 +119,13 @@ function mousePressed() {
 }
 
 
+function cast(vectorDirection) {
+    let spell = [loadedSpellIndex];
+
+}
+
+
+
 //MOVEMENT
 function getInputVector(){
     let vector = createVector(0,0);
@@ -128,12 +145,6 @@ function getInputVector(){
     return vector;
 }
 
-
-
-function cast(vectorDirection) {
-    let spell = [loadedSpellIndex];
-
-}
 
 
 
