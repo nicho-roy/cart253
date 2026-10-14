@@ -173,6 +173,9 @@ function getInputVector(){
 
 
 
+
+
+
 //GRAPHICS
 function drawAllEntities() {
     drawSpells();
