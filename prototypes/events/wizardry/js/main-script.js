@@ -7,28 +7,6 @@
 
 "use strict";
 
-let player = {
-    pos: 0,
-    speed: 10,
-    size: 150,
-    fill: "red",
-    chunk: {
-        x: 0,
-        y: 0,
-    },
-    image: "./assets/images/wizard.gif"
-}
-let castStat = {
-    speed: 10,
-    size: 10,
-    power: 10,
-}
-let loadedSpellIndex = 0;
-const spellSlots = ["fireball","magicMissle","lightningBolt"];
-
-//ARRAYS
-let spellsArr = [];
-let enemyArr = [];
 
 //CLASSES
 class Spell {
@@ -87,6 +65,31 @@ class ThunderBolt {
 
 
 
+//VARS
+let player = {
+    pos: 0,
+    speed: 10,
+    size: 150,
+    fill: "red",
+    chunk: {
+        x: 0,
+        y: 0,
+    },
+    image: "./assets/images/wizard.gif"
+}
+let castStat = {
+    speed: 10,
+    size: 10,
+    power: 10,
+}
+let loadedSpellIndex = 0;
+let spellSlots = [Fireball,MagicMissle,ThunderBolt];
+
+//ARRAYS
+let spellsArr = [];
+let enemyArr = [];
+
+
 
 async function setup() {
     setupTerrain();
@@ -120,8 +123,23 @@ function mousePressed() {
 
 
 function cast(vectorDirection) {
-    let spell = [loadedSpellIndex];
+    let spellclass = [loadedSpellIndex];
+    console.log("spellclass",spellclass); //CONTINUE
+    let spell;
+    switch (spellclass) {
+        case Fireball:
+            spell = new Fireball(player.pos.x,player.pos.y);
+            console.log("fireball");
+            break;
+        //TODON OTHER SPELLS
+        
+        default:
+            spell = new Fireball(player.pos.x,player.pos.y);
+            console.log("default");
+    }
 
+    spellsArr.push(spell);
+    console.log(spellsArr);
 }
 
 
