@@ -10,23 +10,31 @@
 
 //CLASSES
 class Spell {
-    constructor(x,y) {
-        this.x=x;
-        this.y=y;
+    constructor(pos,dir) {
+        this.pos = pos;
+        this.dir = dir;
     }
 }
 
 class Fireball extends Spell {
-    constructor(x,y) {
-        super(x,y);
+    constructor(pos,dir) {
+        super(pos,dir);
         this.power = 20;
         this.size = 20;
-        this.power = 5;
+        this.speed = 5;
         this.manaCost = 30;
     }
 
     draw() {
+        push();
+        let vel = createVector(this.dir.x,this.dir.y);
+        vel.mult(this.speed);
+        this.pos.add(vel);
 
+        fill(240,10,0);
+        noStroke();
+        ellipse(this.pos.x,this.pos.y,this.size,this.size);
+        pop();
     }
 }
 
@@ -83,7 +91,7 @@ let castStat = {
     power: 10,
 }
 let loadedSpellIndex = 0;
-let spellSlots = [Fireball,MagicMissle,ThunderBolt];
+let spellSlots = ["fireball","magicMissle","thunderBolt"];
 
 //ARRAYS
 let spellsArr = [];
@@ -109,7 +117,7 @@ function draw() {
 
     drawAllEntities();
 
-    console.log("frame");
+    // console.log("frame");
 }
 
 
@@ -122,19 +130,18 @@ function mousePressed() {
 }
 
 
-function cast(vectorDirection) {
-    let spellclass = [loadedSpellIndex];
-    console.log("spellclass",spellclass); //CONTINUE
+function cast(directionVector) {
+    let spellClass = spellSlots[loadedSpellIndex];
     let spell;
-    switch (spellclass) {
-        case Fireball:
-            spell = new Fireball(player.pos.x,player.pos.y);
+    switch (spellClass) {
+        case "fireball":
+            spell = new Fireball(createVector(player.pos.x,player.pos.y),directionVector);
             console.log("fireball");
             break;
         //TODON OTHER SPELLS
         
         default:
-            spell = new Fireball(player.pos.x,player.pos.y);
+
             console.log("default");
     }
 
@@ -167,22 +174,22 @@ function getInputVector(){
 
 
 //GRAPHICS
-function drawPlayer() {
-    push();
-    image(player.image,player.pos.x,player.pos.y,player.size,player.size);
-    pop();
-    // console.log("player drawn");
-}
-
 function drawAllEntities() {
     drawSpells();
 
     drawPlayer();
 }
 
+function drawPlayer() {
+    push();
+    image(player.image,player.pos.x-(player.size/2),player.pos.y-(player.size/2),player.size,player.size);
+    pop();
+    // console.log("player drawn");
+}
+
 function drawSpells() {
     spellsArr.forEach(e => {
-        
+        e.draw();
     });
 }
 
