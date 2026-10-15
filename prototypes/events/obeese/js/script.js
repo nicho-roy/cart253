@@ -8,7 +8,6 @@
 "use strict";
 
 
-//IMAGES
 
 
 //VARS
@@ -16,29 +15,54 @@ let player = {
     pos: 0,
     speed: 10,
     size: 150,
-    image: "./assets/images/bee.gif"
+    image: "./assets/images/bee.png",
+    gif: "./assets/images/bee_moves.gif",
+    sound: "./assets/sounds/bee_buzz.mp3",
+}
+let gravity = -5;
+
+
+
+function preload() {
+    
 }
 
-
-
-
-
-
 async function setup() {
-    createCanvas(1920,1080)
+    createCanvas(1920,1080);
+    player.image = await loadImage(player.image);
+    player.gif = await loadImage(player.gif);
+    player.sound = await loadSound(player.sound);
+    
+    gravity = createVector(0,gravity);
+    player.pos = createVector(width/2,height/2);
+
 }
 
 
 function draw() {
-    background('blue');
+    background(0);
+
+    handleBuzzLoop();
     
+    drawAll();
     // console.log("frame");
 }
 
 
 
+//sounds
+function handleBuzzLoop() {
+    if (!player.sound.playing) {
+        player.sound.play();
+    }
+        
 
+    if (keyIsDown('w')) {
+        
+    } else {
 
+    }
+}
 
 
 //MOVEMENT
@@ -78,7 +102,7 @@ function drawText() {
     pop();
 }
 
-function drawAllEntities() {
+function drawAll() {
     drawPlayer();
 }
 
