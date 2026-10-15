@@ -51,13 +51,35 @@ class Fireball extends Spell {
 
     onCollide(entity) {
         console.log("collsion",entity);
-
+        let explosion = new Explosion(this.pos,this.power);
+        effectsArr.push(explosion);
+        //TODON !CONTINUE Remove fireball from spellsArr, and maybe delete from memory, also draw and check collisions for explosion
     }
 }
 
 
 class Explosion {
-    
+    constructor(pos,damage) {
+        this.pos = pos;
+        this.damage = damage;
+        this.size = 50;
+        this.aliveTimer = 2000;
+        this.savedTime = millis();
+    }
+
+    draw() {
+        push();
+        image(explosionGif,this.pos.x,this.pos.y,this.size,this.size);
+        pop();
+    }
+
+    checkCollision(arr) {
+
+    }
+
+    onCollide() {
+
+    }
 }
 
 
