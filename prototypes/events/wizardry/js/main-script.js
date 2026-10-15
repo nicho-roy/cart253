@@ -29,12 +29,28 @@ class Fireball extends Spell {
         push();
         let vel = createVector(this.dir.x,this.dir.y);
         vel.mult(this.speed);
+        vel.mult(GLOBAL_SPEED_MULT);
         this.pos.add(vel);
 
         fill(240,10,0);
         noStroke();
-        ellipse(this.pos.x,this.pos.y,this.size,this.size);
+        ellipse(this.pos.x,this.pos.y,this.size*GLOBAL_SIZE_MULT,this.size*GLOBAL_SIZE_MULT);
         pop();
+    }
+
+    checkCollision(arr) {
+        arr.forEach(target => {
+            let d = dist(this.pos.x, this.pos.y, target.pos.x, target.pos.y);
+            if (d > ((this.size / 2) + (target.size / 2))) {
+                this.onCollide(target);
+                return;
+            }
+        });
+    }
+
+    onCollide(entity) {
+        console.log("collsion",entity);
+
     }
 }
 
@@ -55,7 +71,7 @@ class MagicMissle {
 }
 
 //TODON UPDATE FROM FIREBALL
-class ThunderBolt {
+class Freeze {
     constructor(x, y) {
         this.power = 15;
         this.size = 10;
@@ -70,8 +86,10 @@ class ThunderBolt {
     }
 }
 
-
-
+//IMAGES
+let explosionGif = "./assets/images/explosion.gif";
+let lizardGif = "./assets/images/red_lizard.gif";
+let skeletonGif = "./assets/images/skeleton.gif";
 
 //VARS
 let player = {
@@ -91,28 +109,42 @@ let castStat = {
     power: 10,
 }
 let loadedSpellIndex = 0;
-let spellSlots = ["fireball","magicMissle","thunderBolt"];
+let spellSlots = ["fireball","magicMissle","freeze"];
 
 //ARRAYS
 let spellsArr = [];
 let enemyArr = [];
+let effectsArr = [];
+
+//GAMEPLAY VARS
+const GLOBAL_SPEED_MULT = 3;
+const GLOBAL_SIZE_MULT = 3;
+let enemySpawnTimer = 5;
+let enemyRampMult = 1.25;
+
+
 
 
 
 async function setup() {
     setupTerrain();
     player.image = await loadImage(player.image);
+    explosionGif = await loadImage(explosionGif);
+    lizardGif = await loadImage(lizardGif);
+    skeletonGif = await loadImage(skeletonGif);
     
 }
-
 
 function draw() {
     background(0);
     //drawTerrain();
 
+    //player movment
     let moveVector = getInputVector();
     moveVector.mult(player.speed);
     player.pos.add(moveVector);
+
+    runEnemyRespawntimer();
 
 
     drawAllEntities();
@@ -150,6 +182,11 @@ function cast(directionVector) {
 }
 
 
+//emeny
+function runEnemyRespawntimer() {
+    
+}
+
 
 //MOVEMENT
 function getInputVector(){
@@ -171,11 +208,6 @@ function getInputVector(){
 }
 
 
-
-
-
-
-
 //GRAPHICS
 function drawAllEntities() {
     drawSpells();
@@ -192,6 +224,7 @@ function drawPlayer() {
 
 function drawSpells() {
     spellsArr.forEach(e => {
+        e.checkCollision(enemyArr);
         e.draw();
     });
 }
