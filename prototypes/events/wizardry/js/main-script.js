@@ -35,6 +35,9 @@ class Fireball extends Spell {
         fill(240,10,0);
         noStroke();
         ellipse(this.pos.x,this.pos.y,this.size,this.size);
+        fill(240,10,0,10);
+        noStroke();
+        ellipse(this.pos.x,this.pos.y,this.size*4,this.size*4);
         pop();
     }
 
@@ -80,6 +83,9 @@ class MagicMissle extends Spell {
         fill(58, 12, 173);
         noStroke();
         ellipse(this.pos.x,this.pos.y,this.size,this.size);
+        fill(58, 12, 173,50);
+        noStroke();
+        ellipse(this.pos.x,this.pos.y,this.size*5,this.size*5);
         pop();
     }
 
@@ -138,13 +144,16 @@ class Freeze extends Spell {
         fill(84, 229, 255,150);
         noStroke();
         ellipse(this.pos.x,this.pos.y,this.size,this.size);
+        fill(84, 229, 255,10);
+        noStroke();
+        ellipse(this.pos.x,this.pos.y,this.size*1.1,this.size*1.1);
         pop();
     }
 
     checkCollision(arr) {
         arr.forEach(target => {
             let d = dist(this.pos.x, this.pos.y, target.pos.x, target.pos.y);
-            if (d < ((this.size / 2) + (target.size / 2))) {
+            if (d < ((this.size / 2) + (target.size / 2)) * 0.75) {
                 if(this.alreadyHit.includes(target)) return;
                 this.onCollide(target);
                 return;
@@ -272,7 +281,8 @@ class Skeleton extends Entity {
 
     delete() {
         let indexOfenemy = enemyArr.indexOf(this);
-        enemyArr.splice(indexOfenemy,1)
+        enemyArr.splice(indexOfenemy,1);
+        player.kills += 1;
     }
 }
 
@@ -292,6 +302,7 @@ let player = {
     hp: 3,
     mana: 100,
     manaMax: 100,
+    kills: 0,
     isAlive: true,
     fill: "red",
     chunk: {
@@ -493,13 +504,17 @@ function drawText() {
     push();
     textSize(30);
     fill("white");
-    text('Mana: ' + player.mana.toPrecision(3),50,50);
-    text('Hp: ' + player.hp.toPrecision(1),50,80);
-    text('WASD to move',50,110);
-    text('Click to cast',50,140);
-    text('1 - Fireball ',50,170);
-    text('2 - Magic Missile ',50,200);
-    text('3 - Freeze',50,230);
+    let start1 = 50;
+    let start2 = 920;
+    let spacing = 30;
+    text('Mana: ' + player.mana.toPrecision(3),50,start1);
+    text('Hp: ' + player.hp,50,start1+=spacing);
+    text('Kills: ' + player.kills,50,start1+=spacing);
+    text('WASD to move',50,start2);
+    text('Click to cast',50,start2+=spacing);
+    text('1 - Fireball ',50,start2+=spacing);
+    text('2 - Magic Missile ',50,start2+=spacing);
+    text('3 - Freeze',50,start2+=spacing);
     pop();
 }
 
