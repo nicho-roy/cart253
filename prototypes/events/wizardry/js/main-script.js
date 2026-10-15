@@ -266,7 +266,8 @@ class Skeleton extends Entity {
     }
 
     onCollide() {
-        // remove();
+        player.hp -= 1;
+        this.delete();
     }
 
     delete() {
@@ -281,6 +282,7 @@ class Skeleton extends Entity {
 let explosionGif = "./assets/images/explosion.gif";
 let lizardGif = "./assets/images/red_lizard.gif";
 let skeletonGif = "./assets/images/skeleton.gif";
+let deadImg = "./assets/images/dead.png";
 
 //VARS
 let player = {
@@ -290,6 +292,7 @@ let player = {
     hp: 3,
     mana: 100,
     manaMax: 100,
+    isAlive: true,
     fill: "red",
     chunk: {
         x: 0,
@@ -316,7 +319,7 @@ const GLOBAL_SIZE_MULT = 3;
 let enemyRespawnTimer = 5000;
 let elapsedTime;
 let savedTime;
-let enemyRespawnRampMult = 1.1;
+let enemyRespawnRampMult = 1.01;
 
 
 
@@ -328,6 +331,7 @@ async function setup() {
     explosionGif = await loadImage(explosionGif);
     lizardGif = await loadImage(lizardGif);
     skeletonGif = await loadImage(skeletonGif);
+    deadImg = await loadImage(deadImg)
 
     savedTime = millis();
 }
@@ -337,18 +341,14 @@ function draw() {
     //drawTerrain();
 
     //player movment
-    let moveVector = getInputVector();
-    moveVector.mult(player.speed);
-    player.pos.add(moveVector);
-
-    getInputSpellSlot();
+    runPlayerAction();
 
     runEnemyRespawntimer();
 
 
     drawAllEntities();
 
-    drawManaText();
+    drawText();
 
     // console.log("frame");
 }
@@ -384,8 +384,39 @@ function cast(directionVector) {
             console.log("default");
     }
 
-    spellsArr.push(spell);
+    if (player.mana >= spell.manaCost) {
+        player.mana -= spell.manaCost;
+        spellsArr.push(spell);
+    } else {
+        //nothing
+    }
     //console.log(spellsArr);
+}
+
+function regenMana() {
+    if (player.mana < 100) {
+        player.mana += 0.25;
+    }
+}
+
+
+//player
+function runPlayerAction() {
+    if (player.hp <= 0) {
+        player.isAlive = false;
+    }
+
+    if (player.isAlive) {
+        let moveVector = getInputVector();
+        moveVector.mult(player.speed);
+        player.pos.add(moveVector);
+
+        getInputSpellSlot();
+
+        regenMana();
+    } else if (!player.isAlive) {
+        player.image = deadImg;
+    }
 }
 
 
@@ -459,11 +490,12 @@ function getInputSpellSlot(){
 
 
 //GRAPHICS
-function drawManaText() {
+function drawText() {
     push();
     textSize(30);
     fill("white");
-    text('Mana: ' + player.mana,100,100);
+    text('Mana: ' + player.mana.toPrecision(3),50,50);
+    text('Hp: ' + player.hp.toPrecision(1),50,80);
     pop();
 }
 
