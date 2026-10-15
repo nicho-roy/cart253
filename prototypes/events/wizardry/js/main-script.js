@@ -38,7 +38,6 @@ class Fireball extends Spell {
         pop();
     }
 
-    //TODON COLLISONS BROKEN
     checkCollision(arr) {
         arr.forEach(target => {
             let d = dist(this.pos.x, this.pos.y, target.pos.x, target.pos.y);
@@ -50,35 +49,108 @@ class Fireball extends Spell {
     }
 
     onCollide(entity) {
-        console.log("collsion",entity);
-        let explosion = new Explosion(this.pos,this.power);
+        // console.log("collsion",entity);
+        let explosion = new Explosion(this.pos,this.power,this.size);
         effectsArr.push(explosion);
-        //TODON !CONTINUE Remove fireball from spellsArr, and maybe delete from memory, also draw and check collisions for explosion
+        this.delete();
+    }
+
+    delete() {
+        let indexOfSpell = spellsArr.indexOf(this);
+        spellsArr.splice(indexOfSpell,1)
+    }
+}
+
+class MagicMissle extends Spell {
+    constructor(pos,dir) {
+        super(pos,dir);
+        this.power = 10;
+        this.size = 5;
+        this.speed = 15;
+        this.manaCost = 10
+    }
+
+    draw() {
+        push();
+        let vel = createVector(this.dir.x,this.dir.y);
+        vel.mult(this.speed);
+        vel.mult(GLOBAL_SPEED_MULT);
+        this.pos.add(vel);
+
+        fill(58, 12, 173);
+        noStroke();
+        ellipse(this.pos.x,this.pos.y,this.size*GLOBAL_SIZE_MULT,this.size*GLOBAL_SIZE_MULT);
+        pop();
+    }
+
+    checkCollision(arr) {
+        arr.forEach(target => {
+            let d = dist(this.pos.x, this.pos.y, target.pos.x, target.pos.y);
+            if (d < ((this.size / 2) + (target.size / 2))) {
+                this.onCollide(target);
+                return;
+            }
+        });
+    }
+
+    onCollide(entity) {
+        // console.log("collsion",entity);
+        let explosion = new Explosion(this.pos,this.power,this.size);
+        effectsArr.push(explosion);
+        this.delete();
+    }
+
+    delete() {
+        let indexOfSpell = spellsArr.indexOf(this);
+        spellsArr.splice(indexOfSpell,1)
     }
 }
 
 
 class Explosion {
-    constructor(pos,damage) {
-        this.pos = pos;
+    constructor(pos,damage,size) {
+        this.pos = createVector(pos.x,pos.y);
         this.damage = damage;
-        this.size = 50;
-        this.aliveTimer = 2000;
+        this.size = size * 20;
+        this.alreadyHit = [];
+        this.aliveTimer = 500;
         this.savedTime = millis();
+        explosionGif.setFrame(0);
     }
 
     draw() {
         push();
-        image(explosionGif,this.pos.x,this.pos.y,this.size,this.size);
+        let elapsedTime = millis() - this.savedTime;
+
+        if (elapsedTime > this.aliveTimer) {
+            elapsedTime = 0;
+            this.savedTime = millis();
+            this.delete();
+        }
+        let tempGif = explosionGif;
+        image(tempGif,this.pos.x-(this.size/2),this.pos.y-(this.size/2),this.size,this.size);
         pop();
     }
 
     checkCollision(arr) {
-
+        arr.forEach(target => {
+            let d = dist(this.pos.x, this.pos.y, target.pos.x, target.pos.y);
+            if (d < ((this.size / 2) + (target.size / 2))) {
+                if(this.alreadyHit.includes(target)) return;
+                this.onCollide(target);
+                this.alreadyHit.push(target);
+                // return; //do not return for multi hit
+            }
+        });
     }
 
-    onCollide() {
+    onCollide(entity) {
+        entity.hp -= this.damage;
+    }
 
+    delete() {
+        let indexOfEffect = effectsArr.indexOf(this);
+        effectsArr.splice(indexOfEffect,1)
     }
 }
 
@@ -94,6 +166,7 @@ class Skeleton extends Entity {
         super();
         this.size = random(80,120);
         this.speed = 5;
+        this.hp = 20;
     }
 
     draw() {
@@ -102,9 +175,29 @@ class Skeleton extends Entity {
         dir.normalize();
         dir.mult(this.speed);
         this.pos.add(dir);
+
+        if (this.hp<=0) {
+            this.delete();
+        }
         
         image(skeletonGif,this.pos.x-(this.size/2),this.pos.y-(this.size/2),this.size,this.size);
         pop();
+    }
+
+    checkCollision() {
+        let d = dist(this.pos.x, this.pos.y, player.pos.x, player.pos.y);
+        if (d < ((this.size / 2) + (player.size / 2))) {
+            this.onCollide(player);
+        }
+    }
+
+    onCollide() {
+        // remove();
+    }
+
+    delete() {
+        let indexOfenemy = enemyArr.indexOf(this);
+        enemyArr.splice(indexOfenemy,1)
     }
 }
 
@@ -147,7 +240,7 @@ const GLOBAL_SIZE_MULT = 3;
 let enemyRespawnTimer = 5000;
 let elapsedTime;
 let savedTime;
-let enemyRespawnRampMult = 1.001;
+let enemyRespawnRampMult = 1.1;
 
 
 
@@ -171,6 +264,8 @@ function draw() {
     let moveVector = getInputVector();
     moveVector.mult(player.speed);
     player.pos.add(moveVector);
+
+    getInputSpellSlot();
 
     runEnemyRespawntimer();
 
@@ -197,7 +292,14 @@ function cast(directionVector) {
         case "fireball":
             spell = new Fireball(createVector(player.pos.x,player.pos.y),directionVector);
             break;
-        //TODON OTHER SPELLS
+
+        case "magicMissle":
+            spell = new MagicMissle(createVector(player.pos.x,player.pos.y),directionVector);
+            break;
+
+         case "thunderBolt":
+            spell = new ThunderBolt(createVector(player.pos.x,player.pos.y),directionVector);
+            break;
         
         default:
 
@@ -265,11 +367,24 @@ function getInputVector(){
     return vector;
 }
 
+function getInputSpellSlot(){
+    if (keyIsDown('1')) {
+        loadedSpellIndex = 0;
+    }
+    if (keyIsDown('2')) {
+        loadedSpellIndex = 1;
+    }
+    if (keyIsDown('3')) {
+        loadedSpellIndex = 2;
+    }
+}
+
 
 //GRAPHICS
 function drawAllEntities() {
     drawEnemies();
     drawSpells();
+    drawEffects();
     drawPlayer();
 }
 
@@ -282,12 +397,20 @@ function drawPlayer() {
 
 function drawEnemies() {
     enemyArr.forEach(e => {
+        e.checkCollision();
         e.draw();
     });
 }
 
 function drawSpells() {
     spellsArr.forEach(e => {
+        e.checkCollision(enemyArr);
+        e.draw();
+    });
+}
+
+function drawEffects() {
+    effectsArr.forEach(e => {
         e.checkCollision(enemyArr);
         e.draw();
     });
