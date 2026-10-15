@@ -22,7 +22,7 @@ class Fireball extends Spell {
         this.power = 20;
         this.size = 20;
         this.speed = 5;
-        this.manaCost = 30;
+        this.manaCost = 20;
     }
 
     draw() {
@@ -67,7 +67,7 @@ class MagicMissle extends Spell {
         this.power = 10;
         this.size = 5;
         this.speed = 15;
-        this.manaCost = 10
+        this.manaCost = 1
     }
 
     draw() {
@@ -107,12 +107,12 @@ class MagicMissle extends Spell {
 }
 
 
-class ThunderBolt extends Spell {
+class Freeze extends Spell {
     constructor(pos,dir) {
         super(pos,dir);
         this.power = 5;
-        this.size = 100;
-        this.speed = 3;
+        this.size = 200;
+        this.speed = 10;
         this.manaCost = 15;
         this.alreadyHit = [];
         this.aliveTimer = 2500;
@@ -132,13 +132,10 @@ class ThunderBolt extends Spell {
         if (elapsedTime > this.aliveTimer) {
             elapsedTime = 0;
             this.savedTime = millis();
-            this.alreadyHit.forEach(e => {
-                e.stunned = false;
-            });
             this.delete();
         }
 
-        fill(243, 255, 10);
+        fill(84, 229, 255);
         noStroke();
         ellipse(this.pos.x,this.pos.y,this.size*GLOBAL_SIZE_MULT,this.size*GLOBAL_SIZE_MULT);
         pop();
@@ -231,6 +228,8 @@ class Skeleton extends Entity {
         this.size = random(80,120);
         this.speed = 5;
         this.hp = 20;
+        this.stunTimer = 10000;
+        this.savedTime = millis();
     }
 
     draw() {
@@ -240,8 +239,17 @@ class Skeleton extends Entity {
             dir.normalize();
             dir.mult(this.speed);
             this.pos.add(dir);
+        } else if (this.stunned) {
+            let elapsedTime = millis() - this.savedTime;
+
+            if (elapsedTime > this.stunTimersa) {
+                elapsedTime = 0;
+                this.savedTime = millis();
+                this.stunned = false;
+            }
         }
         
+        //death check
         if (this.hp<=0) {
             this.delete();
         }
@@ -295,7 +303,7 @@ let castStat = {
     power: 10,
 }
 let loadedSpellIndex = 0;
-let spellSlots = ["fireball","magicMissle","thunderBolt"];
+let spellSlots = ["fireball","magicMissle","freeze"];
 
 //ARRAYS
 let spellsArr = [];
@@ -340,6 +348,8 @@ function draw() {
 
     drawAllEntities();
 
+    drawManaText();
+
     // console.log("frame");
 }
 
@@ -365,8 +375,8 @@ function cast(directionVector) {
             spell = new MagicMissle(createVector(player.pos.x,player.pos.y),directionVector);
             break;
 
-         case "thunderBolt":
-            spell = new ThunderBolt(createVector(player.pos.x,player.pos.y),directionVector);
+         case "freeze":
+            spell = new Freeze(createVector(player.pos.x,player.pos.y),directionVector);
             break;
         
         default:
@@ -449,6 +459,14 @@ function getInputSpellSlot(){
 
 
 //GRAPHICS
+function drawManaText() {
+    push();
+    textSize(30);
+    fill("white");
+    text('Mana: ' + player.mana,100,100);
+    pop();
+}
+
 function drawAllEntities() {
     drawEnemies();
     drawSpells();
@@ -485,36 +503,3 @@ function drawEffects() {
 }
 
 
-
-
-// //TODON UPDATE FROM FIREBALL
-// class MagicMissle {
-//     constructor(x, y) {
-//         this.power = 10;
-//         this.size = 5;
-//         this.speed = 15;
-//         this.manaCost = 10;
-//         this.x = x;
-//         this.y = y;
-//     }
-
-//     draw() {
-
-//     }
-// }
-
-// //TODON UPDATE FROM FIREBALL
-// class Freeze {
-//     constructor(x, y) {
-        // this.power = 15;
-        // this.size = 10;
-        // this.speed = 15;
-        // this.manaCost = 15;
-//         this.x = x;
-//         this.y = y;
-//     }
-
-//     draw() {
-
-//     }
-// }
