@@ -72,7 +72,7 @@ function setupTerrain() {
 function drawTerrain() {
     image(terrainImg,0,0);
 
-    checkMapBounds();
+    //checkMapBounds();
 }
 
 
