@@ -42,7 +42,7 @@ class Fireball extends Spell {
     checkCollision(arr) {
         arr.forEach(target => {
             let d = dist(this.pos.x, this.pos.y, target.pos.x, target.pos.y);
-            if (d > ((this.size / 2) + (target.size / 2))) {
+            if (d < ((this.size / 2) + (target.size / 2))) {
                 this.onCollide(target);
                 return;
             }
@@ -56,6 +56,11 @@ class Fireball extends Spell {
 }
 
 
+class Explosion {
+    
+}
+
+
 class Entity {
     constructor() {
         this.pos = getRandomPosOnBorder();
@@ -66,10 +71,16 @@ class Skeleton extends Entity {
     constructor() {
         super();
         this.size = random(80,120);
+        this.speed = 5;
     }
 
     draw() {
         push();
+        let dir = createVector(player.pos.x-this.pos.x,player.pos.y-this.pos.y);
+        dir.normalize();
+        dir.mult(this.speed);
+        this.pos.add(dir);
+        
         image(skeletonGif,this.pos.x-(this.size/2),this.pos.y-(this.size/2),this.size,this.size);
         pop();
     }
@@ -87,6 +98,7 @@ let player = {
     pos: 0,
     speed: 10,
     size: 150,
+    hp: 3,
     fill: "red",
     chunk: {
         x: 0,
@@ -162,7 +174,6 @@ function cast(directionVector) {
     switch (spellClass) {
         case "fireball":
             spell = new Fireball(createVector(player.pos.x,player.pos.y),directionVector);
-            console.log("fireball");
             break;
         //TODON OTHER SPELLS
         
@@ -172,7 +183,7 @@ function cast(directionVector) {
     }
 
     spellsArr.push(spell);
-    console.log(spellsArr);
+    //console.log(spellsArr);
 }
 
 
