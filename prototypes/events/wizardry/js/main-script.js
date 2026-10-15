@@ -20,7 +20,7 @@ class Fireball extends Spell {
     constructor(pos,dir) {
         super(pos,dir);
         this.power = 20;
-        this.size = 20;
+        this.size = 90;
         this.speed = 5;
         this.manaCost = 20;
     }
@@ -34,7 +34,7 @@ class Fireball extends Spell {
 
         fill(240,10,0);
         noStroke();
-        ellipse(this.pos.x,this.pos.y,this.size*GLOBAL_SIZE_MULT,this.size*GLOBAL_SIZE_MULT);
+        ellipse(this.pos.x,this.pos.y,this.size,this.size);
         pop();
     }
 
@@ -65,8 +65,8 @@ class MagicMissle extends Spell {
     constructor(pos,dir) {
         super(pos,dir);
         this.power = 10;
-        this.size = 5;
-        this.speed = 15;
+        this.size = 25;
+        this.speed = 20;
         this.manaCost = 1
     }
 
@@ -79,7 +79,7 @@ class MagicMissle extends Spell {
 
         fill(58, 12, 173);
         noStroke();
-        ellipse(this.pos.x,this.pos.y,this.size*GLOBAL_SIZE_MULT,this.size*GLOBAL_SIZE_MULT);
+        ellipse(this.pos.x,this.pos.y,this.size,this.size);
         pop();
     }
 
@@ -111,11 +111,11 @@ class Freeze extends Spell {
     constructor(pos,dir) {
         super(pos,dir);
         this.power = 5;
-        this.size = 200;
-        this.speed = 10;
+        this.size = 800;
+        this.speed = 2;
         this.manaCost = 15;
         this.alreadyHit = [];
-        this.aliveTimer = 2500;
+        this.aliveTimer = 1000;
         this.savedTime = millis();
     }
 
@@ -135,9 +135,9 @@ class Freeze extends Spell {
             this.delete();
         }
 
-        fill(84, 229, 255);
+        fill(84, 229, 255,150);
         noStroke();
-        ellipse(this.pos.x,this.pos.y,this.size*GLOBAL_SIZE_MULT,this.size*GLOBAL_SIZE_MULT);
+        ellipse(this.pos.x,this.pos.y,this.size,this.size);
         pop();
     }
 
@@ -171,7 +171,7 @@ class Explosion {
     constructor(pos,damage,size) {
         this.pos = createVector(pos.x,pos.y);
         this.damage = damage;
-        this.size = size * 20;
+        this.size = size * 6;
         this.alreadyHit = [];
         this.aliveTimer = 500;
         this.savedTime = millis();
@@ -315,8 +315,7 @@ let effectsArr = [];
 
 //GAMEPLAY VARS
 const GLOBAL_SPEED_MULT = 3;
-const GLOBAL_SIZE_MULT = 3;
-let enemyRespawnTimer = 5000;
+let enemyRespawnTimer = 3000;
 let elapsedTime;
 let savedTime;
 let enemyRespawnRampMult = 1.01;
@@ -496,6 +495,10 @@ function drawText() {
     fill("white");
     text('Mana: ' + player.mana.toPrecision(3),50,50);
     text('Hp: ' + player.hp.toPrecision(1),50,80);
+    text('WASD to move',50,110);
+    text('1 - Fireball ',50,140);
+    text('2 - Magic Missile ',50,170);
+    text('3 - Freeze',50,200);
     pop();
 }
 
