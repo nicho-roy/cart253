@@ -52,10 +52,11 @@ function draw() {
 
 //sounds
 function handleBuzzLoop() {
-    if (!player.sound.playing) {
+    if (!player.sound.isPlaying()) {
         player.sound.play();
     }
-        
+    //TODON !CONTINUE
+    //player.sound.onended()
 
     if (keyIsDown('w')) {
         
