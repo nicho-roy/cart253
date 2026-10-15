@@ -337,7 +337,7 @@ async function setup() {
 
 function draw() {
     background(0);
-    //drawTerrain();
+    drawTerrain();
 
     //player movment
     runPlayerAction();
@@ -496,9 +496,10 @@ function drawText() {
     text('Mana: ' + player.mana.toPrecision(3),50,50);
     text('Hp: ' + player.hp.toPrecision(1),50,80);
     text('WASD to move',50,110);
-    text('1 - Fireball ',50,140);
-    text('2 - Magic Missile ',50,170);
-    text('3 - Freeze',50,200);
+    text('Click to cast',50,140);
+    text('1 - Fireball ',50,170);
+    text('2 - Magic Missile ',50,200);
+    text('3 - Freeze',50,230);
     pop();
 }
 
