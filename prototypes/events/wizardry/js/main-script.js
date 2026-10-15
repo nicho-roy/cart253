@@ -86,6 +86,27 @@ class Freeze {
     }
 }
 
+class Entity {
+    constructor() {
+        this.pos = getRandomPosOnBorder();
+    }
+}
+
+class Skeleton extends Entity {
+    constructor(size) {
+        super();
+        this.size = size;
+    }
+
+    draw() {
+        push();
+        image(skeletonGif,this.pos.x,this.pos.y,this.size,this.size);
+        pop();
+    }
+}
+
+
+
 //IMAGES
 let explosionGif = "./assets/images/explosion.gif";
 let lizardGif = "./assets/images/red_lizard.gif";
@@ -119,8 +140,10 @@ let effectsArr = [];
 //GAMEPLAY VARS
 const GLOBAL_SPEED_MULT = 3;
 const GLOBAL_SIZE_MULT = 3;
-let enemySpawnTimer = 5;
-let enemyRampMult = 1.25;
+let enemyRespawnTimer = 5000;
+let elapsedTime;
+let savedTime;
+let enemyRespawnRampMult = 1.25;
 
 
 
@@ -132,7 +155,8 @@ async function setup() {
     explosionGif = await loadImage(explosionGif);
     lizardGif = await loadImage(lizardGif);
     skeletonGif = await loadImage(skeletonGif);
-    
+
+    savedTime = millis();
 }
 
 function draw() {
@@ -184,6 +208,22 @@ function cast(directionVector) {
 
 //emeny
 function runEnemyRespawntimer() {
+    let elapsedTime = millis() - savedTime;
+
+    if (elapsedTime > enemyRespawnTimer) {
+        elapsedTime = 0;
+        savedTime = millis();
+        enemyRespawnTimer /= enemyRespawnRampMult;
+        spawnEnemy();
+    }
+
+}
+
+function spawnEnemy() {
+    let enemy = new skeletonGif();
+}
+
+function getRandomPosOnBorder() {
     
 }
 
