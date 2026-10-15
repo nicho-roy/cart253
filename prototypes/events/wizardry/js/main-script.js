@@ -107,6 +107,69 @@ class MagicMissle extends Spell {
 }
 
 
+class ThunderBolt extends Spell {
+    constructor(pos,dir) {
+        super(pos,dir);
+        this.power = 5;
+        this.size = 100;
+        this.speed = 3;
+        this.manaCost = 15;
+        this.alreadyHit = [];
+        this.aliveTimer = 2500;
+        this.savedTime = millis();
+    }
+
+    draw() {
+        push();
+        let vel = createVector(this.dir.x,this.dir.y);
+        vel.mult(this.speed);
+        vel.mult(GLOBAL_SPEED_MULT);
+        this.pos.add(vel);
+
+        //timer
+        let elapsedTime = millis() - this.savedTime;
+
+        if (elapsedTime > this.aliveTimer) {
+            elapsedTime = 0;
+            this.savedTime = millis();
+            this.alreadyHit.forEach(e => {
+                e.stunned = false;
+            });
+            this.delete();
+        }
+
+        fill(243, 255, 10);
+        noStroke();
+        ellipse(this.pos.x,this.pos.y,this.size*GLOBAL_SIZE_MULT,this.size*GLOBAL_SIZE_MULT);
+        pop();
+    }
+
+    checkCollision(arr) {
+        arr.forEach(target => {
+            let d = dist(this.pos.x, this.pos.y, target.pos.x, target.pos.y);
+            if (d < ((this.size / 2) + (target.size / 2))) {
+                if(this.alreadyHit.includes(target)) return;
+                this.onCollide(target);
+                return;
+            }
+        });
+    }
+
+    onCollide(entity) {
+        // console.log("collsion",entity);
+        entity.stunned = true;
+        this.alreadyHit.push(entity);
+    }
+
+    delete() {
+        let indexOfSpell = spellsArr.indexOf(this);
+        spellsArr.splice(indexOfSpell,1)
+    }
+}
+
+
+
+
 class Explosion {
     constructor(pos,damage,size) {
         this.pos = createVector(pos.x,pos.y);
@@ -158,6 +221,7 @@ class Explosion {
 class Entity {
     constructor() {
         this.pos = getRandomPosOnBorder();
+        this.stunned = false;
     }
 }
 
@@ -171,11 +235,13 @@ class Skeleton extends Entity {
 
     draw() {
         push();
-        let dir = createVector(player.pos.x-this.pos.x,player.pos.y-this.pos.y);
-        dir.normalize();
-        dir.mult(this.speed);
-        this.pos.add(dir);
-
+        if (!this.stunned) {
+            let dir = createVector(player.pos.x-this.pos.x,player.pos.y-this.pos.y);
+            dir.normalize();
+            dir.mult(this.speed);
+            this.pos.add(dir);
+        }
+        
         if (this.hp<=0) {
             this.delete();
         }
@@ -214,6 +280,8 @@ let player = {
     speed: 10,
     size: 150,
     hp: 3,
+    mana: 100,
+    manaMax: 100,
     fill: "red",
     chunk: {
         x: 0,
@@ -227,7 +295,7 @@ let castStat = {
     power: 10,
 }
 let loadedSpellIndex = 0;
-let spellSlots = ["fireball","magicMissle","freeze"];
+let spellSlots = ["fireball","magicMissle","thunderBolt"];
 
 //ARRAYS
 let spellsArr = [];
@@ -438,10 +506,10 @@ function drawEffects() {
 // //TODON UPDATE FROM FIREBALL
 // class Freeze {
 //     constructor(x, y) {
-//         this.power = 15;
-//         this.size = 10;
-//         this.speed = 15;
-//         this.manaCost = 15;
+        // this.power = 15;
+        // this.size = 10;
+        // this.speed = 15;
+        // this.manaCost = 15;
 //         this.x = x;
 //         this.y = y;
 //     }
