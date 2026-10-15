@@ -93,14 +93,14 @@ class Entity {
 }
 
 class Skeleton extends Entity {
-    constructor(size) {
+    constructor() {
         super();
-        this.size = size;
+        this.size = random(80,120);
     }
 
     draw() {
         push();
-        image(skeletonGif,this.pos.x,this.pos.y,this.size,this.size);
+        image(skeletonGif,this.pos.x-(this.size/2),this.pos.y-(this.size/2),this.size,this.size);
         pop();
     }
 }
@@ -140,7 +140,7 @@ let effectsArr = [];
 //GAMEPLAY VARS
 const GLOBAL_SPEED_MULT = 3;
 const GLOBAL_SIZE_MULT = 3;
-let enemyRespawnTimer = 5000;
+let enemyRespawnTimer = 100;
 let elapsedTime;
 let savedTime;
 let enemyRespawnRampMult = 1.25;
@@ -220,11 +220,25 @@ function runEnemyRespawntimer() {
 }
 
 function spawnEnemy() {
-    let enemy = new skeletonGif();
+    let enemy = new Skeleton();
 }
 
 function getRandomPosOnBorder() {
-    
+    let r = random(1);
+    let randPos;
+    if (r<0.25) {
+        randPos = random(width);
+        return createVector(randPos,0);
+    } else if (r<0.5) {
+        randPos = random(height);
+        return createVector(width,randPos);
+    } else if (r<0.75) {
+        randPos = random(width);
+        return createVector(randPos,height);
+    } else if (r<1) {
+        randPos = random(height);
+        return createVector(0,randPos);
+    }
 }
 
 
@@ -250,8 +264,8 @@ function getInputVector(){
 
 //GRAPHICS
 function drawAllEntities() {
+    drawEnemies();
     drawSpells();
-
     drawPlayer();
 }
 
@@ -260,6 +274,12 @@ function drawPlayer() {
     image(player.image,player.pos.x-(player.size/2),player.pos.y-(player.size/2),player.size,player.size);
     pop();
     // console.log("player drawn");
+}
+
+function drawEnemies() {
+    enemyArr.forEach(e => {
+        e.draw();
+    });
 }
 
 function drawSpells() {
