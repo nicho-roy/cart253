@@ -38,6 +38,7 @@ class Fireball extends Spell {
         pop();
     }
 
+    //TODON COLLISONS BROKEN
     checkCollision(arr) {
         arr.forEach(target => {
             let d = dist(this.pos.x, this.pos.y, target.pos.x, target.pos.y);
@@ -54,37 +55,6 @@ class Fireball extends Spell {
     }
 }
 
-//TODON UPDATE FROM FIREBALL
-class MagicMissle {
-    constructor(x, y) {
-        this.power = 10;
-        this.size = 5;
-        this.speed = 15;
-        this.manaCost = 10;
-        this.x = x;
-        this.y = y;
-    }
-
-    draw() {
-
-    }
-}
-
-//TODON UPDATE FROM FIREBALL
-class Freeze {
-    constructor(x, y) {
-        this.power = 15;
-        this.size = 10;
-        this.speed = 15;
-        this.manaCost = 15;
-        this.x = x;
-        this.y = y;
-    }
-
-    draw() {
-
-    }
-}
 
 class Entity {
     constructor() {
@@ -140,10 +110,10 @@ let effectsArr = [];
 //GAMEPLAY VARS
 const GLOBAL_SPEED_MULT = 3;
 const GLOBAL_SIZE_MULT = 3;
-let enemyRespawnTimer = 100;
+let enemyRespawnTimer = 5000;
 let elapsedTime;
 let savedTime;
-let enemyRespawnRampMult = 1.25;
+let enemyRespawnRampMult = 1.001;
 
 
 
@@ -221,6 +191,7 @@ function runEnemyRespawntimer() {
 
 function spawnEnemy() {
     let enemy = new Skeleton();
+    enemyArr.push(enemy);
 }
 
 function getRandomPosOnBorder() {
@@ -289,3 +260,37 @@ function drawSpells() {
     });
 }
 
+
+
+
+// //TODON UPDATE FROM FIREBALL
+// class MagicMissle {
+//     constructor(x, y) {
+//         this.power = 10;
+//         this.size = 5;
+//         this.speed = 15;
+//         this.manaCost = 10;
+//         this.x = x;
+//         this.y = y;
+//     }
+
+//     draw() {
+
+//     }
+// }
+
+// //TODON UPDATE FROM FIREBALL
+// class Freeze {
+//     constructor(x, y) {
+//         this.power = 15;
+//         this.size = 10;
+//         this.speed = 15;
+//         this.manaCost = 15;
+//         this.x = x;
+//         this.y = y;
+//     }
+
+//     draw() {
+
+//     }
+// }
