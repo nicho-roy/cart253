@@ -8,7 +8,10 @@
 "use strict";
 
 
-
+//IMAGES
+let beeImg = "./assets/images/bee.png";
+let beeGif = "./assets/images/bee_moves.gif";
+let buzzSound = "./assets/sounds/buzz.mp3";
 
 //VARS
 let player = {
@@ -19,9 +22,7 @@ let player = {
     speed: 3,
     size: 150,
     isGrounded: false,
-    image: "./assets/images/bee.png",
-    gif: "./assets/images/bee_moves.gif",
-    sound: "./assets/sounds/buzz.mp3",
+    image: "",
 }
 let gravity = 1;
 let groundScreenMult = 0.9;
@@ -35,9 +36,10 @@ function preload() {
 
 async function setup() {
     createCanvas(1920,1080);
-    player.image = await loadImage(player.image);
-    player.gif = await loadImage(player.gif);
-    player.sound = await loadSound(player.sound);
+    beeImg = await loadImage(beeImg);
+    beeGif = await loadImage(beeGif);
+    buzzSound = await loadSound(buzzSound);
+    player.image = beeImg;
     
     gravity = createVector(0,gravity);
     player.pos = createVector(width/2,height/2);
@@ -83,6 +85,9 @@ function handleMovement() {
     player.pos.add(player.vel)
     player.pos.add(moveVector);
 
+    //get misc input
+    getInput();
+
     //bounce off walls
     checkBounds();
 
@@ -116,6 +121,15 @@ function getInputVector(){
     vector.normalize();
     return vector;
 }
+
+function getInput() {
+    if (keyIsDown('Space')) {
+        player.image = beeGif;
+    } else {
+        player.image = beeImg;
+    }
+}
+
 
 function checkBounds() {
     if (player.pos.x > width) {
@@ -151,24 +165,24 @@ function flipYDirection() {
 function handleBuzzLoop() {
     if (!initSoundLoop) return;
 
-    player.sound.loop();
+    buzzSound.loop();
 
-    if (!player.sound.isPlaying()) {
-        player.sound.play();
+    if (!buzzSound.isPlaying()) {
+        buzzSound.play();
         console.log("sound playing");
     }
     
     //TODON, lerp with vel vector magnitude
     if (keyIsDown('w')) {
-        player.sound.rate(0.85);
-        player.sound.amp(1);
+        buzzSound.rate(0.85);
+        buzzSound.amp(1);
     } else {
-        player.sound.rate(0.45);
-        player.sound.amp(0.4);
+        buzzSound.rate(0.45);
+        buzzSound.amp(0.4);
     }
     if (player.isGrounded) {
-        player.sound.rate(0.3);
-        player.sound.amp(0.4);
+        buzzSound.rate(0.3);
+        buzzSound.amp(0.4);
     }
 }
 
@@ -187,19 +201,23 @@ function drawText() {
     let spacing = 30;
     
     text('WASD to move',50,start2);
-    text('Placeholder',50,start2+=spacing);
+    text('Space to get jiggy',50,start2+=spacing);
 
+    pop();
+}
+
+function drawPlayer() {
+    push();
+    //depending on if twerking
+    if (player.image == beeImg) {
+        image(player.image,player.pos.x-(player.size/2),player.pos.y-(player.size/2),player.size,player.size);
+    } else {
+        image(player.image,player.pos.x-(player.size),player.pos.y-(player.size),player.size*2,player.size*2);
+    }
     pop();
 }
 
 function drawAll() {
     drawPlayer();
+    drawText()
 }
-
-function drawPlayer() {
-    push();
-    image(player.image,player.pos.x-(player.size/2),player.pos.y-(player.size/2),player.size,player.size);
-    pop();
-}
-
-
