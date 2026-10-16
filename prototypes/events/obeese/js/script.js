@@ -14,16 +14,16 @@
 let player = {
     pos: 0,
     vel: 0,
-    velLimit: 10,
+    velLimit: 5,
     acc: 0,
-    speed: 10,
+    speed: 3,
     size: 150,
     isGrounded: false,
     image: "./assets/images/bee.png",
     gif: "./assets/images/bee_moves.gif",
     sound: "./assets/sounds/buzz.mp3",
 }
-let gravity = -5;
+let gravity = 1;
 let groundScreenMult = 0.9;
 let initSoundLoop = false;
 
@@ -39,7 +39,7 @@ async function setup() {
     player.gif = await loadImage(player.gif);
     player.sound = await loadSound(player.sound);
     
-    gravity = createVector(0,-gravity);
+    gravity = createVector(0,gravity);
     player.pos = createVector(width/2,height/2);
     player.vel = createVector(0,0);
     player.acc = createVector(0,0);
@@ -59,42 +59,12 @@ function draw() {
 
 
 
-//sounds
-function handleBuzzLoop() {
-    if (!initSoundLoop) return;
-
-    player.sound.loop();
-
-    if (!player.sound.isPlaying()) {
-        player.sound.play();
-        console.log("sound playing");
-    }
-    
-    //TODON, lerp with vel vector magnitude
-    if (keyIsDown('w')) {
-        player.sound.rate(0.85);
-        player.sound.amp(1);
-    } else {
-        player.sound.rate(0.45);
-        player.sound.amp(0.4);
-    }
-    if (player.isGrounded) {
-        player.sound.rate(0.3);
-        player.sound.amp(0.4);
-    }
-}
-
-function keyPressed() {
-    initSoundLoop = true;
-}
-
-
 //INPUT
 function handleMovement() {
     //apply gravity
     groundCheck();
     if (!player.isGrounded) {
-        player.acc.add(gravity);
+        player.acc.add(gravity); //set equals for realistic movement
         player.vel.add(player.acc);
         player.vel.limit(player.velLimit);
         player.pos.add(player.vel)
@@ -106,14 +76,18 @@ function handleMovement() {
     //move
     let moveVector = getInputVector();
     moveVector.mult(player.speed);
-    player.acc.add(moveVector);
+
+    player.acc.add(moveVector);  //set equals for realistic movement
     player.vel.add(player.acc);
     player.vel.limit(player.velLimit);
     player.pos.add(player.vel)
     player.pos.add(moveVector);
 
+    //bounce off walls
+    checkBounds();
+
     console.log("acc: " + player.acc);
-    console.log("vel: " + player.vel);
+    // console.log("vel: " + player.vel);
 
 }
 
@@ -143,6 +117,64 @@ function getInputVector(){
     return vector;
 }
 
+function checkBounds() {
+    if (player.pos.x > width) {
+        player.pos.x = width;
+        flipXDirection();
+    }
+    if (player.pos.x < 0) {
+        player.pos.x = 0;
+        flipXDirection();
+    }
+    if (player.pos.y > height) {
+        player.pos.y = height;
+        flipYDirection();
+    }
+    if (player.pos.y < 0) {
+        player.pos.y = 0;
+        flipYDirection();
+    }
+}
+
+function flipXDirection() {
+    player.acc = createVector(-player.acc.x,player.acc.y);
+    player.vel = createVector(-player.vel.x,player.vel.y);
+}
+
+function flipYDirection() {
+    player.acc = createVector(player.acc.x,-player.acc.y);
+    player.vel = createVector(player.vel.x,-player.vel.y);
+}
+
+
+//AUDIO
+function handleBuzzLoop() {
+    if (!initSoundLoop) return;
+
+    player.sound.loop();
+
+    if (!player.sound.isPlaying()) {
+        player.sound.play();
+        console.log("sound playing");
+    }
+    
+    //TODON, lerp with vel vector magnitude
+    if (keyIsDown('w')) {
+        player.sound.rate(0.85);
+        player.sound.amp(1);
+    } else {
+        player.sound.rate(0.45);
+        player.sound.amp(0.4);
+    }
+    if (player.isGrounded) {
+        player.sound.rate(0.3);
+        player.sound.amp(0.4);
+    }
+}
+
+function keyPressed() {
+    initSoundLoop = true;
+}
 
 
 //GRAPHICS
