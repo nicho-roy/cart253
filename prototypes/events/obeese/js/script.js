@@ -20,6 +20,7 @@ let player = {
     sound: "./assets/sounds/buzz.mp3",
 }
 let gravity = -5;
+let floorScreenMult = 0.1;
 let initSoundLoop = false;
 
 
@@ -57,19 +58,18 @@ function handleBuzzLoop() {
 
     player.sound.loop();
 
-
     if (!player.sound.isPlaying()) {
         player.sound.play();
-        console.log("not playing");
+        console.log("sound playing");
     }
-    console.log("stat",player.sound.isPlaying());
-    //TODON !CONTINUE
     
-
+    //TODON, lerp with vel vector magnitude
     if (keyIsDown('w')) {
+        player.sound.rate(0.85);
         player.sound.amp(1);
     } else {
-        player.sound.amp(0.1);
+        player.sound.rate(0.45);
+        player.sound.amp(0.4);
     }
 }
 
