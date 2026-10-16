@@ -13,14 +13,18 @@
 //VARS
 let player = {
     pos: 0,
+    vel: 0,
+    velLimit: 10,
+    acc: 0,
     speed: 10,
     size: 150,
+    isGrounded: false,
     image: "./assets/images/bee.png",
     gif: "./assets/images/bee_moves.gif",
     sound: "./assets/sounds/buzz.mp3",
 }
 let gravity = -5;
-let floorScreenMult = 0.1;
+let groundScreenMult = 0.9;
 let initSoundLoop = false;
 
 
@@ -35,8 +39,11 @@ async function setup() {
     player.gif = await loadImage(player.gif);
     player.sound = await loadSound(player.sound);
     
-    gravity = createVector(0,gravity);
+    gravity = createVector(0,-gravity);
     player.pos = createVector(width/2,height/2);
+    player.vel = createVector(0,0);
+    player.acc = createVector(0,0);
+
 }
 
 
@@ -44,10 +51,10 @@ function draw() {
     background(0);
 
     handleBuzzLoop();
-    
+
+    handleMovement();
     
     drawAll();
-    // console.log("frame");
 }
 
 
@@ -71,6 +78,10 @@ function handleBuzzLoop() {
         player.sound.rate(0.45);
         player.sound.amp(0.4);
     }
+    if (player.isGrounded) {
+        player.sound.rate(0.3);
+        player.sound.amp(0.4);
+    }
 }
 
 function keyPressed() {
@@ -78,7 +89,42 @@ function keyPressed() {
 }
 
 
-//MOVEMENT
+//INPUT
+function handleMovement() {
+    //apply gravity
+    groundCheck();
+    if (!player.isGrounded) {
+        player.acc.add(gravity);
+        player.vel.add(player.acc);
+        player.vel.limit(player.velLimit);
+        player.pos.add(player.vel)
+    } else {
+        player.acc.mult(0);
+        player.vel.mult(0);
+    }
+
+    //move
+    let moveVector = getInputVector();
+    moveVector.mult(player.speed);
+    player.acc.add(moveVector);
+    player.vel.add(player.acc);
+    player.vel.limit(player.velLimit);
+    player.pos.add(player.vel)
+    player.pos.add(moveVector);
+
+    console.log("acc: " + player.acc);
+    console.log("vel: " + player.vel);
+
+}
+
+function groundCheck() {
+    if (player.pos.y > height * groundScreenMult) {
+        player.isGrounded = true;
+    } else {
+        player.isGrounded = false;
+    }
+}
+
 function getInputVector(){
     let vector = createVector(0,0);
     if (keyIsDown('w')) {
@@ -96,7 +142,6 @@ function getInputVector(){
     vector.normalize();
     return vector;
 }
-
 
 
 
