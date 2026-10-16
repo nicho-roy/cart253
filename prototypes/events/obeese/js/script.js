@@ -17,9 +17,10 @@ let player = {
     size: 150,
     image: "./assets/images/bee.png",
     gif: "./assets/images/bee_moves.gif",
-    sound: "./assets/sounds/bee_buzz.mp3",
+    sound: "./assets/sounds/buzz.mp3",
 }
 let gravity = -5;
+let initSoundLoop = false;
 
 
 
@@ -35,7 +36,6 @@ async function setup() {
     
     gravity = createVector(0,gravity);
     player.pos = createVector(width/2,height/2);
-
 }
 
 
@@ -43,6 +43,7 @@ function draw() {
     background(0);
 
     handleBuzzLoop();
+    
     
     drawAll();
     // console.log("frame");
@@ -52,17 +53,28 @@ function draw() {
 
 //sounds
 function handleBuzzLoop() {
+    if (!initSoundLoop) return;
+
+    player.sound.loop();
+
+
     if (!player.sound.isPlaying()) {
         player.sound.play();
+        console.log("not playing");
     }
+    console.log("stat",player.sound.isPlaying());
     //TODON !CONTINUE
-    //player.sound.onended()
+    
 
     if (keyIsDown('w')) {
-        
+        player.sound.amp(1);
     } else {
-
+        player.sound.amp(0.1);
     }
+}
+
+function keyPressed() {
+    initSoundLoop = true;
 }
 
 
