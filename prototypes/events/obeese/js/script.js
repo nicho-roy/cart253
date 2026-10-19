@@ -21,12 +21,13 @@ let player = {
     velLimit: 5,
     acc: 0,
     speed: 3,
-    size: 150,
+    size: 100,
     pollen: 0,
     pollenSizeMult: 2,
     pollenSpeedPenaltyMult: 0.005, //
     isGrounded: false,
     image: "",
+    gifSizeMult: 1.5,
     isTwerking: false,
     isInverted: false, 
 }
@@ -302,7 +303,7 @@ function drawPlayer() {
         image(player.image, -(calculatePlayerSize() / 2), -(calculatePlayerSize() / 2), calculatePlayerSize(), calculatePlayerSize());
     } else {
         player.image = beeGif
-        image(player.image, -calculatePlayerSize(), -calculatePlayerSize(), calculatePlayerSize() * 2.5, calculatePlayerSize() *2);
+        image(player.image, -(calculatePlayerSize() / 2) * player.gifSizeMult, -(calculatePlayerSize() / 2) * player.gifSizeMult, calculatePlayerSize() * player.gifSizeMult, calculatePlayerSize() * player.gifSizeMult);
     }
     pop();
 }
