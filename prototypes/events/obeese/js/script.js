@@ -37,13 +37,22 @@ let initSoundLoop = false;
 class Pollen {
     constructor(x,y) {
         this.pos = createVector(x,y);
+        this.acc = createVector(0,0);
+        this.vel = createVector(0,0);
         this.size = random(5,10);
         this.fill = "#ebb931";
         pollenArr.push(this);
     }
 
     float() {
+        let randVector = createVector(random(-1,1),random(-1,1));
+        randVector.mult(0.1);
 
+        this.acc = randVector;
+        this.vel.add(this.acc);
+        this.vel.limit(this.velLimit);
+        this.pos.add(this.vel)
+        checkBounds(this);
     }
 
     draw() {
@@ -140,7 +149,7 @@ function handleMovement() {
     getInput();
 
     //bounce off walls
-    checkBounds();
+    checkBounds(player);
 
     console.log("acc: " + player.acc);
     // console.log("vel: " + player.vel);
@@ -184,33 +193,33 @@ function getInput() {
 }
 
 
-function checkBounds() {
-    if (player.pos.x > width) {
-        player.pos.x = width;
-        flipXDirection();
+function checkBounds(obj) {
+    if (obj.pos.x > width) {
+        obj.pos.x = width;
+        flipXDirection(obj);
     }
-    if (player.pos.x < 0) {
-        player.pos.x = 0;
-        flipXDirection();
+    if (obj.pos.x < 0) {
+        obj.pos.x = 0;
+        flipXDirection(obj);
     }
-    if (player.pos.y > height) {
-        player.pos.y = height;
-        flipYDirection();
+    if (obj.pos.y > height) {
+        obj.pos.y = height;
+        flipYDirection(obj);
     }
-    if (player.pos.y < 0) {
-        player.pos.y = 0;
-        flipYDirection();
+    if (obj.pos.y < 0) {
+        obj.pos.y = 0;
+        flipYDirection(obj);
     }
 }
 
-function flipXDirection() {
-    player.acc = createVector(-player.acc.x,player.acc.y);
-    player.vel = createVector(-player.vel.x,player.vel.y);
+function flipXDirection(obj) {
+    obj.acc = createVector(-obj.acc.x, obj.acc.y);
+    obj.vel = createVector(-obj.vel.x, obj.vel.y);
 }
 
-function flipYDirection() {
-    player.acc = createVector(player.acc.x,-player.acc.y);
-    player.vel = createVector(player.vel.x,-player.vel.y);
+function flipYDirection(obj) {
+    obj.acc = createVector(obj.acc.x, -obj.acc.y);
+    obj.vel = createVector(obj.vel.x, -obj.vel.y);
 }
 
 
@@ -280,6 +289,7 @@ function drawPlayer() {
 
 function drawPollen() {
     pollenArr.forEach(e => {
+        e.float();
         e.draw();
     });
 }
