@@ -11,6 +11,7 @@
 //IMAGES
 let beeImg = "./assets/images/bee.png";
 let beeGif = "./assets/images/bee_moves.gif";
+let bg = "./assets/images/rw2.png"
 let buzzSound = "./assets/sounds/buzz.mp3";
 
 //VARS
@@ -21,6 +22,7 @@ let player = {
     acc: 0,
     speed: 3,
     size: 150,
+    defaultSize: 150,
     isGrounded: false,
     image: "",
     isTwerking: false,
@@ -40,6 +42,7 @@ async function setup() {
     createCanvas(1920,1080);
     beeImg = await loadImage(beeImg);
     beeGif = await loadImage(beeGif);
+    bg = await loadImage(bg);
     buzzSound = await loadSound(buzzSound);
     player.image = beeImg;
     
@@ -52,7 +55,7 @@ async function setup() {
 
 
 function draw() {
-    background(0);
+    background(bg);
 
     handleBuzzLoop();
 
