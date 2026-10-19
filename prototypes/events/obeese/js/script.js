@@ -23,7 +23,7 @@ let player = {
     speed: 3,
     size: 150,
     pollen: 0,
-    pollenSizeMult: 1,
+    pollenSizeMult: 2,
     isGrounded: false,
     image: "",
     isTwerking: false,
@@ -125,9 +125,9 @@ function spawnPollen() {
 function attemptEatPollen() {
     pollenArr.forEach(e => {
         if (dist(player.pos.x, player.pos.y, e.pos.x, e.pos.y) <= calculatePlayerSize()/2) {
-            let index = algaeArr.indexOf(e);
-            algaeArr.splice(index, 1);
-            this.hunger += 1;
+            let index = pollenArr.indexOf(e);
+            pollenArr.splice(index, 1);
+            player.pollen += e.size;
         }
     });
 }
@@ -277,10 +277,10 @@ function drawText() {
     textSize(30);
     fill("white");
     let start1 = 50;
-    let start2 = 920;
+    let start2 = 1000;
     let spacing = 30;
 
-    text("Pollen: " + player.pollen,50,start1);
+    text("Pollen: " + Math.trunc(player.pollen),50,start1);
     
     text('WASD to move',50,start2);
     text('Space to get jiggy',50,start2+=spacing);
