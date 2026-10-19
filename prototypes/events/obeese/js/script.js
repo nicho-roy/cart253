@@ -11,7 +11,7 @@
 //IMAGES
 let beeImg = "./assets/images/bee.png";
 let beeGif = "./assets/images/bee_moves.gif";
-let bg = "./assets/images/rw2.png"
+let bg = "./assets/images/rw1.png"
 let buzzSound = "./assets/sounds/buzz.mp3";
 
 //VARS
@@ -22,7 +22,8 @@ let player = {
     acc: 0,
     speed: 3,
     size: 150,
-    defaultSize: 150,
+    pollen: 0,
+    pollenSizeMult: 1,
     isGrounded: false,
     image: "",
     isTwerking: false,
@@ -49,13 +50,13 @@ class Pollen {
         push();
         noStroke();
         fill(this.fill);
-        ellipse(this.pos.x,this.pos.y,this.size,this.size);
+        rect(this.pos.x,this.pos.y,this.size,this.size);
         pop();
     }
 }
 let pollenArr = [];
-let maxPollen = 10;
-let pollenSpawnRate = 1;
+let maxPollen = 30;
+let pollenSpawnChance = 1;
 
 
 
@@ -99,7 +100,7 @@ function attemptGeneratePollen() {
     //init spawn
     randomSeed();
     let rng = random(0, 100);
-    if (rng <= algaeSpawnChance) {
+    if (rng <= pollenSpawnChance) {
         spawnPollen();
     }
 }
@@ -107,7 +108,7 @@ function attemptGeneratePollen() {
 function spawnPollen() {
     let randX = random(1,width);
     let randY = random(1,height);
-
+    let pollen = new Pollen(randX,randY);
 }
 
 
@@ -251,6 +252,8 @@ function drawText() {
     let start1 = 50;
     let start2 = 920;
     let spacing = 30;
+
+    text("Pollen: " + player.pollen,50,start1);
     
     text('WASD to move',50,start2);
     text('Space to get jiggy',50,start2+=spacing);
@@ -267,19 +270,22 @@ function drawPlayer() {
     if (!player.isTwerking) {
         if (player.isInverted) scale(-1, 1);
         player.image = beeImg;
-        image(player.image,-(player.size/2),-(player.size/2),player.size,player.size);
+        image(player.image, -((player.size + player.pollen * player.pollenSizeMult) / 2), -((player.size + player.pollen * player.pollenSizeMult) / 2), (player.size + player.pollen * player.pollenSizeMult), (player.size + player.pollen * player.pollenSizeMult));
     } else {
         player.image = beeGif
-        image(player.image,-(player.size),-(player.size),player.size*2.5,player.size*2);
+        image(player.image, -(player.size + player.pollen * player.pollenSizeMult), -(player.size + player.pollen * player.pollenSizeMult), (player.size + player.pollen * player.pollenSizeMult) * 2.5, (player.size + player.pollen * player.pollenSizeMult) *2);
     }
     pop();
 }
 
 function drawPollen() {
-    
+    pollenArr.forEach(e => {
+        e.draw();
+    });
 }
 
 function drawAll() {
+    drawText();
+    drawPollen();
     drawPlayer();
-    drawText()
 }
