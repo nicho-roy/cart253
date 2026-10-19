@@ -28,9 +28,34 @@ let player = {
     isTwerking: false,
     isInverted: false, 
 }
+//world
 let gravity = 1;
 let groundScreenMult = 0.9;
 let initSoundLoop = false;
+//pollen
+class Pollen {
+    constructor(x,y) {
+        this.pos = createVector(x,y);
+        this.size = random(5,10);
+        this.fill = "#ebb931";
+        pollenArr.push(this);
+    }
+
+    float() {
+
+    }
+
+    draw() {
+        push();
+        noStroke();
+        fill(this.fill);
+        ellipse(this.pos.x,this.pos.y,this.size,this.size);
+        pop();
+    }
+}
+let pollenArr = [];
+let maxPollen = 10;
+let pollenSpawnRate = 1;
 
 
 
@@ -58,12 +83,32 @@ function draw() {
     background(bg);
 
     handleBuzzLoop();
-
     handleMovement();
+
+    attemptGeneratePollen();
     
     drawAll();
 }
 
+
+//POLLEN
+function attemptGeneratePollen() {
+    if (pollenArr.length > maxPollen) {
+        return;
+    }
+    //init spawn
+    randomSeed();
+    let rng = random(0, 100);
+    if (rng <= algaeSpawnChance) {
+        spawnPollen();
+    }
+}
+
+function spawnPollen() {
+    let randX = random(1,width);
+    let randY = random(1,height);
+
+}
 
 
 //INPUT
@@ -228,6 +273,10 @@ function drawPlayer() {
         image(player.image,-(player.size),-(player.size),player.size*2.5,player.size*2);
     }
     pop();
+}
+
+function drawPollen() {
+    
 }
 
 function drawAll() {
