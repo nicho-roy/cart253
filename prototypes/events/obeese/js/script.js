@@ -18,21 +18,23 @@ let buzzSound = "./assets/sounds/buzz.mp3";
 let player = {
     pos: 0,
     vel: 0,
-    velLimit: 5,
+    velLimit: 20,
     acc: 0,
-    speed: 3,
+    speed: 2,
+    horizDrag: 0.95,
     size: 100,
     pollen: 0,
-    pollenSizeMult: 2,
-    pollenSpeedPenaltyMult: 0.005, //
+    pollenSizeMult: 1.1,
+    pollenSpeedPenaltyMult: 0.008, //higher the slower (fine at 0.005)
+    pollenDrainRate: 3,
     isGrounded: false,
     image: "",
-    gifSizeMult: 1.5,
+    gifSizeMult: 1,
     isTwerking: false,
     isInverted: false, 
 }
 //world
-let gravity = 1;
+let gravity = 0.25;
 let groundScreenMult = 0.9;
 let initSoundLoop = false;
 //pollen
@@ -67,7 +69,7 @@ class Pollen {
 }
 let pollenArr = [];
 let maxPollen = 30;
-let pollenSpawnChance = 1;
+let pollenSpawnChance = 2;
 
 
 
@@ -137,28 +139,34 @@ function attemptEatPollen() {
 
 //INPUT
 function handleMovement() {
+    //rebuild acc each frame
+    player.acc.set(0,0); //do not reset for silly movement
+
     //apply gravity
     groundCheck();
     if (!player.isGrounded) {
-        player.acc.add(gravity); //set equals for realistic movement
+        player.acc.add(gravity);
         // player.vel.add(player.acc);
         // player.vel.limit(player.velLimit);
         // player.pos.add(player.vel)
     } else {
-        player.acc.mult(0);
         player.vel.mult(0);
     }
 
-    //move
     let weight = 1 / (1 + player.pollen * player.pollenSpeedPenaltyMult);
-    let moveVector = getInputVector();
-    moveVector.mult(player.speed*weight);
 
-    player.acc.add(moveVector);  //set equals for realistic movement
+    //movement
+    let moveVector = getInputVector();
+    moveVector.mult(player.speed * weight);
+    player.acc.add(moveVector);  
+    player.acc.limit(player.velLimit*100);
+
+
     player.vel.add(player.acc);
+    player.vel.x *= player.horizDrag;
     player.vel.limit(player.velLimit);
     player.pos.add(player.vel)
-    player.pos.add(moveVector);
+    //player.pos.add(moveVector);
 
     //get misc input
     getInput();
@@ -202,6 +210,7 @@ function getInputVector(){
 function getInput() {
     if (keyIsDown('Space')) {
         player.isTwerking = true;
+        if (player.pollen > 0) player.pollen -= player.pollenDrainRate;
     } else {
         player.isTwerking = false;
     }
