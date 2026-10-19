@@ -24,6 +24,7 @@ let player = {
     size: 150,
     pollen: 0,
     pollenSizeMult: 2,
+    pollenSpeedPenaltyMult: 0.005, //
     isGrounded: false,
     image: "",
     isTwerking: false,
@@ -139,17 +140,18 @@ function handleMovement() {
     groundCheck();
     if (!player.isGrounded) {
         player.acc.add(gravity); //set equals for realistic movement
-        player.vel.add(player.acc);
-        player.vel.limit(player.velLimit);
-        player.pos.add(player.vel)
+        // player.vel.add(player.acc);
+        // player.vel.limit(player.velLimit);
+        // player.pos.add(player.vel)
     } else {
         player.acc.mult(0);
         player.vel.mult(0);
     }
 
     //move
+    let weight = 1 / (1 + player.pollen * player.pollenSpeedPenaltyMult);
     let moveVector = getInputVector();
-    moveVector.mult(player.speed);
+    moveVector.mult(player.speed*weight);
 
     player.acc.add(moveVector);  //set equals for realistic movement
     player.vel.add(player.acc);
