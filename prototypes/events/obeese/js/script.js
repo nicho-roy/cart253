@@ -96,6 +96,8 @@ function draw() {
     handleMovement();
 
     attemptGeneratePollen();
+
+    attemptEatPollen();
     
     drawAll();
 }
@@ -118,6 +120,16 @@ function spawnPollen() {
     let randX = random(1,width);
     let randY = random(1,height);
     let pollen = new Pollen(randX,randY);
+}
+
+function attemptEatPollen() {
+    pollenArr.forEach(e => {
+        if (dist(player.pos.x, player.pos.y, e.pos.x, e.pos.y) <= calculatePlayerSize()/2) {
+            let index = algaeArr.indexOf(e);
+            algaeArr.splice(index, 1);
+            this.hunger += 1;
+        }
+    });
 }
 
 
@@ -253,6 +265,12 @@ function keyPressed() {
 }
 
 
+//MISC
+function calculatePlayerSize() {
+    return (player.size + player.pollen * player.pollenSizeMult)
+}
+
+
 //GRAPHICS
 function drawText() {
     push();
@@ -279,10 +297,10 @@ function drawPlayer() {
     if (!player.isTwerking) {
         if (player.isInverted) scale(-1, 1);
         player.image = beeImg;
-        image(player.image, -((player.size + player.pollen * player.pollenSizeMult) / 2), -((player.size + player.pollen * player.pollenSizeMult) / 2), (player.size + player.pollen * player.pollenSizeMult), (player.size + player.pollen * player.pollenSizeMult));
+        image(player.image, -(calculatePlayerSize() / 2), -(calculatePlayerSize() / 2), calculatePlayerSize(), calculatePlayerSize());
     } else {
         player.image = beeGif
-        image(player.image, -(player.size + player.pollen * player.pollenSizeMult), -(player.size + player.pollen * player.pollenSizeMult), (player.size + player.pollen * player.pollenSizeMult) * 2.5, (player.size + player.pollen * player.pollenSizeMult) *2);
+        image(player.image, -calculatePlayerSize(), -calculatePlayerSize(), calculatePlayerSize() * 2.5, calculatePlayerSize() *2);
     }
     pop();
 }
