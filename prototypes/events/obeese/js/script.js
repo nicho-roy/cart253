@@ -23,6 +23,8 @@ let player = {
     size: 150,
     isGrounded: false,
     image: "",
+    isTwerking: false,
+    isInverted: false, 
 }
 let gravity = 1;
 let groundScreenMult = 0.9;
@@ -111,12 +113,14 @@ function getInputVector(){
     }
     if (keyIsDown('a')) {
         vector.add(createVector(-1,0));
+        player.isInverted = true;
     }
     if (keyIsDown('s')) {
         vector.add(createVector(0,1));
     }
     if (keyIsDown('d')) {
         vector.add(createVector(1,0));
+        player.isInverted = false;
     }
     vector.normalize();
     return vector;
@@ -124,9 +128,9 @@ function getInputVector(){
 
 function getInput() {
     if (keyIsDown('Space')) {
-        player.image = beeGif;
+        player.isTwerking = true;
     } else {
-        player.image = beeImg;
+        player.isTwerking = false;
     }
 }
 
@@ -208,11 +212,17 @@ function drawText() {
 
 function drawPlayer() {
     push();
+    //if facing other way
+    translate(player.pos.x,player.pos.y); //move origin around player so scale flip works
+
     //depending on if twerking
-    if (player.image == beeImg) {
-        image(player.image,player.pos.x-(player.size/2),player.pos.y-(player.size/2),player.size,player.size);
+    if (!player.isTwerking) {
+        if (player.isInverted) scale(-1, 1);
+        player.image = beeImg;
+        image(player.image,-(player.size/2),-(player.size/2),player.size,player.size);
     } else {
-        image(player.image,player.pos.x-(player.size),player.pos.y-(player.size),player.size*2,player.size*2);
+        player.image = beeGif
+        image(player.image,-(player.size),-(player.size),player.size*2.5,player.size*2);
     }
     pop();
 }
