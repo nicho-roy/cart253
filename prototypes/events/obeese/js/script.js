@@ -25,7 +25,7 @@ let player = {
     size: 100,
     pollen: 0,
     pollenSizeMult: 1.1,
-    pollenSpeedPenaltyMult: 0.01, //higher the slower (fine at 0.005)
+    pollenSpeedPenaltyMult: 0.009, //higher the slower (fine at 0.005)
     pollenDrainRate: 3,
     buzzPitchUnMult : 3, //high number decreases the harshness of buzz pitch drop
     isGrounded: false,
