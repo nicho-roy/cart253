@@ -1,8 +1,8 @@
 /**
- * Wizardry
+ * Obeese
  * Nicholas Roy
  * 
- * Prototype 1
+ * Prototype 2
  */
 
 "use strict";
