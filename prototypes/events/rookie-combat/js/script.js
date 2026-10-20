@@ -23,10 +23,10 @@ let projArr = [];
 //CLASS
 class Player {
     static playerIdCounter = 0;
-    constructor(x, y, angle, image, upKey, leftKey, downKey, rightKey, fireKey) {
+    constructor(x, y, image, upKey, leftKey, downKey, rightKey, fireKey) {
         this.playerId = Player.playerIdCounter;
         Player.playerIdCounter++;
-        this.angle = angle;
+        this.angle = 0;
         this.pos = createVector(x,y);
         this.vel = createVector(0,0);
         this.acc = createVector(0,0);
@@ -60,6 +60,7 @@ class Player {
 
         //get misc input
         // getInput();
+        this.updateAngle();
     }
 
     getInputVector() {
@@ -80,11 +81,21 @@ class Player {
         return vector;
     }
 
+    updateAngle() {
+        let v0 = createVector(0,-1);
+        let angleBetween = v0.angleBetween(this.vel)
+        //let vHeading = this.vel.heading(); heading method
+        this.angle = angleBetween;
+
+        console.log(this.vel);
+        console.log(this.angle);
+    }
 
     draw() {
         push();
+        translate(this.pos.x, this.pos.y);
         rotate(this.angle);
-        image(this.image, this.pos.x - (this.size / 2), this.pos.y - (this.size / 2),this.size);
+        image(this.image, - (this.size / 2), - (this.size / 2), this.size, this.size);
         pop();
     }
 
@@ -103,7 +114,7 @@ async function setup() {
     jet1Img = await loadImage(jet1Img);
     jet2Img = await loadImage(jet2Img);
 
-    player1 = new Player(width/2,height/2,0,jet0Img,'w','a','s','d','Space');
+    player1 = new Player(width/2,height/2,jet0Img,'w','a','s','d','Space');
 
 }
 
@@ -164,12 +175,12 @@ function drawText() {
     textSize(30);
     fill("white");
     let start1Origin = 50;
-    let start2Horiz = width-50;
+    let start2Horiz = width-250;
     let start2Vert = 1000;
     let spacing = 30;
 
     text("Player1: " + Math.trunc(player1.hp), start1Origin, start1Origin);
-    text("Player2: TEST", start1Origin, start2Horiz);
+    text("Player2: TEST", start2Horiz, start1Origin);
     
     text('WASD to move', start1Origin,start2Vert);
     text('Space to fire', start1Origin,start2Vert+=spacing);
