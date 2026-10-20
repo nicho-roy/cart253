@@ -25,8 +25,9 @@ let player = {
     size: 100,
     pollen: 0,
     pollenSizeMult: 1.1,
-    pollenSpeedPenaltyMult: 0.008, //higher the slower (fine at 0.005)
+    pollenSpeedPenaltyMult: 0.01, //higher the slower (fine at 0.005)
     pollenDrainRate: 3,
+    buzzPitchUnMult : 3, //high number decreases the harshness of buzz pitch drop
     isGrounded: false,
     image: "",
     gifSizeMult: 1,
@@ -153,7 +154,7 @@ function handleMovement() {
         player.vel.mult(0);
     }
 
-    let weight = 1 / (1 + player.pollen * player.pollenSpeedPenaltyMult);
+    let weight = getWeight();
 
     //movement
     let moveVector = getInputVector();
@@ -210,7 +211,7 @@ function getInputVector(){
 function getInput() {
     if (keyIsDown('Space')) {
         player.isTwerking = true;
-        if (player.pollen > 0) player.pollen -= player.pollenDrainRate;
+        if (player.pollen > 0 + player.pollenDrainRate) player.pollen -= player.pollenDrainRate;
     } else {
         player.isTwerking = false;
     }
@@ -247,6 +248,9 @@ function flipYDirection(obj) {
 }
 
 
+// !CONT 
+// TODON  make buzz pitch scale with obesity
+// TODON make pollen yeild less numbers apon collection
 //AUDIO
 function handleBuzzLoop() {
     if (!initSoundLoop) return;
@@ -260,14 +264,14 @@ function handleBuzzLoop() {
     
     //TODON, lerp with vel vector magnitude
     if (keyIsDown('w')) {
-        buzzSound.rate(0.85);
+        buzzSound.rate(0.85 * (getWeight() * player.buzzPitchUnMult));
         buzzSound.amp(1);
     } else {
-        buzzSound.rate(0.45);
+        buzzSound.rate(0.45 * (getWeight() * player.buzzPitchUnMult));
         buzzSound.amp(0.4);
     }
     if (player.isGrounded) {
-        buzzSound.rate(0.3);
+        buzzSound.rate(0.3 * (getWeight() * player.buzzPitchUnMult));
         buzzSound.amp(0.4);
     }
 }
@@ -280,6 +284,10 @@ function keyPressed() {
 //MISC
 function calculatePlayerSize() {
     return (player.size + player.pollen * player.pollenSizeMult)
+}
+
+function getWeight() {
+    return (1 / (1 + player.pollen * player.pollenSpeedPenaltyMult));
 }
 
 
