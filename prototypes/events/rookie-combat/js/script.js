@@ -46,6 +46,7 @@ class Player {
         this.size = 80;
         this.fireRate = 10;
         this.fireTimer = 0;
+        this.dead = false;
 
         //input schema
         this.upKey = upKey;
@@ -58,8 +59,11 @@ class Player {
     }
 
     act() {
-        this.move();
-        this.runInput();
+        if (!this.dead) {
+            this.move();
+            this.runInput();
+            this.checkDeath();
+        }
     }
 
     move() {
@@ -87,7 +91,6 @@ class Player {
         this.airSpeedBonus = constrain(this.airSpeedBonus,1,this.airSpeedBonusMax);
         this.energy = constrain(this.energy, 0, 100)
 
-        console.log("bonus",this.airSpeedBonus);
 
         //set velocity to the direction of the angle
         this.vel.set(0,0);
@@ -99,6 +102,7 @@ class Player {
         this.vel.mult(this.airSpeedBonus);
         this.vel.mult(dragMult);
         this.vel.limit(this.velLimit);
+        if (this.vel.mag() <= 0) this.vel = moveDirection.mult(0.1);
         this.pos.add(this.vel);
 
     }
@@ -113,13 +117,23 @@ class Player {
         if (keyIsDown(this.fireKey)) {
             this.fireTimer++;
             if (this.fireTimer>=this.fireRate) {
-                let bullet = new Bullet(this.pos.x, this.pos.y, this.vel);
+                let vHead = createVector(cos(this.heading),sin(this.heading));
+                let bullet = new Bullet(this.pos.x, this.pos.y, vHead,this);
                 this.fireTimer = 0;
             }
         }
     }
 
+    checkDeath() {
+        if (this.hp <= 0) {
+            this.size = max(0, this.size - 1);
+            if (this.size <= 0) this.dead = true;
+        }
+        
+    }
+
     draw() {
+        if (this.dead) return;
         push();
         translate(this.pos.x, this.pos.y);
         rotate(this.heading + 90);
@@ -130,15 +144,16 @@ class Player {
 }
 
 class Bullet {
-    constructor(x,y,dir) {
+    constructor(x,y,dir,shooter) {
         this.pos = createVector(x,y);
         this.speed = 5;
-        this.damage = 30;
+        this.damage = 34;
         this.dir = createVector(dir.x,dir.y);
         this.dir.normalize();
         this.dir.mult(this.speed);
         this.size = 5;
         this.fill = "#ff8d0b";
+        this.shooter = shooter;
         projArr.push(this);
     }
 
@@ -149,6 +164,7 @@ class Bullet {
 
     checkCollisions() {
         playerArr.forEach(e => {
+            if (e === this.shooter) return;
             if (dist(this.pos.x, this.pos.y, e.pos.x, e.pos.y) <= e.size/2) {
                 e.hp -= this.damage;
                 this.destroy();
@@ -187,13 +203,15 @@ async function setup() {
     jet1Img = await loadImage(jet1Img);
     jet2Img = await loadImage(jet2Img);
 
-    player1 = new Player(width/2,height/2,180,jet0Img,'w','a','s','d','Space');
+    player1 = new Player(width/2,height/2+50,180,jet0Img,'w','a','s','d','Space');
+    player2 = new Player(width / 2, height / 2 - 50, 0, jet1Img, 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Enter');
 
 }
 
 
 function draw() {
     background(bgImg);
+    background(0,0,100,80);
 
     
     drawAll();
