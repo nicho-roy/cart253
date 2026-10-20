@@ -219,9 +219,6 @@ function draw() {
 
 
 
-
-
-
 function checkBounds(obj) {
     if (obj.pos.x > width) {
         obj.pos.x = width;
@@ -275,9 +272,10 @@ function drawText() {
     text("Throttle: " + Math.trunc(player1.throttle), start1Origin, start1Origin + (spacing * 2));
     text("Hp: " + Math.trunc(player1.hp), start1Origin, start1Origin + (spacing * 3));
 
-
-
-    text("Player2: TEST", start2Horiz, start1Origin);
+    text("Player2:", start2Horiz, start1Origin);
+    text("Energy: " + Math.trunc(player2.energy), start2Horiz, start1Origin + spacing);
+    text("Throttle: " + Math.trunc(player2.throttle), start2Horiz, start1Origin + (spacing * 2));
+    text("Hp: " + Math.trunc(player2.hp), start2Horiz, start1Origin + (spacing * 3));
     
     text('WASD to move', start1Origin,start2Vert);
     text('Space to fire', start1Origin,start2Vert+=spacing);
