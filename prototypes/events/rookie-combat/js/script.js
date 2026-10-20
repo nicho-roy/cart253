@@ -34,7 +34,11 @@ class Player {
         this.velLimit = 5;
         this.hp = 100;
         this.energy = 50;
-        this.headingTurnRate = 1;
+        this.energyBleedRate = 0.8;
+        this.energyGainRate = 0.5;
+        this.throttle = 25; // [0-100]
+        this.throttleRate = 1;
+        this.turnRate = 1;
         this.image = image;
         this.size = 80;
 
@@ -49,43 +53,31 @@ class Player {
     }
 
     move() {
-        this.acc.set(0,0);
-        //get angle of input
-        let moveVector = this.getInputVector();
-        let headingAngleVector = createVector(cos(this.heading),sin(this.heading));
-        
-        //find angle between
-        
-        if (moveVector.mag() > 0) { //if imput keep same as to not bomb the angle
-            console.log("moving");
-            let desiredTurnAngle = headingAngleVector.angleBetween(moveVector);
-            this.heading += constrain(desiredTurnAngle, -this.headingTurnRate, this.headingTurnRate);
-            console.log("desiredTurnAngle", desiredTurnAngle);
-        } else {
-            //nothing
+        //throttle control
+        if (keyIsDown(this.upKey)) {
+            this.throttle += this.throttleRate;
         }
+        if (keyIsDown(this.downKey)) {
+            this.throttle -= this.throttleRate;
+        }
+        this.throttle = constrain(this.throttle,0,100)
+
+        //turn control
+        if (keyIsDown(this.leftKey)) {
+            this.turn(-1);
+        } else if (keyIsDown(this.rightKey)) {
+            this.turn(1);
+        } else {
+
+        }
+
+        //regen energy
+        this.energy += this.energyGainRate * (this.throttle / 100);
+        this.energy = constrain(this.energy, 0, 100)
 
         console.log("heading",this.heading);
        
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
         // moveVector.mult(this.speed);
@@ -102,26 +94,13 @@ class Player {
         // this.updateAngle();
     }
 
-    getInputThrottle() {
-        let vector = createVector(0, 0);
-        if (keyIsDown(this.upKey)) {
-            vector.add(createVector(0, -1));
-        }
-        if (keyIsDown(this.downKey)) {
-            vector.add(createVector(0, 1));
-        }
-        vector.normalize();
-        return vector;
+    turn (directionSignMult) {
+        this.heading += (this.turnRate * (this.energy/100)) * directionSignMult
+        this.energy -= this.energyBleedRate;
+        this.energy = constrain(this.energy,0,100);
     }
 
-    getInputTurn() {
-        if (keyIsDown(this.leftKey)) {
-            vector.add(createVector(-1, 0));
-        }
-        if (keyIsDown(this.rightKey)) {
-            vector.add(createVector(1, 0));
-        }
-    }
+
 
     draw() {
         push();
@@ -214,7 +193,8 @@ function drawText() {
 
     text("Player1", start1Origin, start1Origin);
     text("Energy: " + Math.trunc(player1.energy), start1Origin, start1Origin + spacing);
-    text("Hp: " + Math.trunc(player1.hp), start1Origin, start1Origin + (spacing*2));
+    text("Throttle: " + Math.trunc(player1.throttle), start1Origin, start1Origin + (spacing * 2));
+    text("Hp: " + Math.trunc(player1.hp), start1Origin, start1Origin + (spacing * 3));
 
 
 
