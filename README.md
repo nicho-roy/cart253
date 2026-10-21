@@ -76,8 +76,8 @@ This is a repo containing a collection of short programing projects for my CART 
 
 ![wizardry-img](./assets/images/wizardry.png)
 >[Shadow Wizard Money Gang](./prototypes/events/wizardry/index.html)
-[code: main](./prototypes/events/wizardry/js/main-script.js)
-[code: background generator](./prototypes/events/wizardry/js/terrain-script.js)
+code:
+[main](./prototypes/events/wizardry/js/main-script.js), [background generator](./prototypes/events/wizardry/js/terrain-script.js)
 
 ![obeese-img](./assets/images/obeese.png)
 >[Obeese](./prototypes/events/obeese/index.html)
