@@ -67,6 +67,7 @@ This is a repo containing a collection of short programing projects for my CART 
 >[Procedural Explorer](./prototypes/conditionals/procedural-explorer/index.html)
 **Controls: WASD**
 ![procedural-img](./assets/images/procedural.png)
+<br>
 [code](./prototypes/conditionals/procedural-explorer/js/script.js)
 
 
