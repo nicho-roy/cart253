@@ -219,8 +219,10 @@ async function setup() {
     jet1Img = await loadImage(jet1Img);
     jet2Img = await loadImage(jet2Img);
 
-    player1 = new Player(width/2,height/2+50,180,jet0Img,'w','a','s','d','Space');
+    player1 = new Player(width/2,height/2 + 50,180,jet0Img,'w','a','s','d','Space');
     player2 = new Player(width / 2, height / 2 - 50, 0, jet1Img, 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Enter');
+    // player3 = new Player(width / 2 + 50, height / 2, 90, jet2Img, '8', '4', '5', '6', '+');
+    // player4 = new Player(width / 2 - 50, height / 2, 270, jet2Img, 'i', 'j', 'k', 'l', 'm');
 
 }
 
