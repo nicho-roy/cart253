@@ -31,8 +31,8 @@ class Player {
         this.vel = createVector(0,0);
         this.acc = createVector(0,0);
         this.airSpeedBonus = 1;
-        this.airSpeedBonusGain = 0.005;
-        this.airSpeedBonusMax = 5;
+        this.airSpeedBonusGain = 0.008; //0.005
+        this.airSpeedBonusMax = 10; //5
         this.speed = 1;
         this.velLimit = 20;
         this.hp = 100;
@@ -43,7 +43,7 @@ class Player {
         this.throttleRate = 1;
         this.turnRate = 1.2;
         this.image = image;
-        this.size = 80;
+        this.size = 60;
         this.fireRate = 10;
         this.fireTimer = 0;
         this.dead = false;
@@ -146,7 +146,7 @@ class Player {
 class Bullet {
     constructor(x,y,dir,shooter) {
         this.pos = createVector(x,y);
-        this.speed = 5;
+        this.speed = 8;
         this.damage = 34;
         this.dir = createVector(dir.x,dir.y);
         this.dir.normalize();
