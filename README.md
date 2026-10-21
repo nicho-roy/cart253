@@ -98,7 +98,8 @@ code:
 <br>
 [Rookie Combat](./prototypes/events/rookie-combat/index.html)
 <br>
-[code](./prototypes/events/rookie-combat/js/script.js)
+code:
+[main](./prototypes/events/rookie-combat/js/script.js), [classes](./prototypes/events/rookie-combat/js/classes.js)
 
 
 
