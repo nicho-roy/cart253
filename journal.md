@@ -72,7 +72,7 @@
 > At a certain weight it becomes impossible to fly, which is why pressing **SPACE** will shake the bee, ridding it of excess pollen.
 > The background is taken from my favorite game of all time _Rain World_!
 >[Obeese](./prototypes/events/obeese/index.html)
->1[obeese-img](./assets/images/obeese.png)
+>![obeese-img](./assets/images/obeese.png)
 
 ## 2026-10-19
 > For my final prototype of the events module, I wanted to make a local multiplayer game to play with buddies. This one can be played with 2, and potentially up to infinite players, as long as your keyboard has enough keys. Although for now ill stick to 2 players for this prototype, adding more is as simple as declaring a new player object in setup, along with their prefered control scheme.
@@ -80,6 +80,6 @@
 > I leaned more into realism for the flight physics. Each aircraft has energy which is needed to make turns and depletes when turning, accelerates when moving in a straight line, and carries some momentum on turns. With this configuration, energy and momentum is a resource you need to manage in order to out-maneuver you opponent. My vision was for it to be more strategic, rather than arcadie.
 > Tip: Your energy regenerates when moving straight, and will regenerate faster depending on your throttle!
 >[Rookie Combat](./prototypes/events/rookie-combat/index.html)
->[rookie-img](./assets/images/rookie-combat.png)
+>![rookie-img](./assets/images/rookie-combat.png)
 
 
