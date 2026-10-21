@@ -283,18 +283,21 @@ function drawText() {
     let start2Vert = 1000;
     let spacing = 30;
 
-    text("Player1", start1Origin, start1Origin);
+    text("Player 1", start1Origin, start1Origin);
     text("Energy: " + Math.trunc(player1.energy), start1Origin, start1Origin + spacing);
     text("Throttle: " + Math.trunc(player1.throttle), start1Origin, start1Origin + (spacing * 2));
     text("Hp: " + Math.trunc(player1.hp), start1Origin, start1Origin + (spacing * 3));
 
-    text("Player2:", start2Horiz, start1Origin);
+    text('WASD to move', start1Origin, start2Vert);
+    text('Space to fire', start1Origin, start2Vert + (spacing * 1));
+
+    text("Player 2:", start2Horiz, start1Origin);
     text("Energy: " + Math.trunc(player2.energy), start2Horiz, start1Origin + spacing);
     text("Throttle: " + Math.trunc(player2.throttle), start2Horiz, start1Origin + (spacing * 2));
     text("Hp: " + Math.trunc(player2.hp), start2Horiz, start1Origin + (spacing * 3));
     
-    text('WASD to move', start1Origin,start2Vert);
-    text('Space to fire', start1Origin,start2Vert+=spacing);
+    text('Arrows to move', start2Horiz, start2Vert);
+    text('Enter to fire', start2Horiz, start2Vert + (spacing * 1));
 
     pop();
 }
