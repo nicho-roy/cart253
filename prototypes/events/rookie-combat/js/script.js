@@ -46,6 +46,7 @@ class Player {
         this.size = 60;
         this.fireRate = 10;
         this.fireTimer = 0;
+        this.outOfBoundsDamage = 0.5;
         this.dead = false;
 
         //input schema
@@ -62,6 +63,7 @@ class Player {
         if (!this.dead) {
             this.move();
             this.runInput();
+            this.checkBounds();
             this.checkDeath();
         }
     }
@@ -124,6 +126,20 @@ class Player {
         }
     }
 
+    checkBounds() {
+        if (this.pos.x > width || this.pos.x < 0) {
+            this.applyDamage(this.outOfBoundsDamage);
+        }
+        if (this.pos.y > height || this.pos.y < 0) {
+            this.applyDamage(this.outOfBoundsDamage);
+        }
+    }
+
+    applyDamage(damage) {
+        this.hp -= damage;
+        this.hp = constrain(this.hp,0,100);
+    }
+
     checkDeath() {
         if (this.hp <= 0) {
             this.size = max(0, this.size - 1);
@@ -147,7 +163,7 @@ class Bullet {
     constructor(x,y,dir,shooter) {
         this.pos = createVector(x,y);
         this.speed = 8;
-        this.damage = 34;
+        this.damage = 25;
         this.dir = createVector(dir.x,dir.y);
         this.dir.normalize();
         this.dir.mult(this.speed);
@@ -166,7 +182,7 @@ class Bullet {
         playerArr.forEach(e => {
             if (e === this.shooter) return;
             if (dist(this.pos.x, this.pos.y, e.pos.x, e.pos.y) <= e.size/2) {
-                e.hp -= this.damage;
+                e.applyDamage(this.damage);
                 this.destroy();
             }
         });
