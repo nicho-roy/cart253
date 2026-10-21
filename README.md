@@ -90,7 +90,7 @@ code:
 <br>
 [Obeese](./prototypes/events/obeese/index.html)
 <br>
-[code](./prototypes/events/obeese/js/script.js)
+[code](./prototypes/events/obeese/js/script.js) <br> [code](./prototypes/events/obeese/js/script.js) 
 
 
 <!-- Rookie Combat -->
