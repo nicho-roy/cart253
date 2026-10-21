@@ -74,6 +74,19 @@ This is a repo containing a collection of short programing projects for my CART 
 [Lose challenge](./topics/events/index.html)
 [code](./topics/events/js/script.js)
 
+>[Shadow Wizard Money Gang](./prototypes/events/wizardry/index.html)
+![wizardry-img](./assets/images/wizardry.png)
+[code: main](./prototypes/events/wizardry/js/main-script.js)
+[code: background generator](./prototypes/events/wizardry/js/terrain-script.js)
+
+>[Obeese](./prototypes/events/obeese/index.html)
+![obeese-img](./assets/images/obeese.png)
+[code](./prototypes/events/obeese/js/script.js)
+
+>[Rookie Combat](./prototypes/events/rookie-combat/index.html)
+![rookie-img](./assets/images/rookie-combat.png)
+[code](./prototypes/events/rookie-combat/js/script.js)
+
 
 
 

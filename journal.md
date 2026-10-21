@@ -56,5 +56,30 @@
 
 > For the last protoype, I wanted to make an explorable terrain map with a movable player. I'm not going to bore with details since its mostly technical. What I can say is I wouldve liked to feature some sort of goal to turn this piece into a game, but due to time concerns there isn't much to do other than endlessly wander the terrain. Good thing it's infinite!
 **Player can be controlled with WASD!**
->[Procedural Explorer](/prototypes/conditionals/procedural-explorer/index.html)
+>[Procedural Explorer](./prototypes/conditionals/procedural-explorer/index.html)
 >![procedural-img](./assets/images/procedural.png) 
+
+## 2026-10-13
+> I wanted to make a wizard game, with different spells that the player can use, each with their own strengths. This was far more ambitious than i was capable of, since i needed to make 3 more prototypes. The final product isnt quite perfect, and i definitely fell victim to scope creep. The main focus was supposed to be the spells, with fireball being your main source of splash damage at a steep mana cost, magic missile as your spammable weak attack, and freeze as your utility spell for handling large waves of enemies. Overall the spells came out great, however I wish there was more enemy class variety. Perhaps thats for a future implementation. For now skeletons rush at you from the screen borders, spawning faster and faster as the game progresses.
+> I still wasnt quite finished with perlin noise. I thought it'd make a great background for the wizard game with muted, cave-like colors.
+>[Shadow Wizard Money Gang](./prototypes/events/wizardry/index.html)
+>![wizardry-img](./assets/images/wizardry.png)
+
+## 2026-10-15
+> This prototype consists of a silly bee simulator, where you collect pollen and grow as a result, becoming heavier. 
+> The main focus was to make a control scheme that felt smooth at first, but purposefully clunky later on. Also for dynamic buzzing sound pitch influenced on your size, if you're currently flying upwards, falling, or grounded.
+> Pollen spawns randomly and will bounce off the walls if it attempting to move out of bounds, much like the player.
+> At a certain weight it becomes impossible to fly, which is why pressing **SPACE** will shake the bee, ridding it of excess pollen.
+> The background is taken from my favorite game of all time _Rain World_!
+>[Obeese](./prototypes/events/obeese/index.html)
+>1[obeese-img](./assets/images/obeese.png)
+
+## 2026-10-19
+> For my final prototype of the events module, I wanted to make a local multiplayer game to play with buddies. This one can be played with 2, and potentially up to infinite players, as long as your keyboard has enough keys. Although for now ill stick to 2 players for this prototype, adding more is as simple as declaring a new player object in setup, along with their prefered control scheme.
+> Each player can increase/decrease their throttle, turn left or right relative to their aircraft, as well as fire bullets.
+> I leaned more into realism for the flight physics. Each aircraft has energy which is needed to make turns and depletes when turning, accelerates when moving in a straight line, and carries some momentum on turns. With this configuration, energy and momentum is a resource you need to manage in order to out-maneuver you opponent. My vision was for it to be more strategic, rather than arcadie.
+> Tip: Your energy regenerates when moving straight, and will regenerate faster depending on your throttle!
+>[Rookie Combat](./prototypes/events/rookie-combat/index.html)
+>[rookie-img](./assets/images/rookie-combat.png)
+
+
