@@ -15,12 +15,11 @@ let bgImg = "./assets/images/bg.png";
 let jet0Img = "./assets/images/jet0.png";
 let jet1Img = "./assets/images/jet1.png";
 let jet2Img = "./assets/images/jet2.png";
+let missileImg = "./assets/images/side_winder.png";
 
 //arrs
 let playerArr = [];
 let projArr = [];
-
-
 
 //world
 let dragMult = 0.999;
@@ -34,11 +33,14 @@ async function setup() {
     jet0Img = await loadImage(jet0Img);
     jet1Img = await loadImage(jet1Img);
     jet2Img = await loadImage(jet2Img);
+    missileImg = await loadImage(missileImg);
+    // Missile.image = missileImg;
 
-    player1 = new Player(width/2,height/2 + 50,180,jet0Img,'w','a','s','d','Space');
-    player2 = new Player(width / 2, height / 2 - 50, 0, jet1Img, 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Enter');
-    // player3 = new Player(width / 2 + 50, height / 2, 90, jet2Img, '8', '4', '5', '6', '+');
-    // player4 = new Player(width / 2 - 50, height / 2, 270, jet2Img, 'i', 'j', 'k', 'l', 'm');
+    player1 = new Player(width / 2 - 50, height / 2,180,jet0Img,'w','a','s','d','Space','q','e');
+    player2 = new Player(width / 2 + 50, height / 2, 0, jet1Img, 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Enter');
+    // player3 = new Player(width / 2, height / 2 + 50, 90, jet2Img, '8', '4', '5', '6', '+');
+    // player4 = new Player(width / 2, height / 2 - 50, 270, jet2Img, 'i', 'j', 'k', 'l', 'm');
+
 
 }
 
@@ -47,7 +49,7 @@ function draw() {
     background(bgImg);
     background(0,0,100,80);
 
-    
+
     drawAll();
 }
 
@@ -105,6 +107,8 @@ function drawText() {
     text("Energy: " + Math.trunc(player1.energy), start1Origin, start1Origin + spacing);
     text("Throttle: " + Math.trunc(player1.throttle), start1Origin, start1Origin + (spacing * 2));
     text("Hp: " + Math.trunc(player1.hp), start1Origin, start1Origin + (spacing * 3));
+    text("posx: " + Math.trunc(player1.pos.x), start1Origin, start1Origin + (spacing * 4));
+    text("posy: " + Math.trunc(player1.pos.y), start1Origin, start1Origin + (spacing * 5));
 
     text('WASD to move', start1Origin, start2Vert);
     text(player1.fireKey + ' to fire', start1Origin, start2Vert + (spacing * 1));

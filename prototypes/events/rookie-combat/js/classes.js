@@ -1,7 +1,7 @@
 //CLASS
 class Player {
     static playerIdCounter = 0;
-    constructor(x, y, heading, image, upKey, leftKey, downKey, rightKey, fireKey) {
+    constructor(x, y, heading, image, upKey, leftKey, downKey, rightKey, fireKey, missileLockKey, missileFireKey) {
         this.playerId = Player.playerIdCounter;
         Player.playerIdCounter++;
         this.heading = heading;
@@ -25,6 +25,8 @@ class Player {
         this.fireRate = 10;
         this.fireTimer = 0;
         this.outOfBoundsDamage = 0.5;
+        this.missileLockDegreeRange = 12;
+        this.targetLocked;
         this.dead = false;
 
         //input schema
@@ -33,6 +35,8 @@ class Player {
         this.leftKey = leftKey;
         this.rightKey = rightKey;
         this.fireKey = fireKey;
+        this.missileLockKey = missileLockKey;
+        this.missileFireKey = missileFireKey;
 
         playerArr.push(this);
     }
@@ -40,6 +44,7 @@ class Player {
     act() {
         if (!this.dead) {
             this.move();
+            this.adjustHeading();
             this.runInput();
             this.checkBounds();
             this.checkDeath();
@@ -87,6 +92,11 @@ class Player {
 
     }
 
+    adjustHeading() {
+        if (this.heading >= 360) this.heading -= 360;
+        if (this.heading < 0) this.heading += 360;
+    }
+
     turn(directionSignMult) {
         this.heading += (this.turnRate * (this.energy / 100)) * directionSignMult
         this.energy -= this.energyBleedRate;
@@ -102,6 +112,48 @@ class Player {
                 this.fireTimer = 0;
             }
         }
+        if (keyIsDown(this.missileLockKey)) {
+            let closestTarget = this.getClosestTarget();
+            // console.log("closest", closestTarget);
+        }
+        if (keyIsDown(this.missileFireKey)) {
+            console.log("missile fire!");
+            let vHead = createVector(cos(this.heading), sin(this.heading));
+            let missile = new Missile(this.pos.x, this.pos.y, vHead, this);
+        }
+    }
+
+    getClosestTarget() {
+        let closest = {
+            target: null,
+            angleBetween: 360,
+        }
+        playerArr.forEach(e => {
+            if (e == this) return;
+            //get enemy pos relative to player
+            // console.log("truepos",this.pos.x,this.pos.y);
+            let thisPosVector = createVector(this.pos.x,this.pos.y);
+            // console.log("thispos", thisPosVector.x,thisPosVector.y);
+            let ePosVector = createVector(e.pos.x, e.pos.y);
+            // console.log("epos", ePosVector.x,ePosVector.y);
+            let diffVector = ePosVector.sub(thisPosVector);
+            // console.log("diffvector",diffVector.x,diffVector.y);
+            let diffAngle = diffVector.heading();
+            // console.log("diffAngle", diffAngle);
+            let angleBetween = Math.abs(this.heading) - Math.abs(diffAngle);
+            console.log("anglebwteen",angleBetween);
+            
+
+            if (angleBetween <= this.missileLockDegreeRange) {
+                if (closest.angleBetween > angleBetween) {
+                    closest.target = e;
+                    closest.angleBetween = angleBetween;
+                } else {
+                    //not closest, thus nothing
+                }
+            }
+        });
+        return closest;
     }
 
     checkBounds() {
@@ -182,4 +234,52 @@ class Bullet {
         rect(this.pos.x - (this.size / 2), this.pos.y - (this.size / 2), this.size, this.size);
         pop();
     }
+}
+
+class Missile {
+    static image;
+    constructor(x, y, dir, shooter, target) {
+        this.pos = createVector(x, y);
+        this.speed = 3;
+        this.damage = 90;
+        this.dir = createVector(dir.x, dir.y);
+        this.dir.normalize();
+        this.dir.mult(this.speed);
+        this.size = 30;
+        this.fill = "#ff0b0b";
+        this.shooter = shooter;
+        projArr.push(this);
+    }
+
+    act() {
+        this.move();
+        this.checkCollisions();
+    }
+
+    move() {
+        //TODON turn and face the target
+        this.pos.add(this.dir);
+    }
+
+    checkCollisions() {
+        playerArr.forEach(e => {
+            if (e === this.shooter) return;
+            if (dist(this.pos.x, this.pos.y, e.pos.x, e.pos.y) <= e.size / 2) {
+                e.applyDamage(this.damage);
+                this.destroy();
+            }
+        });
+    }
+
+    destroy() {
+        let index = projArr.indexOf(this);
+        projArr.splice(index, 1);
+    }
+
+    draw() {
+        push();
+        image(missileImg, this.pos.x - (this.size / 2), this.pos.y - (this.size / 2),this.size,this.size);
+        pop();
+    }
+
 }
