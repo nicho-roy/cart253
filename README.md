@@ -77,12 +77,11 @@ This is a repo containing a collection of short programing projects for my CART 
 
 <!-- Wizardry -->
 >![wizardry-img](./assets/images/wizardry.png)
-
-
+<br>
 [Shadow Wizard Money Gang](./prototypes/events/wizardry/index.html)
-
+<br>
 code:
-[main](./prototypes/events/wizardry/js/main-script.js), [background generator](./prototypes/events/wizardry/js/terrain-script.js)
+[main](./prototypes/events/wizardry/js/main-script.js), [background-generator](./prototypes/events/wizardry/js/terrain-script.js)
 
 
 <!-- Obeese -->
@@ -90,15 +89,14 @@ code:
 <br>
 [Obeese](./prototypes/events/obeese/index.html)
 <br>
-[code](./prototypes/events/obeese/js/script.js) <br> [code](./prototypes/events/obeese/js/script.js) 
+[code](./prototypes/events/obeese/js/script.js)
 
 
 <!-- Rookie Combat -->
 >![rookie-img](./assets/images/rookie-combat.png)
-
-
+<br>
 [Rookie Combat](./prototypes/events/rookie-combat/index.html)
-
+<br>
 [code](./prototypes/events/rookie-combat/js/script.js)
 
 
