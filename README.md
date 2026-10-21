@@ -87,10 +87,9 @@ code:
 
 <!-- Obeese -->
 >![obeese-img](./assets/images/obeese.png)
-
-
+<br>
 [Obeese](./prototypes/events/obeese/index.html)
-
+<br>
 [code](./prototypes/events/obeese/js/script.js)
 
 
