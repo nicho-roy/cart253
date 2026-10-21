@@ -291,7 +291,7 @@ function drawText() {
     text("Hp: " + Math.trunc(player1.hp), start1Origin, start1Origin + (spacing * 3));
 
     text('WASD to move', start1Origin, start2Vert);
-    text('Space to fire', start1Origin, start2Vert + (spacing * 1));
+    text(player1.fireKey + ' to fire', start1Origin, start2Vert + (spacing * 1));
 
     text("Player 2:", start2Horiz, start1Origin);
     text("Energy: " + Math.trunc(player2.energy), start2Horiz, start1Origin + spacing);
@@ -299,7 +299,7 @@ function drawText() {
     text("Hp: " + Math.trunc(player2.hp), start2Horiz, start1Origin + (spacing * 3));
     
     text('Arrows to move', start2Horiz, start2Vert);
-    text('Enter to fire', start2Horiz, start2Vert + (spacing * 1));
+    text(player2.fireKey + ' to fire', start2Horiz, start2Vert + (spacing * 1));
 
     pop();
 }
