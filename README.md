@@ -81,7 +81,6 @@ This is a repo containing a collection of short programing projects for my CART 
 
 [Shadow Wizard Money Gang](./prototypes/events/wizardry/index.html)
 
-
 code:
 [main](./prototypes/events/wizardry/js/main-script.js), [background generator](./prototypes/events/wizardry/js/terrain-script.js)
 
@@ -92,7 +91,6 @@ code:
 
 [Obeese](./prototypes/events/obeese/index.html)
 
-
 [code](./prototypes/events/obeese/js/script.js)
 
 
@@ -101,7 +99,6 @@ code:
 
 
 [Rookie Combat](./prototypes/events/rookie-combat/index.html)
-
 
 [code](./prototypes/events/rookie-combat/js/script.js)
 
