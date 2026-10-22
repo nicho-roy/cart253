@@ -110,7 +110,7 @@ function drawText() {
     // text("posx: " + Math.trunc(player1.pos.x), start1Origin, start1Origin + (spacing * 4));
     // text("posy: " + Math.trunc(player1.pos.y), start1Origin, start1Origin + (spacing * 5));
 
-    text('WASD to move', start1Origin, start2Vert);
+    text(player1.upKey+player1.leftKey+player1.downKey+player1.rightKey+' to move', start1Origin, start2Vert);
     text(player1.fireKey + ' to fire', start1Origin, start2Vert + (spacing * 1));
     text('Hold ' + player1.missileLockKey + ' for missiles', start1Origin, start2Vert + (spacing * 2));
 
@@ -119,7 +119,7 @@ function drawText() {
     text("Throttle: " + Math.trunc(player2.throttle), start2Horiz, start1Origin + (spacing * 2));
     text("Hp: " + Math.trunc(player2.hp), start2Horiz, start1Origin + (spacing * 3));
 
-    text('Arrows to move', start2Horiz - 40, start2Vert);
+    text(player2.upKey + player2.leftKey + player2.downKey + player2.rightKey + ' to move', start2Horiz - 40, start2Vert);
     text(player2.fireKey + ' to fire', start2Horiz - 40, start2Vert + (spacing * 1));
     text('Hold ' + player2.missileLockKey + ' for missiles', start2Horiz - 40, start2Vert + (spacing * 2));
 
