@@ -37,7 +37,7 @@ async function setup() {
     // Missile.image = missileImg;
 
     player1 = new Player(width / 2 - 50, height / 2,180,jet0Img,'w','a','s','d','Space','q','e');
-    player2 = new Player(width / 2 + 50, height / 2, 0, jet1Img, 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Enter');
+    player2 = new Player(width / 2 + 50, height / 2, 0, jet1Img, '8', '4', '5', '6', '+','7','9');
     // player3 = new Player(width / 2, height / 2 + 50, 90, jet2Img, '8', '4', '5', '6', '+');
     // player4 = new Player(width / 2, height / 2 - 50, 270, jet2Img, 'i', 'j', 'k', 'l', 'm');
 
@@ -100,26 +100,30 @@ function drawText() {
     fill("white");
     let start1Origin = 50;
     let start2Horiz = width-250;
-    let start2Vert = 1000;
+    let start2Vert = 950;
     let spacing = 30;
 
     text("Player 1", start1Origin, start1Origin);
     text("Energy: " + Math.trunc(player1.energy), start1Origin, start1Origin + spacing);
     text("Throttle: " + Math.trunc(player1.throttle), start1Origin, start1Origin + (spacing * 2));
     text("Hp: " + Math.trunc(player1.hp), start1Origin, start1Origin + (spacing * 3));
-    text("posx: " + Math.trunc(player1.pos.x), start1Origin, start1Origin + (spacing * 4));
-    text("posy: " + Math.trunc(player1.pos.y), start1Origin, start1Origin + (spacing * 5));
+    // text("posx: " + Math.trunc(player1.pos.x), start1Origin, start1Origin + (spacing * 4));
+    // text("posy: " + Math.trunc(player1.pos.y), start1Origin, start1Origin + (spacing * 5));
 
     text('WASD to move', start1Origin, start2Vert);
     text(player1.fireKey + ' to fire', start1Origin, start2Vert + (spacing * 1));
+    text(player1.missileLockKey + ' to lock on targets', start1Origin, start2Vert + (spacing * 2));
+    text(player1.missileFireKey + ' to fire missile once locked', start1Origin, start2Vert + (spacing * 3));
 
     text("Player 2:", start2Horiz, start1Origin);
     text("Energy: " + Math.trunc(player2.energy), start2Horiz, start1Origin + spacing);
     text("Throttle: " + Math.trunc(player2.throttle), start2Horiz, start1Origin + (spacing * 2));
     text("Hp: " + Math.trunc(player2.hp), start2Horiz, start1Origin + (spacing * 3));
-    
-    text('Arrows to move', start2Horiz, start2Vert);
-    text(player2.fireKey + ' to fire', start2Horiz, start2Vert + (spacing * 1));
+
+    text('Arrows to move', start2Horiz - 40, start2Vert);
+    text(player2.fireKey + ' to fire', start2Horiz - 40, start2Vert + (spacing * 1));
+    text(player2.missileLockKey + ' to lock on targets', start2Horiz - 40, start2Vert + (spacing * 2));
+    text(player2.missileFireKey + ' to fire missile', start2Horiz - 40, start2Vert + (spacing * 3));
 
     pop();
 }

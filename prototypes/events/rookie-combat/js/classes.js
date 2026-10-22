@@ -9,14 +9,14 @@ class Player {
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
         this.airSpeedBonus = 1;
-        this.airSpeedBonusGain = 0.008; //0.005
+        this.airSpeedBonusGain = 0.005; //0.005
         this.airSpeedBonusMax = 10; //5
-        this.speed = 1;
+        this.speed = 1.5;
         this.velLimit = 20;
         this.hp = 100;
         this.energy = 75;
-        this.energyBleedRate = 0.2;
-        this.energyGainRate = 1;
+        this.energyBleedRate = 0.16;
+        this.energyGainRate = 0.7;
         this.throttle = 25; // [0-100]
         this.throttleRate = 1;
         this.turnRate = 1.2;
@@ -25,9 +25,11 @@ class Player {
         this.fireRate = 10;
         this.fireTimer = 0;
         this.outOfBoundsDamage = 0.5;
+        this.isTargetLocking = false;
+        this.isTargetLocked = false;
         this.missileLockDegreeRange = 15;
-        this.missileLockTime = 2000; //2 sec in millis
-        this.missileLockTimer = 0; //2 sec in millis
+        this.missileLockTime = 120;
+        this.missileLockTimer = 0;
         this.currentTarget;
         this.dead = false;
 
@@ -119,25 +121,39 @@ class Player {
         if (keyIsDown(this.missileLockKey)) {
             let closestTarget = this.getClosestTarget();
             if (closestTarget.target) {
+                this.isTargetLocking = true;
                 this.target = closestTarget.target;
                 this.missileLockTimer++;
                 this.missileLockTimer = constrain(this.missileLockTimer,0,this.missileLockTime);
             } else {
                 //reset lock
-                this.missileLockTimer = this.missileLockTime;
+                this.isTargetLocking = false;
+                this.missileLockTimer = 0;
                 this.target = null;
             }
+        } else {
+            this.isTargetLocking = false;
         }
+
+        //check if target locked
+        if (this.missileLockTimer >= this.missileLockTime && this.target) {
+            this.isTargetLocked = true;
+        } else {
+            this.isTargetLocked = false;
+        }
+
         //fire missle once target locked
         if (keyIsDown(this.missileFireKey)) {
             //!DEBUG
-            this.missileLockTimer = 3000;
-            this.target = player2;
-            //!DEBUG
-            if (this.missileLockTimer >= this.missileLockTime && this.target) {
+            // this.missileLockTimer = 3000;
+            // this.target = player2;
+
+            if (this.isTargetLocked) {
                 // let vHead = createVector(cos(this.heading), sin(this.heading));
                 let missile = new Missile(this.pos.x, this.pos.y, this.heading, this, this.target);
                 //reset lock
+                this.isTargetLocking;
+                this.isTargetLocked;
                 this.missileLockTimer = 0;
                 this.target = null;
             }
@@ -209,9 +225,25 @@ class Player {
         rotate(this.heading + 90);
         image(this.image, - (this.size / 2), - (this.size / 2), this.size, this.size);
         pop();
+
+        //locked text
+        push();
+        translate(this.pos.x - (this.size), this.pos.y + 50);
+        textSize(32);
+        if (this.isTargetLocked) {
+            fill("#ff0000");
+            text("locked!",0,0);
+        }
+        if (this.isTargetLocking && !this.isTargetLocked) {
+            fill("#ffbf00");
+            text("locking...",0,0);
+        }
+        pop();
     }
 
 }
+
+
 
 class Bullet {
     constructor(x, y, dir, shooter) {
@@ -264,12 +296,13 @@ class Missile {
     static image;
     constructor(x, y, heading, shooter, target) {
         this.pos = createVector(x, y);
-        this.speed = 3;
-        this.damage = 90;
+        this.speed = 5;
+        this.damage = 99;
         this.vel = createVector(0, 0);
         this.heading = heading
         this.size = 30;
-        this.turnRate = 1.2;
+        this.turnRate = 1.1;
+        this.loseLockAngleThreshold = 100;
         this.fill = "#ff0b0b";
         this.shooter = shooter;
         this.target = target;
@@ -283,9 +316,11 @@ class Missile {
 
     move() {
         //get angle towards target
-
+        let angleToTarget = this.getAngleToTarget();
 
         //angle towards target at fixed rate
+        if (angleToTarget >= -this.loseLockAngleThreshold && angleToTarget <= this.loseLockAngleThreshold)
+        this.heading += constrain(angleToTarget,-this.turnRate,this.turnRate);
 
         //get velocity
         this.vel = createVector(cos(this.heading),sin(this.heading));
@@ -295,7 +330,14 @@ class Missile {
     }
 
     getAngleToTarget() {
-        let angleToTarget = 0;
+        let thisPosVector = createVector(this.pos.x, this.pos.y);
+        let targetPosVector = createVector(this.target.pos.x, this.target.pos.y);
+        let diffVector = targetPosVector.sub(thisPosVector);
+        let diffAngle = diffVector.heading();
+
+        let angleBetween = ((diffAngle - this.heading + 540) % 360) - 180;
+        angleBetween = angleBetween; //not abs for getting turn direction
+        return angleBetween;
     }
 
     checkCollisions() {
