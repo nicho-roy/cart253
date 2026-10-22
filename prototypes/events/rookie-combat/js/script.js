@@ -47,7 +47,7 @@ async function setup() {
 
 function draw() {
     background(bgImg);
-    background(0,0,100,80);
+    background(0,0,100,100);
 
 
     drawAll();
