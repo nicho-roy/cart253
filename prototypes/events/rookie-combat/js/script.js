@@ -36,10 +36,10 @@ async function setup() {
     missileImg = await loadImage(missileImg);
     // Missile.image = missileImg;
 
-    player1 = new Player(width / 2 - 50, height / 2,180,jet0Img,'w','a','s','d','Space','q','e');
-    player2 = new Player(width / 2 + 50, height / 2, 0, jet1Img, '8', '4', '5', '6', '+','7','9');
-    // player3 = new Player(width / 2, height / 2 + 50, 90, jet2Img, '8', '4', '5', '6', '+');
-    // player4 = new Player(width / 2, height / 2 - 50, 270, jet2Img, 'i', 'j', 'k', 'l', 'm');
+    player1 = new Player(width / 2 - 50, height / 2,180,jet0Img,'w','a','s','d','Space','e',);
+    player2 = new Player(width / 2 + 50, height / 2, 0, jet1Img, '8', '4', '5', '6', '+','9',);
+    // player3 = new Player(width / 2, height / 2 + 50, 90, jet2Img, 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Enter','/');
+    // player4 = new Player(width / 2, height / 2 - 50, 270, jet2Img, 'i', 'j', 'k', 'l', 'm','u','o');
 
 
 }

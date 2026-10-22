@@ -1,7 +1,7 @@
 //CLASS
 class Player {
     static playerIdCounter = 0;
-    constructor(x, y, heading, image, upKey, leftKey, downKey, rightKey, fireKey, missileLockKey, missileFireKey) {
+    constructor(x, y, heading, image, upKey, leftKey, downKey, rightKey, fireKey, missileLockKey) {
         this.playerId = Player.playerIdCounter;
         Player.playerIdCounter++;
         this.heading = heading;
@@ -23,7 +23,7 @@ class Player {
         this.turnRate = 1.2;
         this.image = image;
         this.size = 60;
-        this.fireRate = 15; //10
+        this.fireRate = 18; //10
         this.fireTimer = 0;
         this.outOfBoundsDamage = 0.5;
         this.isTargetLocking = false;
@@ -41,7 +41,6 @@ class Player {
         this.rightKey = rightKey;
         this.fireKey = fireKey;
         this.missileLockKey = missileLockKey;
-        this.missileFireKey = missileFireKey;
 
         playerArr.push(this);
     }
@@ -121,7 +120,15 @@ class Player {
                 this.fireTimer = 0;
             }
         }
-        //lock to target
+
+        //MISSILE LOCKING
+        //check if target locked
+        if (this.missileLockTimer >= this.missileLockTime && this.target) {
+            this.isTargetLocked = true;
+        } else {
+            this.isTargetLocked = false;
+        }
+        //locking and firing
         if (keyIsDown(this.missileLockKey)) {
             let closestTarget = this.getClosestTarget();
             if (closestTarget.target) {
@@ -135,23 +142,11 @@ class Player {
                 this.missileLockTimer = 0;
                 this.target = null;
             }
-        } else {
-            this.isTargetLocking = false;
-        }
 
-        //check if target locked
-        if (this.missileLockTimer >= this.missileLockTime && this.target) {
-            this.isTargetLocked = true;
-        } else {
-            this.isTargetLocked = false;
-        }
-
-        //fire missle once target locked
-        if (keyIsDown(this.missileFireKey)) {
+            //FIRE MISSILE
             //!DEBUG
             // this.missileLockTimer = 3000;
             // this.target = player2;
-
             if (this.isTargetLocked) {
                 // let vHead = createVector(cos(this.heading), sin(this.heading));
                 let missile = new Missile(this.pos.x, this.pos.y, this.heading, this, this.target);
@@ -161,7 +156,10 @@ class Player {
                 this.missileLockTimer = 0;
                 this.target = null;
             }
-        } 
+        } else {
+            this.isTargetLocking = false;
+        }
+
     }
 
     getClosestTarget() {
@@ -304,7 +302,7 @@ class Missile {
         this.damage = 99;
         this.vel = createVector(0, 0);
         this.heading = heading
-        this.size = 30;
+        this.size = 20;
         this.turnRate = 1.1;
         this.loseLockAngleThreshold = 100;
         this.fill = "#ff0b0b";
@@ -363,7 +361,7 @@ class Missile {
         push();
         translate(this.pos.x, this.pos.y);
         rotate(this.heading + 90);
-        image(missileImg, - (this.size / 2), - (this.size / 2), this.size, this.size);
+        image(missileImg, - (this.size / 2), - (this.size / 2), this.size, this.size*2);
         push();
         noStroke();
         fill(252, 138, 23, 12);
