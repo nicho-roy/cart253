@@ -100,7 +100,7 @@ function drawText() {
     fill("white");
     let start1Origin = 50;
     let start2Horiz = width-250;
-    let start2Vert = 950;
+    let start2Vert = 1000;
     let spacing = 30;
 
     text("Player 1", start1Origin, start1Origin);
@@ -112,8 +112,7 @@ function drawText() {
 
     text('WASD to move', start1Origin, start2Vert);
     text(player1.fireKey + ' to fire', start1Origin, start2Vert + (spacing * 1));
-    text(player1.missileLockKey + ' to lock on targets', start1Origin, start2Vert + (spacing * 2));
-    text(player1.missileFireKey + ' to fire missile once locked', start1Origin, start2Vert + (spacing * 3));
+    text('Hold ' + player1.missileLockKey + ' for missiles', start1Origin, start2Vert + (spacing * 2));
 
     text("Player 2:", start2Horiz, start1Origin);
     text("Energy: " + Math.trunc(player2.energy), start2Horiz, start1Origin + spacing);
@@ -122,8 +121,7 @@ function drawText() {
 
     text('Arrows to move', start2Horiz - 40, start2Vert);
     text(player2.fireKey + ' to fire', start2Horiz - 40, start2Vert + (spacing * 1));
-    text(player2.missileLockKey + ' to lock on targets', start2Horiz - 40, start2Vert + (spacing * 2));
-    text(player2.missileFireKey + ' to fire missile', start2Horiz - 40, start2Vert + (spacing * 3));
+    text('Hold ' + player2.missileLockKey + ' for missiles', start2Horiz - 40, start2Vert + (spacing * 2));
 
     pop();
 }
