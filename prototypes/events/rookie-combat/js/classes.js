@@ -25,8 +25,10 @@ class Player {
         this.fireRate = 10;
         this.fireTimer = 0;
         this.outOfBoundsDamage = 0.5;
-        this.missileLockDegreeRange = 12;
-        this.targetLocked;
+        this.missileLockDegreeRange = 15;
+        this.missileLockTime = 2000; //2 sec in millis
+        this.missileLockTimer = 0; //2 sec in millis
+        this.currentTarget;
         this.dead = false;
 
         //input schema
@@ -104,6 +106,7 @@ class Player {
     }
 
     runInput() {
+        //fire bullets
         if (keyIsDown(this.fireKey)) {
             this.fireTimer++;
             if (this.fireTimer >= this.fireRate) {
@@ -112,15 +115,33 @@ class Player {
                 this.fireTimer = 0;
             }
         }
+        //lock to target
         if (keyIsDown(this.missileLockKey)) {
             let closestTarget = this.getClosestTarget();
-            // console.log("closest", closestTarget);
+            if (closestTarget.target) {
+                this.target = closestTarget.target;
+                this.missileLockTimer++;
+                this.missileLockTimer = constrain(this.missileLockTimer,0,this.missileLockTime);
+            } else {
+                //reset lock
+                this.missileLockTimer = this.missileLockTime;
+                this.target = null;
+            }
         }
+        //fire missle once target locked
         if (keyIsDown(this.missileFireKey)) {
-            console.log("missile fire!");
-            let vHead = createVector(cos(this.heading), sin(this.heading));
-            let missile = new Missile(this.pos.x, this.pos.y, vHead, this);
-        }
+            //!DEBUG
+            this.missileLockTimer = 3000;
+            this.target = player2;
+            //!DEBUG
+            if (this.missileLockTimer >= this.missileLockTime && this.target) {
+                // let vHead = createVector(cos(this.heading), sin(this.heading));
+                let missile = new Missile(this.pos.x, this.pos.y, this.heading, this, this.target);
+                //reset lock
+                this.missileLockTimer = 0;
+                this.target = null;
+            }
+        } 
     }
 
     getClosestTarget() {
@@ -140,7 +161,10 @@ class Player {
             // console.log("diffvector",diffVector.x,diffVector.y);
             let diffAngle = diffVector.heading();
             // console.log("diffAngle", diffAngle);
-            let angleBetween = Math.abs(this.heading) - Math.abs(diffAngle);
+
+            // let angleBetween = this.heading - (diffAngle);
+            let angleBetween = ((diffAngle - this.heading + 540) % 360) - 180;
+            angleBetween = abs(angleBetween);
             console.log("anglebwteen",angleBetween);
             
 
@@ -238,16 +262,17 @@ class Bullet {
 
 class Missile {
     static image;
-    constructor(x, y, dir, shooter, target) {
+    constructor(x, y, heading, shooter, target) {
         this.pos = createVector(x, y);
         this.speed = 3;
         this.damage = 90;
-        this.dir = createVector(dir.x, dir.y);
-        this.dir.normalize();
-        this.dir.mult(this.speed);
+        this.vel = createVector(0, 0);
+        this.heading = heading
         this.size = 30;
+        this.turnRate = 1.2;
         this.fill = "#ff0b0b";
         this.shooter = shooter;
+        this.target = target;
         projArr.push(this);
     }
 
@@ -257,8 +282,20 @@ class Missile {
     }
 
     move() {
-        //TODON turn and face the target
-        this.pos.add(this.dir);
+        //get angle towards target
+
+
+        //angle towards target at fixed rate
+
+        //get velocity
+        this.vel = createVector(cos(this.heading),sin(this.heading));
+        this.vel.normalize();
+        this.vel.mult(this.speed);
+        this.pos.add(this.vel);
+    }
+
+    getAngleToTarget() {
+        let angleToTarget = 0;
     }
 
     checkCollisions() {
