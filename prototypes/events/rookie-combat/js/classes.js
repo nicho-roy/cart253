@@ -11,8 +11,9 @@ class Player {
         this.airSpeedBonus = 1;
         this.airSpeedBonusGain = 0.005; //0.005
         this.airSpeedBonusMax = 10; //5
-        this.speed = 1.5;
+        this.speed = 3; //1.5
         this.velLimit = 20;
+        this.velMin = 1;
         this.hp = 100;
         this.energy = 75;
         this.energyBleedRate = 0.16;
@@ -22,12 +23,12 @@ class Player {
         this.turnRate = 1.2;
         this.image = image;
         this.size = 60;
-        this.fireRate = 10;
+        this.fireRate = 15; //10
         this.fireTimer = 0;
         this.outOfBoundsDamage = 0.5;
         this.isTargetLocking = false;
         this.isTargetLocked = false;
-        this.missileLockDegreeRange = 15;
+        this.missileLockDegreeRange = 30;
         this.missileLockTime = 120;
         this.missileLockTimer = 0;
         this.currentTarget;
@@ -92,6 +93,9 @@ class Player {
         this.vel.mult(dragMult);
         this.vel.limit(this.velLimit);
         if (this.vel.mag() <= 0) this.vel = moveDirection.mult(0.1);
+        if (this.vel.mag() < this.velMin) {
+            this.vel.setMag(this.velMin);
+        }
         this.pos.add(this.vel);
 
     }
@@ -181,7 +185,7 @@ class Player {
             // let angleBetween = this.heading - (diffAngle);
             let angleBetween = ((diffAngle - this.heading + 540) % 360) - 180;
             angleBetween = abs(angleBetween);
-            console.log("anglebwteen",angleBetween);
+            // console.log("anglebwteen",angleBetween);
             
 
             if (angleBetween <= this.missileLockDegreeRange) {
@@ -357,8 +361,19 @@ class Missile {
 
     draw() {
         push();
-        image(missileImg, this.pos.x - (this.size / 2), this.pos.y - (this.size / 2),this.size,this.size);
+        translate(this.pos.x, this.pos.y);
+        rotate(this.heading + 90);
+        image(missileImg, - (this.size / 2), - (this.size / 2), this.size, this.size);
+        push();
+        noStroke();
+        fill(252, 138, 23, 12);
+        ellipse(0, 0,this.size*5,this.size*5);
         pop();
+        pop();
+
+        // push();
+        // image(missileImg, this.pos.x - (this.size / 2), this.pos.y - (this.size / 2),this.size,this.size);
+        // pop();
     }
 
 }
