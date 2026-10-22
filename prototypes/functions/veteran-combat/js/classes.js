@@ -95,7 +95,7 @@ class Player {
         if (this.vel.mag() < this.velMin) {
             this.vel.setMag(this.velMin);
         }
-        this.pos.add(this.vel);
+        // this.pos.add(this.vel);
 
     }
 

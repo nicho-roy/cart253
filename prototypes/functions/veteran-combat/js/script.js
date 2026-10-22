@@ -10,8 +10,9 @@
 let bgImg = "./assets/images/bg.png"
 
 let xOffset = 0;
-let yOffset = 100;
+let yOffset = 0;
 let speed = 20;
+let worldScale = 10;
 
 
 
@@ -33,11 +34,13 @@ function draw() {
 
 function drawBackground(obj) {
     // let inputVector = getInputVector();
-    xOffset += obj.pos.x;
-    yOffset += obj.pos.y;
+    xOffset -= obj.vel.x;
+    yOffset -= obj.vel.y;
+
+    console.log(xOffset);
 
     push();
-    image(bgImg, xOffset, yOffset, width, height);
+    image(bgImg, xOffset, yOffset, width * worldScale, height * worldScale);
     pop();
 }
 

@@ -32,7 +32,7 @@ async function setupPlayer() {
     missileImg = await loadImage(missileImg);
     // Missile.image = missileImg;
 
-    player1 = new Player(width / 2 - 50, height / 2,180,jet0Img,'w','a','s','d','Space','e',);
+    player1 = new Player(width / 2, height / 2,180,jet0Img,'w','a','s','d','Space','e',);
     // player2 = new Player(width / 2 + 50, height / 2, 0, jet1Img, 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight', '+','9',);
     // player3 = new Player(width / 2, height / 2 + 50, 90, jet2Img, 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Enter','/');
     // player4 = new Player(width / 2, height / 2 - 50, 270, jet2Img, 'i', 'j', 'k', 'l', 'm','u','o');
@@ -115,14 +115,14 @@ function drawText() {
     text(player1.fireKey + ' to fire', start1Origin, start2Vert + (spacing * 1));
     text('Hold ' + player1.missileLockKey + ' for missiles', start1Origin, start2Vert + (spacing * 2));
 
-    text("Player 2:", start2Horiz, start1Origin);
-    text("Energy: " + Math.trunc(player2.energy), start2Horiz, start1Origin + spacing);
-    text("Throttle: " + Math.trunc(player2.throttle), start2Horiz, start1Origin + (spacing * 2));
-    text("Hp: " + Math.trunc(player2.hp), start2Horiz, start1Origin + (spacing * 3));
+    // text("Player 2:", start2Horiz, start1Origin);
+    // text("Energy: " + Math.trunc(player2.energy), start2Horiz, start1Origin + spacing);
+    // text("Throttle: " + Math.trunc(player2.throttle), start2Horiz, start1Origin + (spacing * 2));
+    // text("Hp: " + Math.trunc(player2.hp), start2Horiz, start1Origin + (spacing * 3));
 
-    text(player2.upKey + player2.leftKey + player2.downKey + player2.rightKey + ' to move', start2Horiz - 40, start2Vert);
-    text(player2.fireKey + ' to fire', start2Horiz - 40, start2Vert + (spacing * 1));
-    text('Hold ' + player2.missileLockKey + ' for missiles', start2Horiz - 40, start2Vert + (spacing * 2));
+    // text(player2.upKey + player2.leftKey + player2.downKey + player2.rightKey + ' to move', start2Horiz - 40, start2Vert);
+    // text(player2.fireKey + ' to fire', start2Horiz - 40, start2Vert + (spacing * 1));
+    // text('Hold ' + player2.missileLockKey + ' for missiles', start2Horiz - 40, start2Vert + (spacing * 2));
 
     pop();
 }
@@ -142,7 +142,7 @@ function drawProjectiles() {
 }
 
 function drawAll() {
-    // drawText();
+    drawText();
     drawProjectiles();
     drawPlayers();
 }
