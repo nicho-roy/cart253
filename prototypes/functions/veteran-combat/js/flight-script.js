@@ -110,6 +110,7 @@ function drawText() {
     text("Hp: " + Math.trunc(player1.hp), start1Origin, start1Origin + (spacing * 3));
     // text("posx: " + Math.trunc(player1.pos.x), start1Origin, start1Origin + (spacing * 4));
     // text("posy: " + Math.trunc(player1.pos.y), start1Origin, start1Origin + (spacing * 5));
+    text("Velocity: " + Math.round(player1.vel.mag()) + " kph", start1Origin, start1Origin + (spacing * 3));
 
     text(player1.upKey+player1.leftKey+player1.downKey+player1.rightKey+' to move', start1Origin, start2Vert);
     text(player1.fireKey + ' to fire', start1Origin, start2Vert + (spacing * 1));

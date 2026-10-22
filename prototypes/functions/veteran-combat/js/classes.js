@@ -9,11 +9,11 @@ class Player {
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
         this.airSpeedBonus = 1;
-        this.airSpeedBonusGain = 0.005; //0.005
-        this.airSpeedBonusMax = 10; //5
-        this.speed = 3; //1.5
-        this.velLimit = 20;
-        this.velMin = 1;
+        this.airSpeedBonusGain = 0.01; //0.005
+        this.airSpeedBonusMax = 20; //5
+        this.speed = 5; //1.5
+        this.velLimit = 50;
+        this.velMin = 2;
         this.hp = 100;
         this.energy = 75;
         this.energyBleedRate = 0.16;

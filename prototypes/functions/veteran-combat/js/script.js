@@ -9,16 +9,20 @@
 
 let bgImg = "./assets/images/bg.png"
 
-let xOffset = 0;
-let yOffset = 0;
-let speed = 20;
-let worldScale = 10;
 
+const CANVAS = {
+    x: 1920,
+    y: 1080,
+}
+let worldScale = 0.8;
+let xOffset = -(CANVAS.x * worldScale) / 2;
+let yOffset = -(CANVAS.y * worldScale) / 2;
+let speed = 20;
 
 
 async function setup() {
     angleMode(DEGREES);
-    createCanvas(1920, 1080);
+    createCanvas(CANVAS.x, CANVAS.y);
     bgImg = await loadImage(bgImg);
     await setupPlayer();
     
@@ -37,7 +41,7 @@ function drawBackground(obj) {
     xOffset -= obj.vel.x;
     yOffset -= obj.vel.y;
 
-    console.log(xOffset);
+    console.log(Math.trunc(xOffset));
 
     push();
     image(bgImg, xOffset, yOffset, width * worldScale, height * worldScale);
