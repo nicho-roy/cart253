@@ -11,7 +11,6 @@
 let player1, player2, player3, player4;
 
 //IMAGES
-let bgImg = "./assets/images/bg.png";
 let jet0Img = "./assets/images/jet0.png";
 let jet1Img = "./assets/images/jet1.png";
 let jet2Img = "./assets/images/jet2.png";
@@ -26,10 +25,7 @@ let dragMult = 0.999;
 
 
 
-async function setup() {
-    angleMode(DEGREES);
-    createCanvas(1920,1080);
-    bgImg = await loadImage(bgImg);
+async function setupPlayer() {
     jet0Img = await loadImage(jet0Img);
     jet1Img = await loadImage(jet1Img);
     jet2Img = await loadImage(jet2Img);
@@ -45,12 +41,17 @@ async function setup() {
 }
 
 
-function draw() {
+function Xdraw() {
     background(bgImg);
     background(0,0,100,100);
 
 
     drawAll();
+}
+
+
+function getPlayer() {
+    return player1;
 }
 
 
@@ -141,7 +142,7 @@ function drawProjectiles() {
 }
 
 function drawAll() {
-    drawText();
+    // drawText();
     drawProjectiles();
     drawPlayers();
 }
