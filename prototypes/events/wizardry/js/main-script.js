@@ -326,7 +326,7 @@ let effectsArr = [];
 
 //GAMEPLAY VARS
 const GLOBAL_SPEED_MULT = 3;
-let enemyRespawnTimer = 2000;
+let enemyRespawnTimer = 1200;
 let elapsedTime;
 let savedTime;
 let enemyRespawnRampMult = 1.01;
