@@ -14,7 +14,7 @@ const CANVAS = {
     x: 1920,
     y: 1080,
 }
-let worldScale = 0.8;
+let worldScale = 2;
 let xOffset = -(CANVAS.x * worldScale) / 2;
 let yOffset = -(CANVAS.y * worldScale) / 2;
 let speed = 20;
@@ -25,6 +25,8 @@ async function setup() {
     createCanvas(CANVAS.x, CANVAS.y);
     bgImg = await loadImage(bgImg);
     await setupPlayer();
+
+    centerBackground();
     
 }
 
@@ -64,6 +66,12 @@ function getInputVector() {
     }
     vector.normalize();
     return vector;
+}
+
+
+function centerBackground() {
+    xOffset += player1.pos.x;
+    yOffset += player1.pos.y;
 }
 
 
