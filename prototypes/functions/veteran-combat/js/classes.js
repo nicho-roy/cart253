@@ -10,6 +10,7 @@ class Player {
         this.acc = createVector(0, 0);
         this.airSpeedBonus = 1;
         this.airSpeedBonusGain = 0.0001; //0.005
+        this.airSpeedBonusDrain = 0.0003; // sohuld be 3x the gain
         this.airSpeedBonusMax = 3; //5
         this.velLimit = 100;
         this.velMin = 8;
@@ -71,10 +72,10 @@ class Player {
         //turn control
         if (keyIsDown(this.leftKey)) {
             this.turn(-1);
-            this.airSpeedBonus -= this.airSpeedBonusGain;
+            this.airSpeedBonus -= this.airSpeedBonusDrain;
         } else if (keyIsDown(this.rightKey)) {
             this.turn(1);
-            this.airSpeedBonus -= this.airSpeedBonusGain;
+            this.airSpeedBonus -= this.airSpeedBonusDrain;
         } else {
             this.airSpeedBonus += this.airSpeedBonusGain;
             this.energy += this.energyGainRate * (this.throttle / 100);

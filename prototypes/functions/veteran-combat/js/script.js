@@ -14,7 +14,7 @@ const CANVAS = {
     x: 1920,
     y: 1080,
 }
-let worldScale = 100;
+let worldScale = 20;
 let xOffset = -(CANVAS.x * worldScale) / 2;
 let yOffset = -(CANVAS.y * worldScale) / 2;
 let speed = 20;
