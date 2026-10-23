@@ -10,13 +10,10 @@
 let bgImg = "./assets/images/bg.png"
 
 
-const CANVAS = {
-    x: 1920,
-    y: 1080,
-}
-let worldScale = 20;
-let xOffset = -(CANVAS.x * worldScale) / 2;
-let yOffset = -(CANVAS.y * worldScale) / 2;
+
+let worldScale = 0.25;
+let xOffset = -getChunkDimensions().x / 2;
+let yOffset = -getChunkDimensions().y / 2;
 
 
 async function setup() {
@@ -34,6 +31,8 @@ function draw() {
     background();
     drawBackground(player1);
     // background(0, 0, 100, 100);
+
+    getPlayerChunk();
 
     drawAll();
 }

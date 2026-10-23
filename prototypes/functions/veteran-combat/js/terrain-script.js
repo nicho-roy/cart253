@@ -7,11 +7,13 @@
 
 "use strict";
 
+let imgsArray = [];
 
-const CANVAS = {
-    x: 800,
-    y: 800,
-};
+var CANVAS = {
+    x: 1920,
+    y: 1080,
+}
+
 let noiseMap = generateArray(CANVAS.x, CANVAS.y);
 let colorMap = generateArray(CANVAS.x, CANVAS.y);
 let terrainImg;
@@ -64,11 +66,10 @@ function setup() {
     createCanvas(CANVAS.x, CANVAS.y);
     terrainImg = createImage(CANVAS.x, CANVAS.y);
 
-    noiseSeed();
+    noiseSeed(); //reset random
 
     rebuildTerrain();
 
-    player.pos = createVector(CANVAS.x / 2, CANVAS.y / 2);
 
     console.log("noiseMap", noiseMap);
 }
@@ -89,23 +90,18 @@ function draw() {
 }
 
 
-//MOVEMENT
-function getInputVector() {
-    let vector = createVector(0, 0);
-    if (keyIsDown('w')) {
-        vector.add(createVector(0, -1));
+function getPlayerChunk() {
+    let currentChunkX = xOffset / getChunkDimensions().x;
+    let currentChunkY = yOffset / getChunkDimensions().y;
+    console.log(Math.trunc(currentChunkX), Math.trunc(currentChunkY));
+    return {currentChunkX, currentChunkY};
+}
+
+function getChunkDimensions() {
+    return {
+        x: (CANVAS.x * worldScale),
+        y: (CANVAS.y * worldScale),
     }
-    if (keyIsDown('a')) {
-        vector.add(createVector(-1, 0));
-    }
-    if (keyIsDown('s')) {
-        vector.add(createVector(0, 1));
-    }
-    if (keyIsDown('d')) {
-        vector.add(createVector(1, 0));
-    }
-    vector.normalize();
-    return vector;
 }
 
 
