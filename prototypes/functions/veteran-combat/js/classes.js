@@ -9,11 +9,14 @@ class Player {
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
         this.airSpeedBonus = 1;
-        this.airSpeedBonusGain = 0.01; //0.005
-        this.airSpeedBonusMax = 20; //5
-        this.speed = 5; //1.5
-        this.velLimit = 50;
-        this.velMin = 2;
+        this.airSpeedBonusGain = 0.0001; //0.005
+        this.airSpeedBonusMax = 3; //5
+        this.velLimit = 100;
+        this.velMin = 8;
+        this.speed = 50; //scalled down by throttle
+        this.currentSpeed = this.velMin;
+        this.accelRate = 0.05;
+        this.decelRate = 0.03;
         this.hp = 100;
         this.energy = 75;
         this.energyBleedRate = 0.16;
@@ -23,7 +26,7 @@ class Player {
         this.turnRate = 1.2;
         this.image = image;
         this.size = 60;
-        this.fireRate = 18; //10
+        this.fireRate = 2; //10
         this.fireTimer = 0;
         this.outOfBoundsDamage = 0.5;
         this.isTargetLocking = false;
@@ -81,22 +84,44 @@ class Player {
         this.energy = constrain(this.energy, 0, 100)
 
 
-        //set velocity to the direction of the angle
-        this.vel.set(0, 0);
-        let moveDirection = createVector(cos(this.heading), sin(this.heading));
-        moveDirection.normalize();
-        this.vel.add(moveDirection);
-        this.vel.mult(this.speed);
-        this.vel.mult(this.throttle / 100);
-        this.vel.mult(this.airSpeedBonus);
-        this.vel.mult(dragMult);
-        this.vel.limit(this.velLimit);
-        if (this.vel.mag() <= 0) this.vel = moveDirection.mult(0.1);
-        if (this.vel.mag() < this.velMin) {
-            this.vel.setMag(this.velMin);
-        }
-        // this.pos.add(this.vel);
+        //NEW
+        //get target speed, derived primarily on throttle
+        let targetSpeed = (this.throttle / 100) * this.speed * dragMult * this.airSpeedBonus;; //add/rem airspeedbonus
+        console.log("airbonus", this.airSpeedBonus);
+        console.log("target", targetSpeed);
+        targetSpeed = constrain(targetSpeed, this.velMin, this.velLimit);
+        // targetSpeed *= this.airSpeedBonus;
 
+
+        //adjust current speed based on target, limited by acel and decel rates
+        if (this.currentSpeed < targetSpeed) {
+            this.currentSpeed = min(this.currentSpeed + this.accelRate, targetSpeed);
+        } else {
+            this.currentSpeed = max(this.currentSpeed - this.decelRate, targetSpeed);
+        }
+
+        //rebuild vel
+        this.vel = createVector(cos(this.heading),sin(this.heading));
+        this.vel.setMag(this.currentSpeed);
+
+
+
+        //OLD
+        // //set velocity to the direction of the angle
+        // this.vel.set(0, 0);
+        // let moveDirection = createVector(cos(this.heading), sin(this.heading));
+        // moveDirection.normalize();
+        // this.vel.add(moveDirection);
+        // this.vel.mult(this.throttle / 100);
+        // this.vel.mult(this.speed);
+        // this.vel.mult(this.airSpeedBonus);
+        // this.vel.mult(dragMult);
+        // this.vel.limit(this.velLimit);
+        // if (this.vel.mag() <= 0) this.vel = moveDirection.mult(0.1);
+        // if (this.vel.mag() < this.velMin) {
+        //     this.vel.setMag(this.velMin);
+        // }
+        // // this.pos.add(this.vel); /remove for this prototype, world moves instead
     }
 
     adjustHeading() {
@@ -250,7 +275,7 @@ class Player {
 class Bullet {
     constructor(x, y, dir, shooter) {
         this.pos = createVector(x, y);
-        this.speed = 8;
+        this.speed = 20;
         this.damage = 25;
         this.dir = createVector(dir.x, dir.y);
         this.dir.normalize();
@@ -298,7 +323,7 @@ class Missile {
     static image;
     constructor(x, y, heading, shooter, target) {
         this.pos = createVector(x, y);
-        this.speed = 5;
+        this.speed = 30;
         this.damage = 99;
         this.vel = createVector(0, 0);
         this.heading = heading

@@ -14,7 +14,7 @@ const CANVAS = {
     x: 1920,
     y: 1080,
 }
-let worldScale = 2;
+let worldScale = 100;
 let xOffset = -(CANVAS.x * worldScale) / 2;
 let yOffset = -(CANVAS.y * worldScale) / 2;
 let speed = 20;
@@ -42,8 +42,6 @@ function drawBackground(obj) {
     // let inputVector = getInputVector();
     xOffset -= obj.vel.x;
     yOffset -= obj.vel.y;
-
-    console.log(Math.trunc(xOffset));
 
     push();
     image(bgImg, xOffset, yOffset, width * worldScale, height * worldScale);
