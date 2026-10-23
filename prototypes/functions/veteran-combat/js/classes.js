@@ -88,8 +88,8 @@ class Player {
         //NEW
         //get target speed, derived primarily on throttle
         let targetSpeed = (this.throttle / 100) * this.speed * dragMult * this.airSpeedBonus;; //add/rem airspeedbonus
-        console.log("airbonus", this.airSpeedBonus);
-        console.log("target", targetSpeed);
+        // console.log("airbonus", this.airSpeedBonus);
+        // console.log("target", targetSpeed);
         targetSpeed = constrain(targetSpeed, this.velMin, this.velLimit);
         // targetSpeed *= this.airSpeedBonus;
 
