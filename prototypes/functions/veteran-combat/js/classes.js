@@ -7,7 +7,7 @@ class TerrainChunk {
     }
 
     draw() {
-        
+
     }
 }
 
@@ -17,6 +17,7 @@ class Player {
         this.playerId = Player.playerIdCounter;
         Player.playerIdCounter++;
         this.heading = heading;
+        this.chunk = createVector(0,0);
         this.pos = createVector(x, y);
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
@@ -24,8 +25,8 @@ class Player {
         this.airSpeedBonusGain = 0.0001; //0.005
         this.airSpeedBonusDrain = 0.0003; // sohuld be 3x the gain
         this.airSpeedBonusMax = 3; //5
-        this.velLimit = 100;
-        this.velMin = 8;
+        this.velLimit = 0; //100 //! DEBUG
+        this.velMin = 0; //8 //! DEBUG
         this.speed = 50; //scalled down by throttle
         this.currentSpeed = this.velMin;
         this.accelRate = 0.05;
@@ -116,6 +117,11 @@ class Player {
         //rebuild vel
         this.vel = createVector(cos(this.heading),sin(this.heading));
         this.vel.setMag(this.currentSpeed);
+
+        //move pos if NOT 1st player (if npc)
+        if (this.playerId != 0) {
+            this.pos.add(this.vel);
+        }
 
 
 

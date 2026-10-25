@@ -34,6 +34,8 @@ function draw() {
 
     getPlayerChunk();
 
+    generatePlayerAdjcentChunks();
+
     drawAll();
 }
 
@@ -60,9 +62,9 @@ function drawBackground(obj) {
     xOffset -= obj.vel.x;
     yOffset -= obj.vel.y;
 
-    push();
-    image(bgImg, xOffset, yOffset, width * worldScale, height * worldScale);
-    pop();
+    // push();
+    // image(bgImg, xOffset, yOffset, width * worldScale, height * worldScale);
+    // pop();
 }
 
 function drawText() {

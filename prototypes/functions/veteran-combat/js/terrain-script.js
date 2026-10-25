@@ -7,7 +7,7 @@
 
 "use strict";
 
-let imgsArray = [];
+let bgImgArray = [];
 
 var CANVAS = {
     x: 1920,
@@ -81,7 +81,7 @@ function getPlayerChunk() {
     let currentChunkX = xOffset / getChunkDimensions().x;
     let currentChunkY = yOffset / getChunkDimensions().y;
     console.log(Math.trunc(currentChunkX), Math.trunc(currentChunkY));
-    return {currentChunkX, currentChunkY};
+    return createVector(currentChunkX, currentChunkY);
 }
 
 function getChunkDimensions() {
@@ -91,7 +91,44 @@ function getChunkDimensions() {
     }
 }
 
+function generatePlayerAdjcentChunks() {
+    if (true) {
 
+    }
+}
+
+
+//TODON, 
+function getTerrainImageAtChunk(chunkX, chunkY) {
+    generateNoiseMap();
+    terrainImg.loadPixels();
+
+    for (let y = 0; y < CANVAS.y; y++) {
+        for (let x = 0; x < CANVAS.x; x++) {
+            let noiseValue = noiseMap[x][y];
+            let colorValue;
+
+            let band = pixelColorThresholds.length - 1
+            for (const pct of pixelColorThresholds) {
+                if (noiseValue < pct.threshold) {
+                    band = pct;
+                    break;
+                }
+            }
+
+            const i = 4 * (y * CANVAS.x + x);
+            terrainImg.pixels[i] = band.r;
+            terrainImg.pixels[i + 1] = band.g;
+            terrainImg.pixels[i + 2] = band.b;
+            terrainImg.pixels[i + 3] = 255;
+        }
+    }
+
+
+    terrainImg.updatePixels();
+}
+
+//! unused, for filling the canvas
 function rebuildTerrain() {
     generateNoiseMap();
     terrainImg.loadPixels();
@@ -122,9 +159,18 @@ function rebuildTerrain() {
 }
 
 
+//TODON
+function generateNoiseMapAtChunk(chunkX, chunkY) {
+    //top to bottom
+    for (let y = 0; y < CANVAS.y; y++) {
+        //left to right
+        for (let x = 0; x < CANVAS.x; x++) {
+            noiseMap[x][y] = noise(((x + noiseOffsetX) * RESOLUTION) + (chunkX * CANVAS.x * worldScale), ((y + noiseOffsetY) * RESOLUTION) + (chunkY * CANVAS.y * worldScale));
+        }
+    }
+}
 
-
-
+//! unused, for canvas noisemap
 function generateNoiseMap() {
     //top to bottom
     for (let y = 0; y < CANVAS.y; y++) {
@@ -134,6 +180,7 @@ function generateNoiseMap() {
         }
     }
 }
+
 
 function generateMonoColorMap() {
     if (!noiseMap) {
