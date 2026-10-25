@@ -7,7 +7,7 @@
 
 "use strict";
 
-let bgImgArray = [];
+let terrainImgArray = [];
 
 var CANVAS = {
     x: 1920,
@@ -16,7 +16,6 @@ var CANVAS = {
 
 let noiseMap = generateArray(CANVAS.x, CANVAS.y);
 let colorMap = generateArray(CANVAS.x, CANVAS.y);
-let terrainImg;
 let colorIndices; // to be converted to pixel color thresholds later
 let pixelColorThresholds = []; //list of {thresholds, r, g, b}
 //NOISE VARS
@@ -63,25 +62,30 @@ function setupTerrain() {
         pixelColorThresholds.push({ threshold: threshold, r: red(rgbColor), g: green(rgbColor), b: blue(rgbColor) })
     }
 
-    createCanvas(CANVAS.x, CANVAS.y);
-    terrainImg = createImage(CANVAS.x, CANVAS.y);
-
     noiseSeed(); //reset random
-
-    rebuildTerrain();
-
-
-    console.log("noiseMap", noiseMap);
 }
 
 
+function getPlayerWorldPos() {
+    return createVector(player1.pos.x - xOffset, player1.pos.y - yOffset);
+}
 
+function getCurrentChunk() {
+    const dim = getChunkDimensions();
+    const wp = getPlayerWorldPos();
+    return createVector(Math.floor(wp.x / dim.x), Math.floor(wp.y / dim.y));
+}
 
-function getPlayerChunk() {
-    let currentChunkX = xOffset / getChunkDimensions().x;
-    let currentChunkY = yOffset / getChunkDimensions().y;
-    console.log(Math.trunc(currentChunkX), Math.trunc(currentChunkY));
-    return createVector(currentChunkX, currentChunkY);
+// function getCurrentChunk() {
+//     let currentChunkX = xOffset / getChunkDimensions().x;
+//     let currentChunkY = yOffset / getChunkDimensions().y;
+//     currentChunkX = Math.trunc(currentChunkX);
+//     currentChunkY = Math.trunc(currentChunkY);
+//     return createVector(currentChunkX, currentChunkY);
+// }
+
+function setPlayerChunk(chunkVector) {
+    player1.chunk = chunkVector;
 }
 
 function getChunkDimensions() {
@@ -91,16 +95,32 @@ function getChunkDimensions() {
     }
 }
 
-function generatePlayerAdjcentChunks() {
-    if (true) {
+function updatePlayerAdjcentChunks() {
+    let currentChunk = getCurrentChunk()
+    if (currentChunk.x == player1.chunk.x && currentChunk.y == player1.chunk.y) {
+        return;
+    } else { 
+        player1.chunk = currentChunk;
+        console.log("player",player1.chunk.x,player1.chunk.y);
 
+        //reset arr
+        terrainImgArray = [];
+        // terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 1, currentChunk.y + 1));
+        terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 0, currentChunk.y + 1));
+        // terrainImgArray.push(generateTerrainAtChunk(currentChunk.x - 1, currentChunk.y + 1));
+        terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 1, currentChunk.y + 0));
+        terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 0, currentChunk.y + 0));
+        terrainImgArray.push(generateTerrainAtChunk(currentChunk.x - 1, currentChunk.y + 0));
+        // terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 1, currentChunk.y - 1));
+        terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 0, currentChunk.y - 1));
+        // terrainImgArray.push(generateTerrainAtChunk(currentChunk.x - 1, currentChunk.y - 1));
     }
 }
 
 
-//TODON, 
-function getTerrainImageAtChunk(chunkX, chunkY) {
-    generateNoiseMap();
+function generateTerrainAtChunk(chunkX, chunkY) {
+    generateNoiseMapAtChunk(chunkX, chunkY);
+    let terrainImg = createImage(CANVAS.x,CANVAS.y);
     terrainImg.loadPixels();
 
     for (let y = 0; y < CANVAS.y; y++) {
@@ -123,43 +143,13 @@ function getTerrainImageAtChunk(chunkX, chunkY) {
             terrainImg.pixels[i + 3] = 255;
         }
     }
-
-
     terrainImg.updatePixels();
-}
 
-//! unused, for filling the canvas
-function rebuildTerrain() {
-    generateNoiseMap();
-    terrainImg.loadPixels();
-
-    for (let y = 0; y < CANVAS.y; y++) {
-        for (let x = 0; x < CANVAS.x; x++) {
-            let noiseValue = noiseMap[x][y];
-            let colorValue;
-
-            let band = pixelColorThresholds.length - 1
-            for (const pct of pixelColorThresholds) {
-                if (noiseValue < pct.threshold) {
-                    band = pct;
-                    break;
-                }
-            }
-
-            const i = 4 * (y * CANVAS.x + x);
-            terrainImg.pixels[i] = band.r;
-            terrainImg.pixels[i + 1] = band.g;
-            terrainImg.pixels[i + 2] = band.b;
-            terrainImg.pixels[i + 3] = 255;
-        }
-    }
-
-
-    terrainImg.updatePixels();
+    let terrainChunk = new TerrainChunk(chunkX, chunkY, terrainImg);
+    return terrainChunk;
 }
 
 
-//TODON
 function generateNoiseMapAtChunk(chunkX, chunkY) {
     //top to bottom
     for (let y = 0; y < CANVAS.y; y++) {
@@ -170,16 +160,6 @@ function generateNoiseMapAtChunk(chunkX, chunkY) {
     }
 }
 
-//! unused, for canvas noisemap
-function generateNoiseMap() {
-    //top to bottom
-    for (let y = 0; y < CANVAS.y; y++) {
-        //left to right
-        for (let x = 0; x < CANVAS.x; x++) {
-            noiseMap[x][y] = noise((x + noiseOffsetX) * RESOLUTION, (y + noiseOffsetY) * RESOLUTION);
-        }
-    }
-}
 
 
 function generateMonoColorMap() {

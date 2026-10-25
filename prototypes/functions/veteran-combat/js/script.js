@@ -10,8 +10,7 @@
 let bgImg = "./assets/images/bg.png"
 
 
-
-let worldScale = 0.25;
+let worldScale = 0.1;
 let xOffset = -getChunkDimensions().x / 2;
 let yOffset = -getChunkDimensions().y / 2;
 
@@ -21,6 +20,7 @@ async function setup() {
     createCanvas(CANVAS.x, CANVAS.y);
     bgImg = await loadImage(bgImg);
     await setupPlayer();
+    setupTerrain();
 
     centerBackground();
     
@@ -29,12 +29,10 @@ async function setup() {
 
 function draw() {
     background();
-    drawBackground(player1);
     // background(0, 0, 100, 100);
 
-    getPlayerChunk();
+    updatePlayerAdjcentChunks();
 
-    generatePlayerAdjcentChunks();
 
     drawAll();
 }
@@ -51,20 +49,32 @@ function centerBackground() {
 
 //GRAPHICS
 function drawAll() {
+    updatePlayerOffsetPosition(player1);
+    // oldDrawBackground();
+    drawBgTerrain();
+
     drawText();
     drawProjectiles();
     drawPlayers();
 }
 
-
-function drawBackground(obj) {
-    // let inputVector = getInputVector();
+function updatePlayerOffsetPosition(obj) {
     xOffset -= obj.vel.x;
     yOffset -= obj.vel.y;
+}
 
-    // push();
-    // image(bgImg, xOffset, yOffset, width * worldScale, height * worldScale);
-    // pop();
+
+function oldDrawBackground() {
+    push();
+    image(bgImg, xOffset, yOffset, width * worldScale, height * worldScale);
+    // image(bgImg, xOffset + (2 * getChunkDimensions().x), yOffset, width * worldScale, height * worldScale);
+    pop();
+}
+
+function drawBgTerrain() {
+    terrainImgArray.forEach(e => {
+        e.draw(xOffset,yOffset);
+    });
 }
 
 function drawText() {

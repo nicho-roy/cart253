@@ -6,8 +6,12 @@ class TerrainChunk {
         this.image = image;
     }
 
-    draw() {
-
+    draw(xOffset,yOffset) {
+        push();
+        //TODON account for scale and probs fix in general
+        const dimensions = getChunkDimensions();
+        image(this.image, (this.chunkX * dimensions.x) + xOffset, (this.chunkY * dimensions.y) + yOffset, CANVAS.x * worldScale, CANVAS.y * worldScale); 
+        pop();
     }
 }
 
@@ -17,7 +21,7 @@ class Player {
         this.playerId = Player.playerIdCounter;
         Player.playerIdCounter++;
         this.heading = heading;
-        this.chunk = createVector(0,0);
+        this.chunk = 0; //to be set on runtime
         this.pos = createVector(x, y);
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
@@ -25,8 +29,8 @@ class Player {
         this.airSpeedBonusGain = 0.0001; //0.005
         this.airSpeedBonusDrain = 0.0003; // sohuld be 3x the gain
         this.airSpeedBonusMax = 3; //5
-        this.velLimit = 0; //100 //! DEBUG
-        this.velMin = 0; //8 //! DEBUG
+        this.velLimit = 100; //100 //! DEBUG
+        this.velMin = 8; //8 //! DEBUG
         this.speed = 50; //scalled down by throttle
         this.currentSpeed = this.velMin;
         this.accelRate = 0.05;
