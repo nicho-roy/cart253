@@ -8,6 +8,7 @@
 "use strict";
 
 let terrainImgArray = [];
+let colorLUT = []; //to hold color lookup values
 
 var CANVAS = {
     x: 1920,
@@ -64,6 +65,24 @@ function setupTerrain() {
     }
 
     noiseSeed(); //reset random
+
+    buildColorLUT();
+}
+
+
+//! CLANK 
+//builds colors for each rgb value, as to not need to build them later
+function buildColorLUT() {
+    for (let i = 0; i < 256; i++) {
+        const n = i / 255;
+        let band = pixelColorThresholds[pixelColorThresholds.length - 1];
+        for (const pct of pixelColorThresholds) {
+            if (n < pct.threshold) { 
+                band = pct; break; 
+            }
+        }
+        colorLUT[i] = band;
+    }
 }
 
 
