@@ -1,4 +1,16 @@
 //CLASS
+class TerrainChunk {
+    constructor(chunkX, chunkY, image) {
+        this.chunkX = chunkX;
+        this.chunkY = chunkY;
+        this.image = image;
+    }
+
+    draw() {
+        
+    }
+}
+
 class Player {
     static playerIdCounter = 0;
     constructor(x, y, heading, image, upKey, leftKey, downKey, rightKey, fireKey, missileLockKey) {

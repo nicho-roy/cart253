@@ -46,7 +46,7 @@ const TRANSITION_THRESHOLD = 0.80; //.8 means at 80% of the screen, it will tran
 
 
 
-function setup() {
+function setupTerrain() {
     //for human use
     colorIndices = new Map([
         [0.4, "#050c45"],
@@ -75,19 +75,6 @@ function setup() {
 }
 
 
-function draw() {
-    image(terrainImg, 0, 0);
-
-    let moveVector = getInputVector();
-    moveVector.mult(player.speed);
-    player.pos.add(moveVector);
-
-    checkMapBounds();
-
-    drawPlayer();
-
-    //console.log("frame");
-}
 
 
 function getPlayerChunk() {
@@ -136,33 +123,6 @@ function rebuildTerrain() {
 
 
 
-function checkMapBounds() {
-    const rightTrigger = CANVAS.x * TRANSITION_THRESHOLD;
-    const leftTrigger = CANVAS.x * (1 - TRANSITION_THRESHOLD);
-    const shiftDist = rightTrigger - leftTrigger;
-
-    if (player.pos.x > rightTrigger) {
-        noiseOffsetX += shiftDist;
-        rebuildTerrain();
-        player.pos.x -= shiftDist;
-        player.chunk.x += 1;
-    } else if (player.pos.x < leftTrigger) {
-        noiseOffsetX -= shiftDist;
-        rebuildTerrain();
-        player.pos.x += shiftDist;
-        player.chunk.x += -1;
-    } else if (player.pos.y > rightTrigger) {
-        noiseOffsetY += shiftDist;
-        rebuildTerrain();
-        player.pos.y -= shiftDist;
-        player.chunk.y += 1;
-    } else if (player.pos.y < leftTrigger) {
-        noiseOffsetY -= shiftDist;
-        rebuildTerrain();
-        player.pos.y += shiftDist;
-        player.chunk.y += -1;
-    }
-}
 
 
 function generateNoiseMap() {
@@ -211,12 +171,6 @@ function generateTerrainColorMap() {
 }
 
 
-function drawPlayer() {
-    push();
-    fill(player.fill);
-    rect(player.pos.x, player.pos.y, player.size, player.size);
-    pop();
-}
 
 
 
