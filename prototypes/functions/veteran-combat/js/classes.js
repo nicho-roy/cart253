@@ -29,8 +29,8 @@ class Player {
         this.airSpeedBonusGain = 0.0001; //0.005
         this.airSpeedBonusDrain = 0.0003; // sohuld be 3x the gain
         this.airSpeedBonusMax = 3; //5
-        this.velLimit = 100; //100 //! DEBUG
-        this.velMin = 8; //8 //! DEBUG
+        this.velLimit = 1; //100 //! DEBUG
+        this.velMin = 0; //8 //! DEBUG
         this.speed = 50; //scalled down by throttle
         this.currentSpeed = this.velMin;
         this.accelRate = 0.05;

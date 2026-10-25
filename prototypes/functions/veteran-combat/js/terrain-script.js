@@ -19,6 +19,7 @@ let colorMap = generateArray(CANVAS.x, CANVAS.y);
 let colorIndices; // to be converted to pixel color thresholds later
 let pixelColorThresholds = []; //list of {thresholds, r, g, b}
 //NOISE VARS
+const NOISE_BASE = 100000; //to avoid mirroring at negative values, since p5 noise is absolute
 const RESOLUTION = 0.01;
 let noiseOffsetX = 0;
 let noiseOffsetY = 0;
@@ -76,13 +77,6 @@ function getCurrentChunk() {
     return createVector(Math.floor(wp.x / dim.x), Math.floor(wp.y / dim.y));
 }
 
-// function getCurrentChunk() {
-//     let currentChunkX = xOffset / getChunkDimensions().x;
-//     let currentChunkY = yOffset / getChunkDimensions().y;
-//     currentChunkX = Math.trunc(currentChunkX);
-//     currentChunkY = Math.trunc(currentChunkY);
-//     return createVector(currentChunkX, currentChunkY);
-// }
 
 function setPlayerChunk(chunkVector) {
     player1.chunk = chunkVector;
@@ -155,7 +149,10 @@ function generateNoiseMapAtChunk(chunkX, chunkY) {
     for (let y = 0; y < CANVAS.y; y++) {
         //left to right
         for (let x = 0; x < CANVAS.x; x++) {
-            noiseMap[x][y] = noise(((x + noiseOffsetX) * RESOLUTION) + (chunkX * CANVAS.x * worldScale), ((y + noiseOffsetY) * RESOLUTION) + (chunkY * CANVAS.y * worldScale));
+            noiseMap[x][y] = noise(
+                ((x + chunkX * CANVAS.x + noiseOffsetX) * RESOLUTION) + NOISE_BASE,
+                ((y + chunkY * CANVAS.y + noiseOffsetY) * RESOLUTION) + NOISE_BASE
+            );
         }
     }
 }
