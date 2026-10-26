@@ -10,7 +10,7 @@
 let bgImg = "./assets/images/bg.png"
 
 
-let worldScale = 0.25;
+
 let xOffset = -getChunkDimensions().x / 2;
 let yOffset = -getChunkDimensions().y / 2;
 
@@ -36,7 +36,7 @@ function draw() {
 
     drawAll();
 
-    console.log(getPlayerWorldPos().x, getPlayerWorldPos().y)
+    // console.log(getPlayerWorldPos().x, getPlayerWorldPos().y)
 
 }
 

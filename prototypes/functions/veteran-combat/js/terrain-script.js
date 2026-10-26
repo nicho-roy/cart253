@@ -14,14 +14,18 @@ var CANVAS = {
     x: 1920,
     y: 1080,
 }
+let worldScale = 8;
 
 let noiseMap = generateArray(CANVAS.x, CANVAS.y);
 let colorMap = generateArray(CANVAS.x, CANVAS.y);
 let colorIndices; // to be converted to pixel color thresholds later
 let pixelColorThresholds = []; //list of {thresholds, r, g, b}
 //NOISE VARS
-const NOISE_BASE = 100000; //to avoid mirroring at negative values, since p5 noise is absolute
 const RESOLUTION = 0.01;
+const IMG_W = 384;
+const IMG_H = 216;
+const NOISE_PER_PIXEL = RESOLUTION * CANVAS.x / IMG_W;
+const NOISE_BASE = 100000; //to avoid mirroring at negative values, since p5 noise is absolute
 let noiseOffsetX = 0;
 let noiseOffsetY = 0;
 //PLAYER
@@ -114,24 +118,53 @@ function updatePlayerAdjcentChunks() {
         return;
     } else { 
         player1.chunk = currentChunk;
-        console.log("player",player1.chunk.x,player1.chunk.y);
+        // console.log("player",player1.chunk.x,player1.chunk.y);
 
         //reset arr
         terrainImgArray = [];
-        // terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 1, currentChunk.y + 1));
+        terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 1, currentChunk.y + 1));
         terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 0, currentChunk.y + 1));
-        // terrainImgArray.push(generateTerrainAtChunk(currentChunk.x - 1, currentChunk.y + 1));
+        terrainImgArray.push(generateTerrainAtChunk(currentChunk.x - 1, currentChunk.y + 1));
         terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 1, currentChunk.y + 0));
         terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 0, currentChunk.y + 0));
         terrainImgArray.push(generateTerrainAtChunk(currentChunk.x - 1, currentChunk.y + 0));
-        // terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 1, currentChunk.y - 1));
+        terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 1, currentChunk.y - 1));
         terrainImgArray.push(generateTerrainAtChunk(currentChunk.x + 0, currentChunk.y - 1));
-        // terrainImgArray.push(generateTerrainAtChunk(currentChunk.x - 1, currentChunk.y - 1));
+        terrainImgArray.push(generateTerrainAtChunk(currentChunk.x - 1, currentChunk.y - 1));
     }
 }
 
 
+//!CLANK
 function generateTerrainAtChunk(chunkX, chunkY) {
+    let terrainImg = createImage(IMG_W, IMG_H);
+    terrainImg.loadPixels();
+
+    for (let y = 0; y < IMG_H; y++) {
+        for (let x = 0; x < IMG_W; x++) {
+            // position measured in image pixels, across all chunks
+            const pixelX = chunkX * IMG_W + x;
+            const pixelY = chunkY * IMG_H + y;
+
+            const noiseValue = noise(pixelX * NOISE_PER_PIXEL + NOISE_BASE, pixelY * NOISE_PER_PIXEL + NOISE_BASE);
+
+            const band = colorLUT[Math.floor(noiseValue * 255)];
+
+            const i = 4 * (y * IMG_W + x);
+            terrainImg.pixels[i] = band.r;
+            terrainImg.pixels[i + 1] = band.g;
+            terrainImg.pixels[i + 2] = band.b;
+            terrainImg.pixels[i + 3] = 255;
+        }
+    }
+    terrainImg.updatePixels();
+
+    return new TerrainChunk(chunkX, chunkY, terrainImg);
+}
+
+
+//OLD
+function oldGenerateTerrainAtChunk(chunkX, chunkY) {
     generateNoiseMapAtChunk(chunkX, chunkY);
     let terrainImg = createImage(CANVAS.x,CANVAS.y);
     terrainImg.loadPixels();
@@ -163,6 +196,7 @@ function generateTerrainAtChunk(chunkX, chunkY) {
 }
 
 
+//! DEPRICATED
 function generateNoiseMapAtChunk(chunkX, chunkY) {
     //top to bottom
     for (let y = 0; y < CANVAS.y; y++) {
