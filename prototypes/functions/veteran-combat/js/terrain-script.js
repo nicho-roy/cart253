@@ -53,15 +53,6 @@ const TRANSITION_THRESHOLD = 0.80; //.8 means at 80% of the screen, it will tran
 
 function setupTerrain() {
     //for human use
-    // colorIndices = new Map([
-    //     [0.4, "#050c45"],
-    //     [0.5, "#3675bc"],
-    //     [0.6, "#d9dc7d"],
-    //     [0.7, "#0e6222"],
-    //     [0.8, "#0d3617"],
-    //     [1, "#22130b"]
-    // ]);
-
     colorIndices = new Map([
         [0.45, "#2e3468"],
         [0.5, "#968a56"],
