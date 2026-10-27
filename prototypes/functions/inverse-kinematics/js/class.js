@@ -1,8 +1,9 @@
 //CLASS
 class Segment {
-    constructor(x,y,size,previousSegment) {
+    constructor(x,y,size,fill,previousSegment) {
         this.pos = createVector(x,y);
         this.size = size;
+        this.fill = fill;
         this.isFirst = false;
         this.previousSegment;
         if (previousSegment) {
@@ -11,6 +12,7 @@ class Segment {
         } else {
             this.isFirst = true;
         }
+        segmentArr.push(this);
     }
 
     act() {
@@ -19,9 +21,8 @@ class Segment {
 
     draw(xOffset,yOffset) {
         push();
-        //TODON account for scale and probs fix in general
-        const dimensions = getChunkDimensions();
-        image(this.image, (this.chunkX * dimensions.x) + xOffset, (this.chunkY * dimensions.y) + yOffset, CANVAS.x * worldScale, CANVAS.y * worldScale); 
+        fill(this.fill);
+        ellipse(this.pos.x - (this.size / 2), this.pos.y - (this.size / 2), this.size, this.size); 
         pop();
     }
 }

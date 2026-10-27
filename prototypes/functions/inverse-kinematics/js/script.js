@@ -14,13 +14,16 @@ const CANVAS = {
 
 let segmentArr = [];
 
+const FILL_OFFSET_AMT = 20;
+
+
 
 
 async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-
+    generateSegments();
     
 }
 
@@ -36,6 +39,15 @@ function draw() {
 
 
 
+function generateSegments() {
+    const startX = width/2
+    const startY = 200;
+    let size = 200;
+    let fill = 200;
+
+    let segment = new Segment(startX, startY, size, fill);
+    let segment1 = new Segment(startX, startY, size, fill);
+}
 
 
 
