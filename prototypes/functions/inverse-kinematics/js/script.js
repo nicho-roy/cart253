@@ -30,6 +30,8 @@ const FILL_OFFSET = 20;
 async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
+    //init gravity
+    gravity = createVector(0,gravity);
 
     generateSegments();
     

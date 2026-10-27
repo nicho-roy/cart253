@@ -2,6 +2,9 @@
 class Segment {
     constructor(x,y,size,fill,previousSegment) {
         this.pos = createVector(x,y);
+        this.vel = createVector(0, 0);
+        this.velLimit = 20;
+        this.acc = createVector(0, 0);
         this.size = size;
         this.fill = fill;
         this.isFirst = false;
@@ -19,8 +22,16 @@ class Segment {
         if (this.isFirst) {
             this.runMouseControls();
         } else {
-            
+            this.acc = gravity
         }
+
+        this.applyMotion();
+    }
+
+    applyMotion() {
+        this.vel.add(gravity);
+        this.vel.limit(this.velLimit)
+        this.pos.add(this.vel);
     }
 
     runMouseControls() {
