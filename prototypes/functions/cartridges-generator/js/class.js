@@ -9,7 +9,7 @@ class Cell {
         push();
         noStroke();
         fill(100);
-        rect(this.pos.x, this.pos.y, cellSize, cellSize);
+        rect(this.pos.x*cellSize, this.pos.y*cellSize, cellSize, cellSize);
         pop();
     }
 

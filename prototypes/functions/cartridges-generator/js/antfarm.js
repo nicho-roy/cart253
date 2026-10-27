@@ -76,7 +76,19 @@ function generateCells() {
     if (cellsArr.length > 0) return;
     console.log("gen");
 
-    let cell = new Cell(0,0);
+    let widthInCells = CANVAS.x / cellSize;
+    let heightInCells = CANVAS.y / cellSize; 
+    const PERCENT_GROUND_FILL = 0.85;
+
+    for (let i = 0; i < heightInCells * PERCENT_GROUND_FILL; i++) {
+        for (let j = 0; j < widthInCells; j++) {
+            //make top layer uneven
+            if (i + 1 >= heightInCells * PERCENT_GROUND_FILL && random(1) > 0.5) {
+                continue;
+            }
+            let cell = new Cell(j,heightInCells-i);
+        }
+    }
 
 }
 
