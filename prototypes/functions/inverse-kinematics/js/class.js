@@ -16,13 +16,26 @@ class Segment {
     }
 
     act() {
-        //effects of gravity and update position, move by mouse if first
+        if (this.isFirst) {
+            this.runMouseControls();
+        } else {
+            
+        }
     }
 
-    draw(xOffset,yOffset) {
+    runMouseControls() {
+        if (mouseIsPressed) {
+            console.log("click");
+            //TODON smooth mouse drag
+            this.pos = createVector(mouseX,mouseY);
+        }
+    }
+
+    draw() {
         push();
+        noStroke();
         fill(this.fill);
-        ellipse(this.pos.x - (this.size / 2), this.pos.y - (this.size / 2), this.size, this.size); 
+        ellipse(this.pos.x, this.pos.y, this.size, this.size); 
         pop();
     }
 }

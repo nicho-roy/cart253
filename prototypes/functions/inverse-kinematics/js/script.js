@@ -14,7 +14,15 @@ const CANVAS = {
 
 let segmentArr = [];
 
-const FILL_OFFSET_AMT = 20;
+let gravity = 1;
+
+const SEGMENT_COUNT = 5;
+const START_X = CANVAS.x / 2
+const START_Y = 400;
+let size = 200;
+const SIZE_OFFSET = 50
+let fillColor = 200;
+const FILL_OFFSET = 20;
 
 
 
@@ -40,13 +48,13 @@ function draw() {
 
 
 function generateSegments() {
-    const startX = width/2
-    const startY = 200;
-    let size = 200;
-    let fill = 200;
-
-    let segment = new Segment(startX, startY, size, fill);
-    let segment1 = new Segment(startX, startY, size, fill);
+    let previousSegment;
+    for (let i = 0; i < SEGMENT_COUNT; i++) {
+        let segment = new Segment(START_X, START_Y, size, fillColor, previousSegment);
+        size -= SIZE_OFFSET;
+        fillColor -= FILL_OFFSET;
+        previousSegment = segment;
+    }
 }
 
 
@@ -63,7 +71,7 @@ function drawAll() {
 function drawText() {
     push();
     textSize(30);
-    fill("black");
+    fill("#000000");
     text("Click to drag", 50, 50);
     pop();
 }
