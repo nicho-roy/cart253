@@ -7,7 +7,7 @@
 
 "use strict";
 
-let CellsArr = [];
+let cellsArr = [];
 
 let cellSize = 10;
 
@@ -28,7 +28,7 @@ let json = {
                 y: 0,
             },
         },
-        blocks: {
+        cells: {
 
         },
     }
@@ -48,7 +48,7 @@ async function setup() {
         enableButtons();
     } else {
         createCanvas(CANVAS.x, CANVAS.y);
-        generateBlocks();
+        generateCells();
 
 
 
@@ -72,9 +72,11 @@ function draw() {
 }
 
 
-function generateBlocks() {
-    if (blocksArr.length > 0) return;
+function generateCells() {
+    if (cellsArr.length > 0) return;
+    console.log("gen");
 
+    let cell = new Cell(0,0);
 
 }
 
@@ -85,11 +87,12 @@ function generateBlocks() {
 
 //GRAPHICS
 function drawAll() {
+    drawCells()
     drawPlayer()
 }
 
-function drawCellss() {
-    CellsArr.forEach(e => {
+function drawCells() {
+    cellsArr.forEach(e => {
         e.draw();
     });
 }
