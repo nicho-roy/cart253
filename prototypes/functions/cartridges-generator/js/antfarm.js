@@ -105,6 +105,7 @@ function getInput() {
         let cell = getCellAt(json.data.player.pos.x, json.data.player.pos.y)
         if (cell) {
             json.data.player.inventory += 1;
+            cell.destroy();
         } else if (json.data.player.inventory > 0) {
             //if cell beneath you place on player, else place beneath
             if (getCellAt(json.data.player.pos.x, json.data.player.pos.y + 1)) {
@@ -114,7 +115,6 @@ function getInput() {
             }
         }
         playerActionable = false;
-        console.log(cell);
     }
 }
 
