@@ -14,15 +14,18 @@ const CANVAS = {
 
 let segmentArr = [];
 
+//world params
 let gravity = 1;
+const PULL_STRENGTH = 1;
 
-const SEGMENT_COUNT = 5;
+//segment gen
+const SEGMENT_COUNT = 20;
 const START_X = CANVAS.x / 2
 const START_Y = 400;
 let size = 200;
-const SIZE_OFFSET = 50
+const SIZE_OFFSET = 10;
 let fillColor = 200;
-const FILL_OFFSET = 20;
+const FILL_OFFSET = 10;
 
 
 
