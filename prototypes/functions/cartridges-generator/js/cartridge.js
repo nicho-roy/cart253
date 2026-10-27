@@ -15,6 +15,7 @@ const CANVAS = {
 //UI buttons
 let obtainButton;
 let dockButton;
+let statelessButton;
 let ejectButton;
 
 //for non docking
@@ -35,6 +36,12 @@ function startGame() {
 function stopGame() {
     game.isRunning = false;
     game.playTime = 0;
+    setup();
+}
+
+function startStatelessGame() {
+    disableButtons();
+    game.isRunning = true;
     setup();
 }
 
@@ -114,6 +121,9 @@ function enableButtons() {
     dockButton = createButton("Dock Cartridge");
     dockButton.mousePressed(dockFile);
 
+    statelessButton = createButton("Play Stateless Mode");
+    statelessButton.mousePressed(startStatelessGame);
+
     if (ejectButton) {
         ejectButton.remove();
     }
@@ -124,22 +134,22 @@ function disableButtons() {
 
     dockButton.remove();
 
+    statelessButton.remove();
+
     ejectButton = createButton("Eject Cartridge");
     ejectButton.mousePressed(ejectFile);
 }
 
 function drawInstructions() {
     push();
-    text("Dock an existing cartridge save, or obtain and insert a new one to start playing!",width/2-200,height/2);
-    // text("Note that cartridge docking might not work on browsers other than chrome, so you'll need to insert your cartridge file at the top left instead", width / 2, height / 2);
+    noStroke();
+    textSize(16);
+    fill(10, 40, 10);
+    text("Dock an existing cartridge save, or obtain and insert a new one to start playing!",width/2-300,height/2);
+    text("WASD to move, Space to break/build.", width / 2 - 300, height / 2 + 20);
+    text("If docking cartridge files is blocked by browser, try playing in stateless mode.", width / 2 - 300, height / 2 + 40);
     pop();
 }
 
-function drawPlayers() {
-    playerArr.forEach(e => {
-        e.act();
-        e.draw();
-    });
-}
 
 

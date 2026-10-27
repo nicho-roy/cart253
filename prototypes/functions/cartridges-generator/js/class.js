@@ -8,7 +8,7 @@ class Cell {
     draw() {
         push();
         noStroke();
-        fill(100);
+        fill(48, 98, 48);
         rect(this.pos.x*cellSize, this.pos.y*cellSize, cellSize, cellSize);
         pop();
     }

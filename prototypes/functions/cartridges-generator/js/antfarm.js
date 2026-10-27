@@ -14,7 +14,7 @@ const PERCENT_GROUND_FILL = 0.60;
 //data
 let json = {
     meta: {
-        version: "0.2.2",
+        version: "1.0.0",
         title: "Antfarm",
         author: "Nicholas Roy",
         writeCount: 0,
@@ -63,10 +63,10 @@ async function setup() {
 
 function draw() {
     if (!game.isRunning) {
-        background(240);
+        background(155, 188, 15);
         drawInstructions();
     } else {
-        background(220);
+        background(155, 188, 15);
         game.playTime++;
 
         runInput();
@@ -168,35 +168,10 @@ function getCellAt(x,y) {
     return cellsArr.find(e => e.pos.x == x && e.pos.y == y);
 }
 
-//! unused, too slow
-// function keyPressed() {
-//     if (key === 'w') {
-//         json.data.player.pos.y -= 1;
-//     }
-//     if (key === 'a') {
-//         json.data.player.pos.x -= 1;
-//     }
-//     if (key === 's') {
-//         json.data.player.pos.y += 1;
-//     }
-//     if (key === 'd') {
-//         json.data.player.pos.x += 1;
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
 
 
 function generateCells() {
-    if (cellsArr.length == 0) {
+    if (json.data.cells.length == 0) {
         generateNewCells();
         console.log("generated new cells");
         return;
@@ -245,7 +220,7 @@ function drawCells() {
 function drawPlayer() {
     push();
     noStroke();
-    fill(10);
+    fill(10,40,10,200);
     rect(json.data.player.pos.x * cellSize, json.data.player.pos.y * cellSize, cellSize, cellSize);
     pop();
 }
