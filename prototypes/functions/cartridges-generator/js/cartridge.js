@@ -48,6 +48,10 @@ function saveGameStateToJson() {
 
     //game
     json.data.playTime += game.playTime;
+    //save cells
+    cellsArr.forEach((e,index) => {
+        json.data.cells[index] = {x: e.pos.x ,y: e.pos.y};
+    });
 }
 
 

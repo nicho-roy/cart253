@@ -8,8 +8,8 @@
 "use strict";
 
 let cellsArr = [];
-
 let cellSize = 10;
+const PERCENT_GROUND_FILL = 0.60;
 
 //data
 let json = {
@@ -27,10 +27,9 @@ let json = {
                 x: 0,
                 y: 0,
             },
+            cells: 0,
         },
-        cells: {
-
-        },
+        cells: [],
     }
     
 }
@@ -49,7 +48,7 @@ async function setup() {
     } else {
         createCanvas(CANVAS.x, CANVAS.y);
         generateCells();
-
+        console.log(cellsArr);
 
 
 
@@ -73,12 +72,22 @@ function draw() {
 
 
 function generateCells() {
-    if (cellsArr.length > 0) return;
-    console.log("gen");
+    if (cellsArr.length == 0) {
+        generateNewCells();
+        console.log("generated new cells");
+        return;
+    }
+    
+    //rebuild existing cells
+    json.data.cells.forEach((e) => {
+        let cell = new Cell(e.x,e.y);
+    });
 
+}
+
+function generateNewCells() {
     let widthInCells = CANVAS.x / cellSize;
-    let heightInCells = CANVAS.y / cellSize; 
-    const PERCENT_GROUND_FILL = 0.85;
+    let heightInCells = CANVAS.y / cellSize;
 
     for (let i = 0; i < heightInCells * PERCENT_GROUND_FILL; i++) {
         for (let j = 0; j < widthInCells; j++) {
@@ -86,10 +95,9 @@ function generateCells() {
             if (i + 1 >= heightInCells * PERCENT_GROUND_FILL && random(1) > 0.5) {
                 continue;
             }
-            let cell = new Cell(j,heightInCells-i);
+            let cell = new Cell(j, heightInCells - i);
         }
     }
-
 }
 
 
