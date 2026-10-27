@@ -7,6 +7,9 @@
 
 "use strict";
 
+let CellsArr = [];
+
+let cellSize = 10;
 
 //data
 let json = {
@@ -19,6 +22,15 @@ let json = {
     },
     data: {
         playTime: 0,
+        player: {
+            pos: {
+                x: 0,
+                y: 0,
+            },
+        },
+        blocks: {
+
+        },
     }
     
 }
@@ -30,16 +42,21 @@ let game = {
 }
 
 
-
 async function setup() {
-    createCanvas(CANVAS.x,CANVAS.y);
-    enableButtons();
-    
+    if (!game.isRunning) {
+        createCanvas(CANVAS.x, CANVAS.y);
+        enableButtons();
+    } else {
+        createCanvas(CANVAS.x, CANVAS.y);
+        generateBlocks();
 
-    // exportSave();
-    
+
+
+
+
+    }
+
 }
-
 
 function draw() {
     if (!game.isRunning) {
@@ -50,17 +67,38 @@ function draw() {
         game.playTime++;
 
 
-
+        drawAll();
     }
 }
 
 
+function generateBlocks() {
+    if (blocksArr.length > 0) return;
 
-function drawPlayers() {
-    player.forEach(e => {
-        e.act();
+
+}
+
+
+
+
+
+
+//GRAPHICS
+function drawAll() {
+    drawPlayer()
+}
+
+function drawCellss() {
+    CellsArr.forEach(e => {
         e.draw();
     });
+}
+
+
+function drawPlayer() {
+    push();
+
+    pop();
 }
 
 

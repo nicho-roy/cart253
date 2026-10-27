@@ -29,8 +29,7 @@ let fileHandle = null;
 function startGame() {
     disableButtons();
     game.isRunning = true;
-
-
+    setup();
 }
 
 function stopGame() {
@@ -76,7 +75,7 @@ async function ejectFile() {
     const writable = await fileHandle.createWritable();
     await writable.write(JSON.stringify(json,null,3));
     await writable.close();
-    console.log("File ejected: ",json);
+    console.log("file ejected: ",json);
     fileHandle = null;
     stopGame();
 }
