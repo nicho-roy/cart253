@@ -22,51 +22,7 @@ let input;
 let output;
 //for docking
 let fileHandle = null;
-//data
-let json = {
-    meta: {
-        ver: "0.1.0",
-        title: "silly.exp",
-        author: "Nicholas Roy",
-        writeCount: 0,
-        lastSavedOn: "",
-    },
-    data: {
-        playTime: 0,
-    }
-    
-}
 
-//game
-let game = {
-    isRunning: false,
-    playTime: 0,
-}
-
-
-
-async function setup() {
-    createCanvas(CANVAS.x,CANVAS.y);
-    enableButtons();
-    
-
-    // exportSave();
-    
-}
-
-
-function draw() {
-    background(240);
-
-    if (!game.isRunning) {
-        drawInstructions();
-    } else {
-        game.playTime++;
-
-
-
-    }
-}
 
 
 //GAME 
@@ -78,12 +34,20 @@ function startGame() {
 }
 
 function stopGame() {
-    enableButtons();
     game.isRunning = false;
     game.playTime = 0;
+    setup();
 }
 
 function saveGameStateToJson() {
+    //meta
+    json.meta.writeCount += 1;
+    let y = year();
+    let m = month();
+    let d = day();
+    json.meta.lastSavedOn = `${y}-${m}-${d}`;
+
+    //game
     json.data.playTime += game.playTime;
 }
 
@@ -112,7 +76,7 @@ async function ejectFile() {
     const writable = await fileHandle.createWritable();
     await writable.write(JSON.stringify(json,null,3));
     await writable.close();
-    console.log("File ejected");
+    console.log("File ejected: ",json);
     fileHandle = null;
     stopGame();
 }
@@ -120,10 +84,9 @@ async function ejectFile() {
 
 
 
-//for non-dock file export
+//obtain blank save
 function exportSave() {
-    // let writer = createWriter('cartridge.json');
-    saveJSON(json, "data.json");
+    saveJSON(json, "cartridge.json");
 }
 
 //for non-dock file input
