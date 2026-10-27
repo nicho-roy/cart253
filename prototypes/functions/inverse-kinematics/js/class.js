@@ -32,12 +32,19 @@ class Segment {
         const vectorToPrev = p5.Vector.sub(this.previous.pos,this.pos);
         const distance = vectorToPrev.mag();
 
+        this.acc = gravity.copy();
+
         //if inside coupling radius
         if (distance <= couplingRaduis) {
-            this.acc = gravity;
+            // this.acc = gravity;
         } else {
             const magToCoupling = distance - couplingRaduis;
-            this.acc = vectorToPrev.setMag(magToCoupling * PULL_STRENGTH);
+            const spring = vectorToPrev.setMag(magToCoupling * PULL_STRENGTH);
+
+            const velRelToPrev = p5.Vector.sub(this.vel, this.previous.vel);
+            const damper = velRelToPrev.mult(-2 * Math.sqrt(PULL_STRENGTH));
+
+            this.acc.add(spring).add(damper);
         }
 
 
@@ -53,8 +60,13 @@ class Segment {
     runMouseControls() {
         if (mouseIsPressed) {
             console.log("click");
-            //TODON smooth mouse drag
-            this.pos = createVector(mouseX,mouseY);
+            const mouseVector = createVector(mouseX,mouseY)
+            const vectorToMouse = p5.Vector.sub(mouseVector,this.pos);
+            this.vel = vectorToMouse;
+            this.vel.limit(this.velLimit);
+            this.pos.add(this.vel);
+        } else {
+            this.vel.set(0, 0); 
         }
     }
 
