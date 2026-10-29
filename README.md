@@ -37,10 +37,10 @@ code:
 <!-- Spring physics -->
 >![](./assets/images/)
 <br>
-[](./prototypes/functions)
+[Spring Physics](./prototypes/functions/inverse-kinematics/index.html)
 <br>
 code:
-[](./prototypes/functions)
+[main](./prototypes/functions/inverse-kinematics/js/script.js), [class](./prototypes/functions/inverse-kinematics/js/class.js)
 
 
 
