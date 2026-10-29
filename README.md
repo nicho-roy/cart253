@@ -14,6 +14,38 @@ This is a repo containing a collection of short programing projects for my CART 
 
 ## Links
 
+
+## Functions
+<!-- Veteran Combat -->
+>![](./assets/images/)
+<br>
+[Veteran Combat](./prototypes/functions/veteran-combat/index.html)
+<br>
+code:
+[main](./prototypes/functions/veteran-combat/js/script.js), [classes](./prototypes/functions/veteran-combat/js/classes.js), [player-setup](./prototypes/functions/veteran-combat/js/player-setup.js), [terrain-script](./prototypes/functions/veteran-combat/js/terrain-script.js)
+
+
+<!-- Nontendo Gameman -->
+>![](./assets/images/)
+<br>
+[Antfarm for the Nontendo Gameman](./prototypes/functions/cartridges-generator/index.html)
+<br>
+code:
+[main](./prototypes/functions/cartridges-generator/js/antfarm.js), [cartridge-code](./prototypes/functions/cartridges-generator/js/cartridge.js), [class](./prototypes/functions/cartridges-generator/js/class.js)
+
+
+<!-- Spring physics -->
+>![](./assets/images/)
+<br>
+[](./prototypes/functions)
+<br>
+code:
+[](./prototypes/functions)
+
+
+
+
+
 ## Events
 [Lose challenge](./topics/events/index.html)
 [code](./topics/events/js/script.js)

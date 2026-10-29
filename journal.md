@@ -82,4 +82,7 @@
 >[Rookie Combat](./prototypes/events/rookie-combat/index.html)
 >![rookie-img](./assets/images/rookie-combat.png)
 
+## 2026-10-23
+> 
+
 
