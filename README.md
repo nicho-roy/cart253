@@ -17,7 +17,7 @@ This is a repo containing a collection of short programing projects for my CART 
 
 ## Functions
 <!-- Veteran Combat -->
->![](./assets/images/)
+>![veteran-img](./assets/images/veteran.png)
 <br>
 [Veteran Combat](./prototypes/functions/veteran-combat/index.html)
 <br>
@@ -26,7 +26,7 @@ code:
 
 
 <!-- Nontendo Gameman -->
->![](./assets/images/)
+>![antfarm-img](./assets/images/cartridge.png)
 <br>
 [Antfarm for the Nontendo Gameman](./prototypes/functions/cartridges-generator/index.html)
 <br>
@@ -35,7 +35,7 @@ code:
 
 
 <!-- Spring physics -->
->![](./assets/images/)
+>![kinematics-img](./assets/images/kinematics.png)
 <br>
 [Spring Physics](./prototypes/functions/inverse-kinematics/index.html)
 <br>
