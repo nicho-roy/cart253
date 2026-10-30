@@ -28,7 +28,7 @@ code:
 <!-- Nontendo Gameman -->
 >![antfarm-img](./assets/images/cartridge.png)
 <br>
-[Antfarm for the Nontendo Gameman](./prototypes/functions/cartridges-generator/index.html)
+[Antfarm, for the Nontendo Gameman](./prototypes/functions/cartridges-generator/index.html)
 <br>
 code:
 [main](./prototypes/functions/cartridges-generator/js/antfarm.js), [cartridge-code](./prototypes/functions/cartridges-generator/js/cartridge.js), [class](./prototypes/functions/cartridges-generator/js/class.js)
