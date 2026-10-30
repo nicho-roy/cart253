@@ -1,8 +1,24 @@
 # Reflective Journal
 
+## 2026-10-27
+> I've recently been interested in messing with inverse kinematics, so I decided on making a simulation tail-like appendage. For this prototype I created an array of ellipses that are coupled to eachother, are affected by gravity, and have additional influence on their neighbors. While simple in concept, the physics are percisely tuned based on my initial inspriation.
+> In its current state, the appendage only moves from its base, while the rest follow. Since the sim uses a combination of Hooke's law and the critical damping formula, the appendage feels very spring like, and not as much like a tail as I imagined. Perhaps I'll do more research in what physics model to use in the future.
+>[Tail Simulation](./prototypes/functions/inverse-kinematics/index.html)
+>![kinematics-img](./assets/images/kinematics.png)
+
+
+## 2026-10-24
+> My inspiration for this prototype was of old gameboy games, and how, at that time, game states could now be saves in a piece of hardware with its own memory. My prototype consists of a simple grid-based game where you can place and remove cells from the sandbox. What sets it appart however, is how you can choose to download a "cartridge" (which is essentially an empty JSON save file), and "dock" it to the webpage. Upon clicking "eject", all changes made to the sandbox will be saved into the "cartridge", and can be reloaded into the sketch at any later time, even after refreshing the page. 
+> NOTE: If the act of docking the save file is blocked by your browser, you can play in stateless mode, which is essentailly the same sandbox game without the saving features.
+> This is a personal favorite of mine, as it facilitates persistent and personalized sandbox instances to mess around with.
+>[Antfarm, for the Nontendo Gameman](./prototypes/functions/cartridges-generator/index.html)
+>![antfarm-img](./assets/images/cartridge.png)
+
 
 ## 2026-10-23
-> 
+> I wanted to improve upon my previous prototype _Rookie Combat_ (see prev entry), as there were several things I wasn't happy with. After in-class testing, I realized that my keyboard only allowed up to 5 or so inputs at a time, and since there were many controls for multiplayer, some of your inputs would get eaten. Additionally, with how small the bounds of the game were, as well as how much realism I coded into the flight physics, there was little room for maneuvering. I decided I wanted to instead make a single player experience, and a procedurally generated map, with the player in the center, and all other objects moving relative to it. The procedural terrain alone was far too ambitious, as even though I already experimented with it in another project, making transitions between terrain chunks was very difficult to do seamlessly, so I sacrified a lot of the resolution of the background. Even now there are visible chunk borders sometimes. As of the current build, enemy fighters do not move in relation to the player, instead just flying across the canvas. Ill need to account for this later if I'm to improve on this prototype. For now though, flighing around is fairly smooth and satisfying.
+>[Veteran Combat](./prototypes/functions/veteran-combat/index.html)
+>![veteran-img](./assets/images/veteran.png)
 
 
 ## 2026-10-19

@@ -37,7 +37,7 @@ code:
 <!-- Spring physics -->
 >![kinematics-img](./assets/images/kinematics.png)
 <br>
-[Spring Physics](./prototypes/functions/inverse-kinematics/index.html)
+[Tail Simulation](./prototypes/functions/inverse-kinematics/index.html)
 <br>
 code:
 [main](./prototypes/functions/inverse-kinematics/js/script.js), [class](./prototypes/functions/inverse-kinematics/js/class.js)
