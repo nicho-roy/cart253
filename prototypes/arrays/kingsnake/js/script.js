@@ -50,8 +50,8 @@ let exampleJointArray = [
 
 let snakeJointsArray = [
     { jointRadius: 32, drawSize: 50, fill: "#251915" },
-    { jointRadius: 32, drawSize: 70, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
+    { jointRadius: 32, drawSize: 80, fill: "#251915" },
+    { jointRadius: 32, drawSize: 80, fill: "#cccba1" },
     { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
     { jointRadius: 32, drawSize: 64, fill: "#251915" },
     { jointRadius: 32, drawSize: 64, fill: "#251915" },
