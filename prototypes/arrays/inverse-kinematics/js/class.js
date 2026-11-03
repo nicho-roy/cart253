@@ -32,8 +32,15 @@ class JointGroup {
     }
 
     constrainJoints() {
-        for (let i = 0; i < this.jointArr.length; i++) {
-            
+        //constrain the next of each joint, ignoring last
+        for (let i = 0; i < this.jointArr.length -1; i++) {
+            let currentjoint = this.jointArr[i];
+            let nextJoint = this.jointArr[i+1];
+            const anchor = currentjoint.pos;
+            const currentToNext = p5.Vector.sub(nextJoint.pos, anchor);
+            const constrainedVector = currentToNext.setMag(currentjoint.jointRadius);
+            const nextJointPos = p5.Vector.add(anchor,constrainedVector)
+            nextJoint.pos = nextJointPos;
         }
     }
 

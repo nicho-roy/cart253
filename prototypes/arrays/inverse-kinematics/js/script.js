@@ -13,12 +13,17 @@ const CANVAS = {
 }
 
 let exampleJointArray = [
-    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
-    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
-    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
-    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
-    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
-    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
+    { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
 ];
 
 let jointGroupsArr = [];
