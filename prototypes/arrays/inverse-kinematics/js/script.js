@@ -12,17 +12,24 @@ const CANVAS = {
     y: 1080
 }
 
+let exampleJointArray = [
+    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
+    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
+    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
+    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
+    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
+    { jointRadius: 100, drawSize: 200, fill: "#2496c7" },
+];
 
-
-
-
+let jointGroupsArr = [];
 
 
 async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-
+    let jointGroup = new JointGroup(exampleJointArray,500,200);
+    jointGroupsArr.push(jointGroup);
     
 }
 
@@ -42,7 +49,7 @@ function draw() {
 
 //GRAPHICS
 function drawAll() {
-    drawText();
+    // drawText();
 
     drawJointGroups();
 }
@@ -57,7 +64,9 @@ function drawText() {
 }
 
 function drawJointGroups() {
-
+    jointGroupsArr.forEach(e => {
+        e.act();
+    });
 }
 
 
