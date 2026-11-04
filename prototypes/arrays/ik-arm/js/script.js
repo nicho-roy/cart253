@@ -17,19 +17,6 @@ let debugJointarr = [
     { jointRadius: 50, drawSize: 10, fill: "#c72424" },
     { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
 ];
-let debugJointarr2 = [
-    { jointRadius: 50, drawSize: 10, fill: "#5ac724" },
-    { jointRadius: 50, drawSize: 10, fill: "#c72424" },
-    { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-];
 
 
 let jointGroupsArr = [];
@@ -40,7 +27,7 @@ async function setup() {
     createCanvas(CANVAS.x, CANVAS.y);
 
 
-    jointGroupsArr.push(jointGroup);
+    // jointGroupsArr.push(jointGroup);
     
 }
 
