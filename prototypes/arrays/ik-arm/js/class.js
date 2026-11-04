@@ -13,16 +13,17 @@ class IKJointGroup {
     generateJoints(jointInstructions) {
         //init from instructions
         let yOffset = 0;
+        let hasPoleTarget = false;
         for (let i = 0; i < jointInstructions.length; i++) {
-            let joint;
             // for all joints excluding the first and last, create a pole target for believable bending
-            if (i == 0 || i >= jointInstructions.length-1) {
-                joint = new Joint(this.pos.x, this.pos.y + yOffset, e.jointRadius, e.drawSize, e.fill, false);
+            if (i == 0 || i >= jointInstructions.length - 1) {
+                hasPoleTarget = false;
             } else {
-                joint = new Joint(this.pos.x, this.pos.y + yOffset, e.jointRadius, e.drawSize, e.fill, true);
+                hasPoleTarget = true;
             }
+            let joint = new Joint(this.pos.x, this.pos.y + yOffset, jointInstructions[i].jointRadius, jointInstructions[i].drawSize, jointInstructions[i].fill, hasPoleTarget);
             this.jointArr.push(joint);
-            yOffset += e.jointRadius;
+            yOffset += jointInstructions[i].jointRadius;
         }
     }
 
