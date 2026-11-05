@@ -108,8 +108,9 @@ function generateRats(amt) {
         let randX = random(0, width);
         let randY = random(0, height)
         let randSpeed = random(10, 80);;
-        let randSize = random(50,150);
-        let rat = new Rat(randX,randY,randSpeed,randSize);
+        let randSize = random(50, 150);
+        let randTurnRefreshTime = random(50, 250);
+        let rat = new Rat(randX, randY, randSpeed, randSize, randTurnRefreshTime);
     }
 }
 

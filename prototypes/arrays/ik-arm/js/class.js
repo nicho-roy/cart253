@@ -9,7 +9,7 @@ class IKJointGroup {
         this.rootJoint = this.jointArr[0];
         this.headJoint = this.jointArr[this.jointArr.length - 1];
         this.degreeBendAmount = 10
-        this.grabRange = 50;
+        this.grabRange = 100;
         this.grabbedRats = [];
         this.grabCooldownFrame = true; //gets set to false on first frame of grab, and set to true on letgo
     }
@@ -197,11 +197,20 @@ class Joint {
 }
 
 
+
+
+
+
+
+
+
 class Rat {
-    constructor(x,y,speed,size) {
+    constructor(x,y,speed,size,turnRefreshTime) {
         this.pos = createVector(x,y);
         this.speed = speed;
         this.size = size
+        this.turnRefreshTime = turnRefreshTime;
+        this.turnRefreshTimer = 0;
         this.vel = createVector(0, 0);
         this.velLimit = 50;
         this.acc = createVector(0, 0);
@@ -209,8 +218,49 @@ class Rat {
     }
 
     act() {
-        this.acc = createVector(0,0);
-        
+        this.turnRefreshTime++;
+
+        if (this.turnRefreshTime >= this.turnRefreshTimer) {
+            this.acc = createVector(0, 0);
+            let randX = random(-1, 1);
+            let randY = random(-1, 1);
+            this.acc.add(randX, randY);
+        }
+
+        this.vel.add(this.acc);
+        this.vel.limit(this.velLimit);
+        this.pos.add(this.vel);
+
+        this.checkBounds(this);
+    }
+
+    checkBounds(obj) {
+        if (obj.pos.x > width) {
+            obj.pos.x = width;
+            this.flipXDirection(obj);
+        }
+        if (obj.pos.x < 0) {
+            obj.pos.x = 0;
+            this.flipXDirection(obj);
+        }
+        if (obj.pos.y > height) {
+            obj.pos.y = height;
+            this.flipYDirection(obj);
+        }
+        if (obj.pos.y < 0) {
+            obj.pos.y = 0;
+            this.flipYDirection(obj);
+        }
+    }
+
+    flipXDirection(obj) {
+        obj.acc = createVector(-obj.acc.x, obj.acc.y);
+        obj.vel = createVector(-obj.vel.x, obj.vel.y);
+    }
+
+    flipYDirection(obj) {
+        obj.acc = createVector(obj.acc.x, -obj.acc.y);
+        obj.vel = createVector(obj.vel.x, -obj.vel.y);
     }
 
     draw() {
@@ -220,3 +270,4 @@ class Rat {
     }
 
 }
+
