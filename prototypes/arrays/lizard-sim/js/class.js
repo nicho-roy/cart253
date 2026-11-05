@@ -12,22 +12,29 @@ class BodyJointGroup {
 
     generateJoints(bodyInstructions) {
         //generate body
-        const jointInstructions = bodyInstructions.body;
         let yOffset = 0;
-        jointInstructions.forEach(e => {
-            let joint = new Joint(this.pos.x, this.pos.y + yOffset, e.jointRadius, e.drawSize, e.fill);
-            this.jointArr.push(joint);
-            yOffset += e.jointRadius;
-        });
+        for (const [key, value] of Object.entries(bodyInstructions)) {
+            //if current segment is joint
+            if (key == "joint") {
+                let joint = new Joint(this.pos.x, this.pos.y + yOffset, value.jointRadius, value.drawSize, value.fill);
+                this.jointArr.push(joint);
+                yOffset += value.jointRadius;
+            }
 
-        //generate limbs
-        const limbInstructions = bodyInstructions.limbs;
-        limbInstructions.forEach(e => {
-            //!CONT TODON SET X AND Y 
-            let limbLeft = new LimbJointGroup(e,0,0,1);
-            let limbRight = new LimbJointGroup(e,0,0,-1);
-            this.limbArr.push(limbLeft,limbRight);
-        });
+            //if current segment is limb
+            if (key == "limb") {
+                //!CONT TODON LIMB
+            }
+        }
+
+        // //generate limbs
+        // const limbInstructions = bodyInstructions.limbs;
+        // limbInstructions.forEach(e => {
+        //     //!CONT TODON SET X AND Y 
+        //     let limbLeft = new LimbJointGroup(e,0,0,1);
+        //     let limbRight = new LimbJointGroup(e,0,0,-1);
+        //     this.limbArr.push(limbLeft,limbRight);
+        // });
 
     }
 
