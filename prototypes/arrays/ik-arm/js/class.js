@@ -1,10 +1,10 @@
 //CLASS
 //joint controller
 class IKJointGroup {
-    constructor(jointInstructions,x,y,minAngle) {
+    constructor(jointInstructions,x,y,bendDirPreference) {
         this.jointArr = [];
         this.rootPos = createVector(x,y);
-        this.minAngle = minAngle;
+        this.bendDirPreference = bendDirPreference; //neg or pos 1, used as a base for directional rotation
         this.generateJoints(jointInstructions);
         this.rootJoint = this.jointArr[0];
         this.headJoint = this.jointArr[this.jointArr.length - 1];
@@ -30,6 +30,7 @@ class IKJointGroup {
     act() {
         const targetVector = createVector(mouseX,mouseY);
         this.moveForward(targetVector);
+        this.rotateMiddleJoints(targetVector);
         this.moveBackward();
 
         this.drawjoints();
@@ -50,6 +51,27 @@ class IKJointGroup {
             const constrainedVector = currentToNext.setMag(currentjoint.jointRadius);
             const nextJointPos = p5.Vector.add(anchor,constrainedVector)
             nextJoint.pos = nextJointPos;
+        }
+    }
+
+    //to be used in future projects to make realistic arm bending, and because pole targetting is way too complicated
+    rotateMiddleJoints(targetVector) {
+        
+        //loop through joint arrays, ignoring first and last, apply a slight rotation to the middle joints relative to the previous
+        for (let i = 1; i < this.jointArr.length - 1; i++) {
+            const currentJoint = this.jointArr[i];
+            const prevJoint = this.jointArr[i-1];
+            //get angle and dist from prev to current
+            const VectorPrevToCurrent = p5.Vector.sub(currentJoint.pos,prevJoint.pos);
+            // get heading of said angle
+            const headingPrevToCurrent = VectorPrevToCurrent.heading();
+            // console.log(headingPrevToCurrent);
+            // add 90 deg in either direction (using bendDirPreference)
+            const newHeadingPrevToCurrent = headingPrevToCurrent + (this.bendDirPreference*90);
+            //reconstruct the vector and apply position to current joint
+            const newVectorPrevToCurrent = p5.Vector.fromAngle(radians(newHeadingPrevToCurrent), prevJoint.jointRadius);
+            console.log(Math.trunc(newVectorPrevToCurrent.x), Math.trunc(newVectorPrevToCurrent.y));
+            currentJoint.pos = p5.Vector.add(prevJoint.pos, newVectorPrevToCurrent);
         }
     }
 
@@ -116,7 +138,7 @@ class Joint {
         this.jointRadius = jointRadius;
         this.drawSize = drawSize;
         this.fill = fill;
-        this.hasPoleTarget = hasPoleTarget;
+        this.hasPoleTarget = hasPoleTarget; //unused
     }
 
     draw() {
