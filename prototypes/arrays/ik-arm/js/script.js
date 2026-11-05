@@ -1,5 +1,5 @@
 /**
- * Grabber
+ * Rat Grabber
  * Nicholas Roy
  * 
  * Prototype 2
