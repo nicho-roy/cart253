@@ -122,8 +122,8 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    let jointGroup = new JointGroup(exampleJointArray, 500, 200, 150);
-    jointGroupsArr.push(jointGroup);
+    let body = new BodyJointGroup(exampleJointArray, 500, 200, 150);
+    jointGroupsArr.push(body);
     
 }
 
