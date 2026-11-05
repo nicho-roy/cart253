@@ -8,6 +8,7 @@ class IKJointGroup {
         this.generateJoints(jointInstructions);
         this.rootJoint = this.jointArr[0];
         this.headJoint = this.jointArr[this.jointArr.length - 1];
+        this.degreeBendAmount = 10
     }
 
     generateJoints(jointInstructions) {
@@ -57,21 +58,36 @@ class IKJointGroup {
     //! TODON HAVE POLE VECTOR DERIVE FROM IN BETWEEN THE LEFT OR RIGHT OF THR PREV TO THE NEXT
     //to be used in future projects to make realistic arm bending, and because pole targetting is way too complicated
     rotateMiddleJoints(targetVector) {
-        
+        //get total group length and distane from root to target
+        const distRootToTarget = dist(targetVector.x, targetVector.y, this.rootJoint.pos.x, this.rootJoint.pos.y)
+        let totalGroupLength = 0;
+        this.jointArr.forEach(e => {
+            totalGroupLength += e.jointRadius;
+        });
+
         //loop through joint arrays, ignoring first and last, apply a slight rotation to the middle joints relative to the previous
         for (let i = 1; i < this.jointArr.length - 1; i++) {
             const currentJoint = this.jointArr[i];
             const prevJoint = this.jointArr[i-1];
             //get angle and dist from prev to current
             const VectorPrevToCurrent = p5.Vector.sub(currentJoint.pos,prevJoint.pos);
+            if (distRootToTarget < VectorPrevToCurrent.mag()) {
+                console.log("stop loop");
+                // return;
+            }
+            const appliedDegreeBendAmount = this.degreeBendAmount;
+            const appliedDegreeBendMult = map(distRootToTarget, 0, totalGroupLength, 0, 1, true); // 0 when at the root, 1 when at the lenght of the segmentgroup
+            // console.log(degreeBendAmountMultiplier);
+            // const appliedDegreeBendAmount = this.degreeBendAmount * degreeBendAmountMultiplier;
+            console.log(appliedDegreeBendMult);
             // get heading of said angle
             const headingPrevToCurrent = VectorPrevToCurrent.heading();
             // console.log(headingPrevToCurrent);
             // add 90 deg in either direction (using bendDirPreference)
-            const newHeadingPrevToCurrent = headingPrevToCurrent + (this.bendDirPreference*10);
+            const newHeadingPrevToCurrent = headingPrevToCurrent + (this.bendDirPreference * appliedDegreeBendAmount * appliedDegreeBendMult);
             //reconstruct the vector and apply position to current joint
             const newVectorPrevToCurrent = p5.Vector.fromAngle(radians(newHeadingPrevToCurrent), prevJoint.jointRadius);
-            console.log(Math.trunc(newVectorPrevToCurrent.x), Math.trunc(newVectorPrevToCurrent.y));
+            // console.log(Math.trunc(newVectorPrevToCurrent.x), Math.trunc(newVectorPrevToCurrent.y));
             currentJoint.pos = p5.Vector.add(prevJoint.pos, newVectorPrevToCurrent);
         }
     }

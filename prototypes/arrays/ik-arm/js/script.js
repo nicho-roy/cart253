@@ -83,6 +83,18 @@ let debugJointarr = [
     { jointRadius: 50, drawSize: 10, fill: "#5ac724" },
     { jointRadius: 50, drawSize: 10, fill: "#c72424" },
     { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    // { jointRadius: 50, drawSize: 10, fill: "#5ac724" },
+    // { jointRadius: 50, drawSize: 10, fill: "#c72424" },
+    // { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    // { jointRadius: 50, drawSize: 10, fill: "#5ac724" },
+    // { jointRadius: 50, drawSize: 10, fill: "#c72424" },
+    // { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    // { jointRadius: 50, drawSize: 10, fill: "#5ac724" },
+    // { jointRadius: 50, drawSize: 10, fill: "#c72424" },
+    // { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    // { jointRadius: 50, drawSize: 10, fill: "#5ac724" },
+    // { jointRadius: 50, drawSize: 10, fill: "#c72424" },
+    // { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
 ];
 
 
@@ -93,7 +105,7 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    let ikJoint = new IKJointGroup(debugJointarr, 500, 200, 1);
+    let ikJoint = new IKJointGroup(debugJointarr, 900, 200, 1);
     // let ikJoint2 = new IKJointGroup(debugJointarr, 500, 500, 1);
     // let ikJoint3 = new IKJointGroup(debugJointarr, 500, 600, 1);
     // let ikJoint = new IKJointGroup(snakeJointsArray, 500, 200, 1);
