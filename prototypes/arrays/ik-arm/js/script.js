@@ -125,7 +125,7 @@ function drawAll() {
     drawRatTraps();
     drawJointGroups();
     drawRats();
-
+    drawText()
 }
 
 function drawRatTraps() {
@@ -146,6 +146,16 @@ function drawJointGroups() {
     jointGroupsArr.forEach(e => {
         e.act();
     });
+}
+
+function drawText() {
+    push();
+    textSize(30);
+    fill("black");
+    let start = 50;
+    text("Capture rats by placing them in the bubble", 50, 50);
+
+    pop();
 }
 
 
