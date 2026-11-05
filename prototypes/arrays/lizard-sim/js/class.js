@@ -1,22 +1,34 @@
 //CLASS
 //joint controller
 class BodyJointGroup {
-    constructor(jointInstructions, x, y, minAngle) {
+    constructor(bodyInstructions, x, y, minAngle) {
         this.jointArr = [];
+        this.limbArr = [];
         this.pos = createVector(x, y);
         this.minAngle = minAngle;
-        this.generateJoints(jointInstructions);
+        this.generateJoints(bodyInstructions);
         this.headJoint = this.jointArr[0];
     }
 
-    generateJoints(jointInstructions) {
-        //init from instructions
+    generateJoints(bodyInstructions) {
+        //generate body
+        const jointInstructions = bodyInstructions.body;
         let yOffset = 0;
         jointInstructions.forEach(e => {
             let joint = new Joint(this.pos.x, this.pos.y + yOffset, e.jointRadius, e.drawSize, e.fill);
             this.jointArr.push(joint);
             yOffset += e.jointRadius;
         });
+
+        //generate limbs
+        const limbInstructions = bodyInstructions.limbs;
+        limbInstructions.forEach(e => {
+            //!CONT TODON SET X AND Y 
+            let limbLeft = new LimbJointGroup(e,0,0,1);
+            let limbRight = new LimbJointGroup(e,0,0,-1);
+            this.limbArr.push(limbLeft,limbRight);
+        });
+
     }
 
     act() {
@@ -24,6 +36,8 @@ class BodyJointGroup {
         this.moveHead(targetVector);
         this.constrainJointPositions();
         this.constrainJointAngles();
+
+        this.updateLimbRootPositions();
 
         this.drawjoints();
     }
@@ -74,6 +88,10 @@ class BodyJointGroup {
         let nextJoint = this.jointArr[i + 1];
         const setVectorOffset = p5.Vector.fromAngle(radians(setHeading), currentJoint.jointRadius);
         nextJoint.pos = p5.Vector.add(currentJoint.pos, setVectorOffset);
+    }
+
+    updateLimbRootPositions() {
+
     }
 
     drawjoints() {
