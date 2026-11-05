@@ -12,72 +12,6 @@ const CANVAS = {
     y: 1080
 }
 
-let snakeJointsArray = [
-    { jointRadius: 32, drawSize: 50, fill: "#251915" },
-    { jointRadius: 32, drawSize: 80, fill: "#251915" },
-    { jointRadius: 32, drawSize: 80, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#251915" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 64, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 60, fill: "#251915" },
-    { jointRadius: 32, drawSize: 55, fill: "#251915" },
-    { jointRadius: 32, drawSize: 50, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 45, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 40, fill: "#251915" },
-    { jointRadius: 32, drawSize: 35, fill: "#251915" },
-    { jointRadius: 32, drawSize: 30, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 25, fill: "#cccba1" },
-    { jointRadius: 32, drawSize: 20, fill: "#251915" },
-    { jointRadius: 32, drawSize: 15, fill: "#251915" },
-    { jointRadius: 32, drawSize: 10, fill: "#da2f14" },
-    { jointRadius: 32, drawSize: 10, fill: "#da2f14" },
-];
 
 let debugJointarr = [
     { jointRadius: 50, drawSize: 10, fill: "#5ac724" },
@@ -126,27 +60,30 @@ let armJointsArray = [
     { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
     { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
     { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
-    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
-    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
-    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
-    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
-    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
-    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 86, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 86, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 86, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 86, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 86, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 86, fill: "#cf530b" },
     { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
     { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
     { jointRadius: 32, drawSize: 80, fill: "#b5a28a" },
-    { jointRadius: 32, drawSize: 80, fill: "#b5a28a" },
+    { jointRadius: 32, drawSize: 120, fill: "#b5a28a" },
 ];
 
 
-
+let ratImg = "./assets/images/rat.png";
 
 let jointGroupsArr = [];
+let ratsArr = [];
 
 
 async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
+
+    ratImg = await loadImage(ratImg);
 
     // let ikJoint = new IKJointGroup(debugJointarr, 900, 200, 1);
     let ikJoint = new IKJointGroup(armJointsArray, width/2, 0, 1);
@@ -154,6 +91,8 @@ async function setup() {
     // let ikJoint3 = new IKJointGroup(debugJointarr, 500, 600, 1);
     // let ikJoint = new IKJointGroup(snakeJointsArray, 500, 200, 1);
     jointGroupsArr.push(ikJoint);
+
+    generateRats(25);
     
 }
 
@@ -161,19 +100,33 @@ async function setup() {
 function draw() {
     background(240);
 
-
-
-
     drawAll();
+}
+
+function generateRats(amt) {
+    for (let i = 0; i < amt; i++) {
+        let randX = random(0, width);
+        let randY = random(0, height)
+        let randSpeed = random(10, 80);;
+        let randSize = random(50,150);
+        let rat = new Rat(randX,randY,randSpeed,randSize);
+    }
 }
 
 
 //GRAPHICS
 function drawAll() {
-
     drawJointGroups();
+    drawRats();
+
 }
 
+function drawRats() {
+    ratsArr.forEach(e => {
+        e.act();
+        e.draw();
+    });
+}
 
 function drawJointGroups() {
     jointGroupsArr.forEach(e => {

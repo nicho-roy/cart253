@@ -9,6 +9,9 @@ class IKJointGroup {
         this.rootJoint = this.jointArr[0];
         this.headJoint = this.jointArr[this.jointArr.length - 1];
         this.degreeBendAmount = 10
+        this.grabRange = 50;
+        this.grabbedRats = [];
+        this.grabCooldownFrame = true; //gets set to false on first frame of grab, and set to true on letgo
     }
 
     generateJoints(jointInstructions) {
@@ -33,6 +36,9 @@ class IKJointGroup {
         this.moveForward(targetVector);
         this.rotateMiddleJoints(targetVector);
         this.moveBackward();
+
+        this.clickControls();
+        this.dragRats();
 
         this.drawjoints();
     }
@@ -72,14 +78,14 @@ class IKJointGroup {
             //get angle and dist from prev to current
             const VectorPrevToCurrent = p5.Vector.sub(currentJoint.pos,prevJoint.pos);
             if (distRootToTarget < VectorPrevToCurrent.mag()) {
-                console.log("stop loop");
+                // console.log("stop loop");
                 // return;
             }
             const appliedDegreeBendAmount = this.degreeBendAmount;
             const appliedDegreeBendMult = map(distRootToTarget, 0, totalGroupLength, 0, 1, true); // 0 when at the root, 1 when at the lenght of the segmentgroup
             // console.log(degreeBendAmountMultiplier);
             // const appliedDegreeBendAmount = this.degreeBendAmount * degreeBendAmountMultiplier;
-            console.log(appliedDegreeBendMult);
+            // console.log(appliedDegreeBendMult);
             // get heading of said angle
             const headingPrevToCurrent = VectorPrevToCurrent.heading();
             // console.log(headingPrevToCurrent);
@@ -141,6 +147,29 @@ class IKJointGroup {
         nextJoint.pos = p5.Vector.add(currentJoint.pos, setVectorOffset);
     }
 
+    clickControls() {
+        if (mouseIsPressed && this.grabCooldownFrame) {
+            //check rats within grab range and add to list
+            ratsArr.forEach(e => {
+                const d = dist(e.pos.x,e.pos.y,this.headJoint.pos.x,this.headJoint.pos.y);
+                if (d < this.grabRange) {
+                    this.grabbedRats.push(e);
+                }
+            });
+            this.grabCooldownFrame = false;
+        } else if (!mouseIsPressed) {
+            this.grabbedRats = [];
+            this.grabCooldownFrame = true;
+        }
+    }
+
+    dragRats() {
+        this.grabbedRats.forEach(e => {
+            e.pos = this.headJoint.pos.copy();
+            e.vel = createVector(0,0);
+        });
+    }
+
     drawjoints() {
         //draw backwards
         for (let i = 0; i < this.jointArr.length; i++) {
@@ -165,4 +194,29 @@ class Joint {
         ellipse(this.pos.x, this.pos.y, this.drawSize, this.drawSize); 
         pop();
     }
+}
+
+
+class Rat {
+    constructor(x,y,speed,size) {
+        this.pos = createVector(x,y);
+        this.speed = speed;
+        this.size = size
+        this.vel = createVector(0, 0);
+        this.velLimit = 50;
+        this.acc = createVector(0, 0);
+        ratsArr.push(this);
+    }
+
+    act() {
+        this.acc = createVector(0,0);
+        
+    }
+
+    draw() {
+        push();
+        image(ratImg, this.pos.x - (this.size / 2), this.pos.y - (this.size / 2), this.size, this.size);
+        pop();
+    }
+
 }
