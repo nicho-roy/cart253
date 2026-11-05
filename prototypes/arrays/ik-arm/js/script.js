@@ -93,8 +93,8 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    // let ikJoint = new IKJointGroup(debugJointarr, 500, 200, 150);
-    let ikJoint = new IKJointGroup(snakeJointsArray, 500, 200, 150);
+    let ikJoint = new IKJointGroup(debugJointarr, 500, 200, 150);
+    // let ikJoint = new IKJointGroup(snakeJointsArray, 500, 200, 150);
     jointGroupsArr.push(ikJoint);
     
 }

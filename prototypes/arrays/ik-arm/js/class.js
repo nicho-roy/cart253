@@ -3,11 +3,11 @@
 class IKJointGroup {
     constructor(jointInstructions,x,y,minAngle) {
         this.jointArr = [];
-        this.pos = createVector(x,y);
+        this.rootPos = createVector(x,y);
         this.minAngle = minAngle;
         this.generateJoints(jointInstructions);
-        this.rootJoint = this.jointArr[this.jointArr.length-1];
-        this.headJoint = this.jointArr[0];
+        this.rootJoint = this.jointArr[0];
+        this.headJoint = this.jointArr[this.jointArr.length - 1];
     }
 
     generateJoints(jointInstructions) {
@@ -21,7 +21,7 @@ class IKJointGroup {
             } else {
                 hasPoleTarget = true;
             }
-            let joint = new Joint(this.pos.x, this.pos.y + yOffset, jointInstructions[i].jointRadius, jointInstructions[i].drawSize, jointInstructions[i].fill, hasPoleTarget);
+            let joint = new Joint(this.rootPos.x, this.rootPos.y + yOffset, jointInstructions[i].jointRadius, jointInstructions[i].drawSize, jointInstructions[i].fill, hasPoleTarget);
             this.jointArr.push(joint);
             yOffset += jointInstructions[i].jointRadius;
         }
@@ -29,26 +29,44 @@ class IKJointGroup {
 
     act() {
         const targetVector = createVector(mouseX,mouseY);
-        this.moveHead(targetVector);
-        this.constrainJointPositions();
-        this.constrainJointAngles();
+        this.moveForward(targetVector);
+        this.moveBackward();
 
         this.drawjoints();
     }
 
-    moveHead(targetVector) {
+    moveForward(targetVector) {
         this.headJoint.pos = targetVector;
+        this.constrainJointPositionsForward();
     }
 
-    constrainJointPositions() {
-        //constrain the next of each joint, ignoring last
-        for (let i = 0; i < this.jointArr.length -1; i++) {
+    constrainJointPositionsForward() {
+        //constrain the next of each joint, ignoring last, starting at the head
+        for (let i = this.jointArr.length - 1; i > 0; i--) {
+            let currentjoint = this.jointArr[i];
+            let nextJoint = this.jointArr[i-1];
+            const anchor = currentjoint.pos;
+            const currentToNext = p5.Vector.sub(nextJoint.pos, anchor);
+            const constrainedVector = currentToNext.setMag(currentjoint.jointRadius);
+            const nextJointPos = p5.Vector.add(anchor,constrainedVector)
+            nextJoint.pos = nextJointPos;
+        }
+    }
+
+    moveBackward() {
+        this.rootJoint.pos = this.rootPos;
+        this.constrainJointPositionsBackward()
+    }
+
+    constrainJointPositionsBackward() {
+        //constrain the next of each joint, ignoring last, starting at the root
+        for (let i = 0; i < this.jointArr.length - 1; i++) {
             let currentjoint = this.jointArr[i];
             let nextJoint = this.jointArr[i+1];
             const anchor = currentjoint.pos;
             const currentToNext = p5.Vector.sub(nextJoint.pos, anchor);
             const constrainedVector = currentToNext.setMag(currentjoint.jointRadius);
-            const nextJointPos = p5.Vector.add(anchor,constrainedVector)
+            const nextJointPos = p5.Vector.add(anchor, constrainedVector)
             nextJoint.pos = nextJointPos;
         }
     }
