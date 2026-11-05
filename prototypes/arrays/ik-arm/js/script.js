@@ -97,6 +97,49 @@ let debugJointarr = [
     // { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
 ];
 
+let armJointsArray = [
+    { jointRadius: 32, drawSize: 100, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 80, fill: "#cf530b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 64, fill: "#342d2b" },
+    { jointRadius: 32, drawSize: 80, fill: "#b5a28a" },
+    { jointRadius: 32, drawSize: 80, fill: "#b5a28a" },
+];
+
+
+
 
 let jointGroupsArr = [];
 
@@ -105,7 +148,8 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    let ikJoint = new IKJointGroup(debugJointarr, 900, 200, 1);
+    // let ikJoint = new IKJointGroup(debugJointarr, 900, 200, 1);
+    let ikJoint = new IKJointGroup(armJointsArray, width/2, 0, 1);
     // let ikJoint2 = new IKJointGroup(debugJointarr, 500, 500, 1);
     // let ikJoint3 = new IKJointGroup(debugJointarr, 500, 600, 1);
     // let ikJoint = new IKJointGroup(snakeJointsArray, 500, 200, 1);

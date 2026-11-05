@@ -143,7 +143,7 @@ class IKJointGroup {
 
     drawjoints() {
         //draw backwards
-        for (let i = this.jointArr.length-1; i >= 0; i--) {
+        for (let i = 0; i < this.jointArr.length; i++) {
             this.jointArr[i].draw();
         }
     }
