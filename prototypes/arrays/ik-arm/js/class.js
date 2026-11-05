@@ -271,3 +271,30 @@ class Rat {
 
 }
 
+
+
+
+class RatTrap {
+    constructor(x,y,size,fill) {
+        this.pos = createVector(x,y);
+        this.size = size;
+        this.fill = fill;
+        this.speedMult = 0.5;
+    }
+
+    act() {
+        ratsArr.forEach(e => {
+            const d = dist(e.pos.x, e.pos.y, this.pos.x, this.pos.y);
+            if (d < this.size/2) {
+                e.vel.mult(this.speedMult);
+            }
+        });
+    } 
+
+    draw() {
+        push();
+        fill(this.fill);
+        ellipse(this.pos.x,this.pos.y,this.size,this.size);
+        pop();
+    }
+}

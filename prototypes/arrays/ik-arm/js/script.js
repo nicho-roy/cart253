@@ -73,8 +73,10 @@ let armJointsArray = [
 ];
 
 
+
 let ratImg = "./assets/images/rat.png";
 
+let ratTrapsArr = [];
 let jointGroupsArr = [];
 let ratsArr = [];
 
@@ -92,7 +94,10 @@ async function setup() {
     // let ikJoint = new IKJointGroup(snakeJointsArray, 500, 200, 1);
     jointGroupsArr.push(ikJoint);
 
-    generateRats(25);
+    let ratTrap = new RatTrap(width/2,0,500,color(150,150,150,50));
+    ratTrapsArr.push(ratTrap);
+
+    generateRats(50);
     
 }
 
@@ -107,7 +112,7 @@ function generateRats(amt) {
     for (let i = 0; i < amt; i++) {
         let randX = random(0, width);
         let randY = random(0, height)
-        let randSpeed = random(10, 80);;
+        let randSpeed = random(10, 30);;
         let randSize = random(50, 150);
         let randTurnRefreshTime = random(50, 250);
         let rat = new Rat(randX, randY, randSpeed, randSize, randTurnRefreshTime);
@@ -117,9 +122,17 @@ function generateRats(amt) {
 
 //GRAPHICS
 function drawAll() {
+    drawRatTraps();
     drawJointGroups();
     drawRats();
 
+}
+
+function drawRatTraps() {
+    ratTrapsArr.forEach(e => {
+        e.act();
+        e.draw();
+    });
 }
 
 function drawRats() {
