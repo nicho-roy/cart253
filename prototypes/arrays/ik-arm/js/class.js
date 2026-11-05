@@ -54,6 +54,7 @@ class IKJointGroup {
         }
     }
 
+    //! TODON HAVE POLE VECTOR DERIVE FROM IN BETWEEN THE LEFT OR RIGHT OF THR PREV TO THE NEXT
     //to be used in future projects to make realistic arm bending, and because pole targetting is way too complicated
     rotateMiddleJoints(targetVector) {
         
