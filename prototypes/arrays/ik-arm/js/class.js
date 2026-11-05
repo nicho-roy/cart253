@@ -67,7 +67,7 @@ class IKJointGroup {
             const headingPrevToCurrent = VectorPrevToCurrent.heading();
             // console.log(headingPrevToCurrent);
             // add 90 deg in either direction (using bendDirPreference)
-            const newHeadingPrevToCurrent = headingPrevToCurrent + (this.bendDirPreference*90);
+            const newHeadingPrevToCurrent = headingPrevToCurrent + (this.bendDirPreference*10);
             //reconstruct the vector and apply position to current joint
             const newVectorPrevToCurrent = p5.Vector.fromAngle(radians(newHeadingPrevToCurrent), prevJoint.jointRadius);
             console.log(Math.trunc(newVectorPrevToCurrent.x), Math.trunc(newVectorPrevToCurrent.y));
