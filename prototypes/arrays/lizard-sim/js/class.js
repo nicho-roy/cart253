@@ -13,28 +13,22 @@ class BodyJointGroup {
     generateJoints(bodyInstructions) {
         //generate body
         let yOffset = 0;
-        for (const [key, value] of Object.entries(bodyInstructions)) {
+        for (const segment of bodyInstructions) {
             //if current segment is joint
-            if (key == "joint") {
-                let joint = new Joint(this.pos.x, this.pos.y + yOffset, value.jointRadius, value.drawSize, value.fill);
+            if (segment.type == "joint") {
+                let joint = new Joint(this.pos.x, this.pos.y + yOffset, segment.jointRadius, segment.drawSize, segment.fill);
                 this.jointArr.push(joint);
-                yOffset += value.jointRadius;
+                yOffset += segment.jointRadius;
             }
 
             //if current segment is limb
-            if (key == "limb") {
-                //!CONT TODON LIMB
+            if (segment.type == "limb") {
+                //!CONT TODON GET X AND Y ROOT POSITIONS 
+                let limbLeft = new LimbJointGroup(segment.joints, 111, 111, 1);
+                let limbRight = new LimbJointGroup(segment.joints, 111, 111, -1);
+                this.limbArr.push(limbLeft, limbRight);
             }
         }
-
-        // //generate limbs
-        // const limbInstructions = bodyInstructions.limbs;
-        // limbInstructions.forEach(e => {
-        //     //!CONT TODON SET X AND Y 
-        //     let limbLeft = new LimbJointGroup(e,0,0,1);
-        //     let limbRight = new LimbJointGroup(e,0,0,-1);
-        //     this.limbArr.push(limbLeft,limbRight);
-        // });
 
     }
 
@@ -45,6 +39,7 @@ class BodyJointGroup {
         this.constrainJointAngles();
 
         this.updateLimbRootPositions();
+        this.limbAct();
 
         this.drawjoints();
     }
@@ -98,7 +93,13 @@ class BodyJointGroup {
     }
 
     updateLimbRootPositions() {
+        
+    }
 
+    limbAct() {
+        for (const limb of this.limbArr) {
+            limb.act();
+        }
     }
 
     drawjoints() {
@@ -129,28 +130,18 @@ class LimbJointGroup {
     generateJoints(jointInstructions) {
         //init from instructions
         let yOffset = 0;
-        let hasPoleTarget = false;
         for (let i = 0; i < jointInstructions.length; i++) {
-            // for all joints excluding the first and last, create a pole target for believable bending
-            if (i == 0 || i >= jointInstructions.length - 1) {
-                hasPoleTarget = false;
-            } else {
-                hasPoleTarget = true;
-            }
-            let joint = new Joint(this.rootPos.x, this.rootPos.y + yOffset, jointInstructions[i].jointRadius, jointInstructions[i].drawSize, jointInstructions[i].fill, hasPoleTarget);
+            let joint = new Joint(this.rootPos.x, this.rootPos.y + yOffset, jointInstructions[i].jointRadius, jointInstructions[i].drawSize, jointInstructions[i].fill);
             this.jointArr.push(joint);
             yOffset += jointInstructions[i].jointRadius;
         }
     }
 
     act() {
-        const targetVector = createVector(mouseX, mouseY);
+        const targetVector = createVector(0, 0);
         this.moveForward(targetVector);
         this.rotateMiddleJoints(targetVector);
         this.moveBackward();
-
-        this.clickControls();
-        this.dragRats();
 
         this.drawjoints();
     }

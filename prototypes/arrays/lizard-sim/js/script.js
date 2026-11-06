@@ -75,33 +75,35 @@ let lizardJointarr1 = {
     }
 };
 
-let lizardJointarr2 = {
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#5ac724" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#c72424" },
-    "limb": [
+let lizardJointarr2 = [
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#5ac724" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#fc1511" },
+    { type: "limb", joints: [
         { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
         { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
         { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
-    ],
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#c72424" },
-    "limb": [
-        { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
-        { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
-        { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
-    ],
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
-    "joint": { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    ]},
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#fc1511" },
+    {
+        type: "limb", joints: [
+            { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
+            { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
+            { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
+        ]
+    },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
+    { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
 
-};
+];
     
 
 let snakeJointsArray = [
@@ -178,7 +180,7 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    let body = new BodyJointGroup(exampleJointArray, 500, 200, 150);
+    let body = new BodyJointGroup(lizardJointarr2, 500, 200, 150);
     jointGroupsArr.push(body);
     
 }
