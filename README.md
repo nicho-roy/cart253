@@ -18,7 +18,7 @@ This is a repo containing a collection of short programing projects for my CART 
 <!-- Lizard Sim -->
 >![lizard-img](./assets/images/lizard.png)
 <br>
-[Lizard Sim](./prototypes/arrays/lizard-sim/index.html)
+[Procedural Lizard](./prototypes/arrays/lizard-sim/index.html)
 <br>
 code:
 [main](./prototypes/arrays/lizard-sim/js/script.js), [classes](./prototypes/arrays/lizard-sim/js/class.js)

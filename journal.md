@@ -3,15 +3,15 @@
 
 ## 2026-11-6 (part 2)
 > Finally, with both forwards and backwards FABRIK code, I use them in unison to create a believable, procedurally animated lizard. I used the forward algorithm from _Kingsnake_ to make the body, and the anchored arm IK form _Rat Grabber_ for the arms and legs of the lizard. As simple as mixing the two sounds, the logic is quite complicated, as I needed to keep track of whether the limb was on the left or right, as well as if it was the front or hind pair of legs. The latter was important since the hind legs needed to bend in the opposisite direction. Notably, the code i made prior for bending the middle joints (or elbows) of the limb joints came in useful, and was customizable for clock or counter-clock bending joints. That algorithm is very cheesy, as it doesn't actuall measure angles and constrain them, but rather apply a very small vector rotation in either direction to force the limb to bend a certain way when folding inwards. When folding particularly close by bringing the target on top of the root, the elbow would circle around the root wildly, and we dont want that. So, to fix this I made the small rotational vector diminish as the target got close to the root. The result of this is a cool looking lizard animation, with bright colors. My hopes in taking this project further would likely involve giving the lizards their own autonomy in navigating the canvas, as well as perhaps coding behaviour like eating and breeding. Breeding in particular could open the doors to interesting experiments with lizard genetics, as individuals can differ very slightly based on their body construction parameters, leading to unique differences in color, size, proportions, etc... So far my proudest prototype to date.
->[Lizard Simulation](./prototypes/arrays/lizard-sim/index.html)
->[debug-lizard-img](./assets/images/lizard-debug.png)
+>[Procedural Lizard](./prototypes/arrays/lizard-sim/index.html)
+>![debug-lizard-img](./assets/images/lizard-debug.png)
 > The screenshot provided is one of the debug body rigs I used to debug issues with the elbow bending, along with general purpose coding. I find rigs like these are necessary before any flash stuff is implemented, as it allows for a better understanding of your program and its potential shortcomings/oversights.
 
 
 ## 2026-11-6 (part 1)
 > With the forward FABRIK algorithm done, I needed to code the backwards part as well, and add them together. What i was making here was a sort of robotic arm simulation, where the arm attempts to reach where the mouse is pointing while being anchored to the screen border. Notably, the arm bends with a preference to the clockwise direction, a customizable feature that makes this prototype look a little lopsided at times, but will be very useful in prototype 3. For now, I created a simple minigame where you must grab rats and place them in a container as they run around wildly trying to escape. They may also escape from the container, although very slowly. The limb construction uses a similar structure to the _Kingsnake_ prototype prior.
 >[Rat Grabber](./prototypes/arrays/ik-arm/index.html)
->[grabber-img](./assets/images/ratg-rabber.png)
+>![grabber-img](./assets/images/ratg-rabber.png)
 
 
 ## 2026-11-03
@@ -38,6 +38,8 @@
 ## 2026-10-23
 > I wanted to improve upon my previous prototype _Rookie Combat_ (see prev entry), as there were several things I wasn't happy with. After in-class testing, I realized that my keyboard only allowed up to 5 or so inputs at a time, and since there were many controls for multiplayer, some of your inputs would get eaten. Additionally, with how small the bounds of the game were, as well as how much realism I coded into the flight physics, there was little room for maneuvering. I decided I wanted to instead make a single player experience, and a procedurally generated map, with the player in the center, and all other objects moving relative to it. The procedural terrain alone was far too ambitious, as even though I already experimented with it in another project, making transitions between terrain chunks was very difficult to do seamlessly, so I sacrified a lot of the resolution of the background. Even now there are visible chunk borders sometimes. As of the current build, enemy fighters do not move in relation to the player, instead just flying across the canvas. Ill need to account for this later if I'm to improve on this prototype. For now though, flighing around is fairly smooth and satisfying.
 >[Veteran Combat](./prototypes/functions/veteran-combat/index.html)
+
+
 >![veteran-img](./assets/images/veteran.png)
 
 
