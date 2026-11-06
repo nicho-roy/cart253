@@ -115,8 +115,14 @@ class BodyJointGroup {
             const prevToNextHeading = prevToNextVector.heading();
             const newHeading = prevToNextHeading + (limb.bendDirPreference*90); //bendDirPreference accounts for left vs right
             const newVectorTarget = p5.Vector.fromAngle(radians(newHeading), limb.footDistance);
-            limb.targetVector = p5.Vector.add(limb.attachJoint.pos,newVectorTarget);
-            limb.targetVector.add(prevToNextVector);
+            const appliedVectorTarget = p5.Vector.add(limb.attachJoint.pos, newVectorTarget).add(prevToNextVector);
+            
+            //if less than the step distance, do not update
+            const distHeadToTarget = dist(limb.headJoint.pos.x, limb.headJoint.pos.y, appliedVectorTarget.x, appliedVectorTarget.y);
+            if (distHeadToTarget > limb.stepDistance) {
+                limb.targetVector = appliedVectorTarget;
+            }
+            
         }
     }
 
