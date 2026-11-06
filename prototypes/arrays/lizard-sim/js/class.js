@@ -105,7 +105,18 @@ class BodyJointGroup {
     }
 
     updateLimbTarget() {
-        //TODON
+        for (let limb of this.limbArr) {
+            const attachIndex = this.jointArr.indexOf(limb.attachJoint);
+            const prevJoint = this.jointArr[attachIndex-1];
+            const nextJoint = this.jointArr[attachIndex+1];
+            //get vecotr of prev to next, get angle between and add 90 for perpendicular
+            const prevToNextVector = p5.Vector.sub(prevJoint.pos,nextJoint.pos);
+            //create vector target
+            const prevToNextHeading = prevToNextVector.heading();
+            const newHeading = prevToNextHeading + (limb.bendDirPreference*90); //bendDirPreference accounts for left vs right
+            const newVectorTarget = p5.Vector.fromAngle(radians(newHeading), limb.footDistance);
+            limb.targetVector = p5.Vector.add(limb.attachJoint.pos,newVectorTarget);
+        }
     }
 
     limbAct() {
@@ -135,6 +146,7 @@ class LimbJointGroup {
         this.generateJoints(jointInstructions);
         this.rootJoint = this.jointArr[0];
         this.headJoint = this.jointArr[this.jointArr.length - 1];
+        this.footDistance = this.rootJoint.jointRadius * 1.9; //make foot distance mult eventually
         this.degreeBendAmount = 10
         
     }
