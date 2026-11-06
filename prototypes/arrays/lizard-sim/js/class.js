@@ -116,6 +116,7 @@ class BodyJointGroup {
             const newHeading = prevToNextHeading + (limb.bendDirPreference*90); //bendDirPreference accounts for left vs right
             const newVectorTarget = p5.Vector.fromAngle(radians(newHeading), limb.footDistance);
             limb.targetVector = p5.Vector.add(limb.attachJoint.pos,newVectorTarget);
+            limb.targetVector.add(prevToNextVector);
         }
     }
 
@@ -147,6 +148,7 @@ class LimbJointGroup {
         this.rootJoint = this.jointArr[0];
         this.headJoint = this.jointArr[this.jointArr.length - 1];
         this.footDistance = this.rootJoint.jointRadius * 1.9; //make foot distance mult eventually
+        this.stepDistance = this.rootJoint.jointRadius * 1.9; //make foot distance mult eventually
         this.degreeBendAmount = 10
         
     }
