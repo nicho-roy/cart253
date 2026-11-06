@@ -1,5 +1,25 @@
 # Reflective Journal
 
+
+## 2026-11-6 (part 2)
+> Finally, with both forwards and backwards FABRIK code, I use them in unison to create a believable, procedurally animated lizard. I used the forward algorithm from _Kingsnake_ to make the body, and the anchored arm IK form _Rat Grabber_ for the arms and legs of the lizard. As simple as mixing the two sounds, the logic is quite complicated, as I needed to keep track of whether the limb was on the left or right, as well as if it was the front or hind pair of legs. The latter was important since the hind legs needed to bend in the opposisite direction. Notably, the code i made prior for bending the middle joints (or elbows) of the limb joints came in useful, and was customizable for clock or counter-clock bending joints. That algorithm is very cheesy, as it doesn't actuall measure angles and constrain them, but rather apply a very small vector rotation in either direction to force the limb to bend a certain way when folding inwards. When folding particularly close by bringing the target on top of the root, the elbow would circle around the root wildly, and we dont want that. So, to fix this I made the small rotational vector diminish as the target got close to the root. The result of this is a cool looking lizard animation, with bright colors. My hopes in taking this project further would likely involve giving the lizards their own autonomy in navigating the canvas, as well as perhaps coding behaviour like eating and breeding. Breeding in particular could open the doors to interesting experiments with lizard genetics, as individuals can differ very slightly based on their body construction parameters, leading to unique differences in color, size, proportions, etc... So far my proudest prototype to date.
+>[Lizard Simulation](./prototypes/arrays/lizard-sim/index.html)
+>[debug-lizard-img](./assets/images/lizard-debug.png)
+> The screenshot provided is one of the debug body rigs I used to debug issues with the elbow bending, along with general purpose coding. I find rigs like these are necessary before any flash stuff is implemented, as it allows for a better understanding of your program and its potential shortcomings/oversights.
+
+
+## 2026-11-6 (part 1)
+> With the forward FABRIK algorithm done, I needed to code the backwards part as well, and add them together. What i was making here was a sort of robotic arm simulation, where the arm attempts to reach where the mouse is pointing while being anchored to the screen border. Notably, the arm bends with a preference to the clockwise direction, a customizable feature that makes this prototype look a little lopsided at times, but will be very useful in prototype 3. For now, I created a simple minigame where you must grab rats and place them in a container as they run around wildly trying to escape. They may also escape from the container, although very slowly. The limb construction uses a similar structure to the _Kingsnake_ prototype prior.
+>[Rat Grabber](./prototypes/arrays/ik-arm/index.html)
+>[grabber-img](./assets/images/ratg-rabber.png)
+
+
+## 2026-11-03
+> I wanted to get my hands dirty with inverse kinematics again, since last time wasn't technically IK. A solid place to start was with the FABRIK algorith, which is basically a way to connect a root node to a target node in a manner that looks natural. FABRIK works in 2 parts, it aims the head node to the target and pulls along all the others (forwards), and if that causes the root node to misalign with its archor point, then the process is repeated until both the root and head are anchored where they need to be, or until the root is anchored and the joints make a straight line to the target in the case of it being out of reach (backwards). For now, I'll implement the forward part to drag along a set of joints, making a snake. I used a minimim angle between joint segments to make sure the snake isnt collapsing on itself, as well as making it look better overall. Notably, its body is constructed using a long array of joints, which are comprized of circle radii, along with colors for each joint.
+>[Kingsnake Simulation](./prototypes/arrays/kingsnake/index.html)
+>![kingsnake-img](./assets/images/kingsnake.png)
+
+
 ## 2026-10-27
 > I've recently been interested in messing with inverse kinematics, so I decided on making a simulation tail-like appendage. For this prototype I created an array of ellipses that are coupled to eachother, are affected by gravity, and have additional influence on their neighbors. While simple in concept, the physics are percisely tuned based on my initial inspriation.
 > In its current state, the appendage only moves from its base, while the rest follow. Since the sim uses a combination of Hooke's law and the critical damping formula, the appendage feels very spring like, and not as much like a tail as I imagined. Perhaps I'll do more research in what physics model to use in the future.
