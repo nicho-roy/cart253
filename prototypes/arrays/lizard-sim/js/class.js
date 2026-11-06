@@ -114,8 +114,18 @@ class BodyJointGroup {
             //create vector target
             const prevToNextHeading = prevToNextVector.heading();
             const newHeading = prevToNextHeading + (limb.bendDirPreference*90); //bendDirPreference accounts for left vs right
-            const newVectorTarget = p5.Vector.fromAngle(radians(newHeading), limb.footDistance);
-            const appliedVectorTarget = p5.Vector.add(limb.attachJoint.pos, newVectorTarget).add(prevToNextVector);
+            let newVectorTarget = p5.Vector.fromAngle(radians(newHeading), limb.footDistance);
+            newVectorTarget.add(prevToNextVector); //set it forward by bit
+            //add some random spice
+            let randVectorOffset = createVector(random(-1, 1), random(-1, 1));
+            randVectorOffset.mult(25);
+            newVectorTarget.add(randVectorOffset);
+            //limit to length of
+            newVectorTarget.limit(limb.getTotalLength());
+
+            let appliedVectorTarget = p5.Vector.add(limb.attachJoint.pos, newVectorTarget);
+            
+            
             
             //if less than the step distance, do not update
             const distHeadToTarget = dist(limb.headJoint.pos.x, limb.headJoint.pos.y, appliedVectorTarget.x, appliedVectorTarget.y);
@@ -154,7 +164,7 @@ class LimbJointGroup {
         this.rootJoint = this.jointArr[0];
         this.headJoint = this.jointArr[this.jointArr.length - 1];
         this.footDistance = this.rootJoint.jointRadius * 1.9; //make foot distance mult eventually
-        this.stepDistance = this.rootJoint.jointRadius * 1.9; //make foot distance mult eventually
+        this.stepDistance = this.rootJoint.jointRadius * 2.5; //make foot distance mult eventually
         this.degreeBendAmount = 10
         
     }
@@ -248,6 +258,14 @@ class LimbJointGroup {
             const nextJointPos = p5.Vector.add(anchor, constrainedVector)
             nextJoint.pos = nextJointPos;
         }
+    }
+
+    getTotalLength() {
+        let length = 0;
+        this.jointArr.forEach(e => {
+            length += e.jointRadius;
+        });
+        return length;
     }
 
     drawjoints() {
