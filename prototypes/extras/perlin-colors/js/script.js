@@ -86,7 +86,7 @@ function setup() {
     //SPLIT COMPLIMENTARY?????
     // colorIndices = new Map([
     //     [0.3,"#251846"],
-    //     [0.35,"#066a9d"],
+    //     [0.35,"#7d0be1"],
     //     [0.45,"#db8300"],
     //     [0.6,"#eacc1e"],
     //     [0.7,"#64ff61"],
@@ -101,12 +101,12 @@ function setup() {
     //     [1,"#b1f2ff"],
     // ]);
 
-    colorIndices = new Map([
-        [0.35,"#7304dc"],
-        [0.45,"#ff8c00"],
-        [0.6,"#fff700"],
-        [1,"#00d5ff"],
-    ]);
+    // colorIndices = new Map([
+    //     [0.35,"#7304dc"],
+    //     [0.45,"#ff8c00"],
+    //     [0.6,"#fff700"],
+    //     [1,"#00d5ff"],
+    // ]);
 
 
     //TRIAD COLOR JUXTAPOSITION
