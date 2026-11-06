@@ -6,6 +6,7 @@
 >[Procedural Lizard](./prototypes/arrays/lizard-sim/index.html)
 >![debug-lizard-img](./assets/images/lizard-debug.png)
 
+
 > The screenshot provided is one of the debug body rigs I used to debug issues with the elbow bending, along with general purpose coding. I find rigs like these are necessary before any flash stuff is implemented, as it allows for a better understanding of your program and its potential shortcomings/oversights.
 
 
