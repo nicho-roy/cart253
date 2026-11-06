@@ -13,19 +13,20 @@ class BodyJointGroup {
     generateJoints(bodyInstructions) {
         //generate body
         let yOffset = 0;
-        for (const segment of bodyInstructions) {
+        for (let i = 0; i < bodyInstructions.length; i++) {
             //if current segment is joint
-            if (segment.type == "joint") {
-                let joint = new Joint(this.pos.x, this.pos.y + yOffset, segment.jointRadius, segment.drawSize, segment.fill);
+            if (bodyInstructions[i].type == "joint") {
+                let joint = new Joint(this.pos.x, this.pos.y + yOffset, bodyInstructions[i].jointRadius, bodyInstructions[i].drawSize, bodyInstructions[i].fill);
                 this.jointArr.push(joint);
-                yOffset += segment.jointRadius;
+                yOffset += bodyInstructions[i].jointRadius;
             }
 
             //if current segment is limb
-            if (segment.type == "limb") {
-                //!CONT TODON GET X AND Y ROOT POSITIONS 
-                let limbLeft = new LimbJointGroup(segment.joints, 111, 111, 1);
-                let limbRight = new LimbJointGroup(segment.joints, 111, 111, -1);
+            if (bodyInstructions[i].type == "limb") {
+                //init limb at temporary position 
+                const prevJoint = this.jointArr[this.jointArr.length - 1]; //get last joint
+                let limbLeft = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, 1, prevJoint);
+                let limbRight = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, -1, prevJoint);
                 this.limbArr.push(limbLeft, limbRight);
             }
         }
@@ -38,8 +39,7 @@ class BodyJointGroup {
         this.constrainJointPositions();
         this.constrainJointAngles();
 
-        this.updateLimbRootPositions();
-        this.limbAct();
+        this.updateLimb();
 
         this.drawjoints();
     }
@@ -92,8 +92,16 @@ class BodyJointGroup {
         nextJoint.pos = p5.Vector.add(currentJoint.pos, setVectorOffset);
     }
 
+    updateLimb() {
+        this.updateLimbRootPositions();
+        // this.updateLimb
+        this.limbAct();
+    }
+
     updateLimbRootPositions() {
-        
+        for (const limb of this.limbArr) {
+            limb.rootJoint.pos.set(limb.attachJoint.pos);
+        }
     }
 
     limbAct() {
@@ -114,17 +122,15 @@ class BodyJointGroup {
 
 
 class LimbJointGroup {
-    constructor(jointInstructions, x, y, bendDirPreference) {
+    constructor(jointInstructions, x, y, bendDirPreference, attachJoint) {
         this.jointArr = [];
         this.rootPos = createVector(x, y);
         this.bendDirPreference = bendDirPreference; //neg or pos 1, used as a base for directional rotation
+        this.attachJoint = attachJoint;
         this.generateJoints(jointInstructions);
         this.rootJoint = this.jointArr[0];
         this.headJoint = this.jointArr[this.jointArr.length - 1];
         this.degreeBendAmount = 10
-        this.grabRange = 100;
-        this.grabbedRats = [];
-        this.grabCooldownFrame = true; //gets set to false on first frame of grab, and set to true on letgo
     }
 
     generateJoints(jointInstructions) {
