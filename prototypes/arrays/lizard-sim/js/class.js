@@ -24,9 +24,10 @@ class BodyJointGroup {
             //if current segment is limb
             if (bodyInstructions[i].type == "limb") {
                 //init limb at temporary position 
+                let orientationSign = bodyInstructions[i].orientation;
                 const prevJoint = this.jointArr[this.jointArr.length - 1]; //get last joint
-                let limbLeft = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, 1, prevJoint);
-                let limbRight = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, -1, prevJoint);
+                let limbLeft = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, 1, orientationSign, prevJoint);
+                let limbRight = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, -1, orientationSign, prevJoint);
                 this.limbArr.push(limbLeft, limbRight);
             }
         }
@@ -98,6 +99,7 @@ class BodyJointGroup {
         this.limbAct();
     }
 
+    //! TODON have offset from radius and not center  
     updateLimbRootPositions() {
         for (const limb of this.limbArr) {
             limb.rootJoint.pos.set(limb.attachJoint.pos);
@@ -116,10 +118,10 @@ class BodyJointGroup {
             const newHeading = prevToNextHeading + (limb.bendDirPreference*90); //bendDirPreference accounts for left vs right
             let newVectorTarget = p5.Vector.fromAngle(radians(newHeading), limb.footDistance);
             newVectorTarget.add(prevToNextVector); //set it forward by bit
-            //add some random spice
-            let randVectorOffset = createVector(random(-1, 1), random(-1, 1));
-            randVectorOffset.mult(25);
-            newVectorTarget.add(randVectorOffset);
+            // //add some random spice
+            // let randVectorOffset = createVector(random(-1, 1), random(-1, 1));
+            // randVectorOffset.mult(25);
+            // newVectorTarget.add(randVectorOffset);
             //limit to length of
             newVectorTarget.limit(limb.getTotalLength());
 
@@ -154,10 +156,11 @@ class BodyJointGroup {
 
 
 class LimbJointGroup {
-    constructor(jointInstructions, x, y, bendDirPreference, attachJoint) {
+    constructor(jointInstructions, x, y, bendDirPreference, orientationSign, attachJoint) {
         this.jointArr = [];
         this.rootPos = createVector(x, y);
         this.bendDirPreference = bendDirPreference; //neg or pos 1, used as a base for directional rotation
+        this.orientationSign = orientationSign; //used for differentating hind (-1) and front (1) limbs
         this.attachJoint = attachJoint;
         this.targetVector = createVector(0,0);
         this.generateJoints(jointInstructions);
@@ -166,7 +169,7 @@ class LimbJointGroup {
         this.footDistance = this.rootJoint.jointRadius * 1.9; //make foot distance mult eventually
         this.stepDistance = this.rootJoint.jointRadius * 2.5; //make foot distance mult eventually
         this.degreeBendAmount = 10
-        
+    
     }
 
     generateJoints(jointInstructions) {
@@ -234,7 +237,7 @@ class LimbJointGroup {
             const headingPrevToCurrent = VectorPrevToCurrent.heading();
             // console.log(headingPrevToCurrent);
             // add 90 deg in either direction (using bendDirPreference)
-            const newHeadingPrevToCurrent = headingPrevToCurrent + (this.bendDirPreference * appliedDegreeBendAmount * appliedDegreeBendMult);
+            const newHeadingPrevToCurrent = headingPrevToCurrent + (this.bendDirPreference * this.orientationSign * appliedDegreeBendAmount * appliedDegreeBendMult);
             //reconstruct the vector and apply position to current joint
             const newVectorPrevToCurrent = p5.Vector.fromAngle(radians(newHeadingPrevToCurrent), prevJoint.jointRadius);
             // console.log(Math.trunc(newVectorPrevToCurrent.x), Math.trunc(newVectorPrevToCurrent.y));
