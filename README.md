@@ -14,6 +14,32 @@ This is a repo containing a collection of short programing projects for my CART 
 
 ## Links
 
+## Arrays
+<!-- Lizard Sim -->
+>![lizard-img](./assets/images/lizard.png)
+<br>
+[Lizard Sim](./prototypes/arrays/lizard-sim/index.html)
+<br>
+code:
+[main](./prototypes/arrays/lizard-sim/js/script.js), [classes](./prototypes/arrays/lizard-sim/js/class.js)
+
+<!-- Rat Grabber -->
+>![rat-grabber-img](./assets/images/ratg-rabber.png)
+<br>
+[Rat Grabber](./prototypes/arrays/ik-arm/index.html)
+<br>
+code:
+[main](./prototypes/arrays/ik-arm/js/script.js), [classes](./prototypes/arrays/ik-arm/js/class.js)
+
+<!-- Kingsnake -->
+>![](./assets/images/kingsnake.png)
+<br>
+[Kingsnake Sim](./prototypes/arrays/kingsnake/index.html)
+<br>
+code:
+[main](./prototypes/arrays/kingsnake/js/script.js), [classes](./prototypes/arrays/kingsnake/js/class.js)
+
+
 
 ## Functions
 <!-- Veteran Combat -->
