@@ -94,7 +94,7 @@ class BodyJointGroup {
 
     updateLimb() {
         this.updateLimbRootPositions();
-        // this.updateLimb
+        this.updateLimbTarget();
         this.limbAct();
     }
 
@@ -102,6 +102,10 @@ class BodyJointGroup {
         for (const limb of this.limbArr) {
             limb.rootJoint.pos.set(limb.attachJoint.pos);
         }
+    }
+
+    updateLimbTarget() {
+        //TODON
     }
 
     limbAct() {
@@ -127,10 +131,12 @@ class LimbJointGroup {
         this.rootPos = createVector(x, y);
         this.bendDirPreference = bendDirPreference; //neg or pos 1, used as a base for directional rotation
         this.attachJoint = attachJoint;
+        this.targetVector = createVector(0,0);
         this.generateJoints(jointInstructions);
         this.rootJoint = this.jointArr[0];
         this.headJoint = this.jointArr[this.jointArr.length - 1];
         this.degreeBendAmount = 10
+        
     }
 
     generateJoints(jointInstructions) {
@@ -144,9 +150,8 @@ class LimbJointGroup {
     }
 
     act() {
-        const targetVector = createVector(0, 0);
-        this.moveForward(targetVector);
-        this.rotateMiddleJoints(targetVector);
+        this.moveForward(this.targetVector);
+        this.rotateMiddleJoints(this.targetVector);
         this.moveBackward();
 
         this.drawjoints();
