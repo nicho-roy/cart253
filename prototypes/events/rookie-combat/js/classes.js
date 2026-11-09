@@ -15,7 +15,7 @@ class Player {
         this.velLimit = 20;
         this.velMin = 1;
         this.hp = 100;
-        this.energy = 75;
+        this.energy = 100;
         this.energyBleedRate = 0.16;
         this.energyGainRate = 0.7;
         this.throttle = 25; // [0-100]
@@ -23,9 +23,9 @@ class Player {
         this.turnRate = 1.2;
         this.image = image;
         this.size = 60;
-        this.fireRate = 18; //10
+        this.fireRate = 0; //10
         this.fireTimer = 0;
-        this.outOfBoundsDamage = 0.5;
+        this.outOfBoundsDamage = 0.1;
         this.isTargetLocking = false;
         this.isTargetLocked = false;
         this.missileLockDegreeRange = 30;
@@ -250,8 +250,8 @@ class Player {
 class Bullet {
     constructor(x, y, dir, shooter) {
         this.pos = createVector(x, y);
-        this.speed = 8;
-        this.damage = 25;
+        this.speed = 20;
+        this.damage = 0.5;
         this.dir = createVector(dir.x, dir.y);
         this.dir.normalize();
         this.dir.mult(this.speed);
@@ -299,11 +299,11 @@ class Missile {
     constructor(x, y, heading, shooter, target) {
         this.pos = createVector(x, y);
         this.speed = 5;
-        this.damage = 99;
+        this.damage = 70;
         this.vel = createVector(0, 0);
         this.heading = heading
         this.size = 20;
-        this.turnRate = 1.1;
+        this.turnRate = 1.2;
         this.loseLockAngleThreshold = 100;
         this.fill = "#ff0b0b";
         this.shooter = shooter;
