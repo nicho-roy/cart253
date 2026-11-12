@@ -14,7 +14,14 @@ This is a repo containing a collection of short programing projects for my CART 
 
 ## Links
 
-## Arrays
+
+
+### Data
+>[Data Challenge](./topics/data/index.html)
+
+
+
+### Arrays
 <!-- Lizard Sim -->
 >![lizard-img](./assets/images/lizard.png)
 <br>
@@ -42,7 +49,7 @@ code:
 
 
 
-## Functions
+### Functions
 <!-- Veteran Combat -->
 >![veteran-img](./assets/images/veteran.png)
 <br>
@@ -73,7 +80,7 @@ code:
 
 
 
-## Events
+### Events
 [Lose challenge](./topics/events/index.html)
 [code](./topics/events/js/script.js)
 
