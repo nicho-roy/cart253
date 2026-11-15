@@ -2,6 +2,11 @@
 
 
 
+//TODON implment alternative limbs for walking
+//TODON test lizards wityh smaller sizes
+//TODON attach limbs to proper connection points, not just the center of attach joints (perhaps make a helper function to get heading of a joint relative to the previous joint)
+
+
 
 /**
  * Functions as the motor system, and the physics body for the lizard
