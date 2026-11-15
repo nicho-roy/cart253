@@ -1,19 +1,30 @@
+//apologies pippin, i didnt see that you wrote feedback in my last submissions. Ill try to comment better this time.
 
 
 
 
-
-//Lizard body
+/**
+ * Functions as the motor system, and the physics body for the lizard
+ * DOES NOT handle lizard behaviour, it simply reads impluses and acts accordingly
+ * Contains: array of body segments, array of LimbJointGroup (array of limbs)
+ * handles the position of body segments, relying primarily on forward FABRIK movement
+ * feeds LimbJointGroup a target position for walk cycles
+ */
 class BodyJointGroup {
     constructor(bodyInstructions, x, y, minAngle) {
-        this.jointArr = [];
-        this.limbArr = [];
+        this.jointArr = []; //array containing joint segments of the body
+        this.limbArr = []; //array containing LimbJointGroups (which themselves have an array of joint segments)
         this.pos = createVector(x, y);
-        this.minAngle = minAngle;
+        this.minAngle = minAngle; //min angle in shich the body will fold in on itself when turning
         this.generateJoints(bodyInstructions);
         this.headJoint = this.jointArr[0];
     }
 
+    /**
+     * builds bod segments and limb joint groups from a body instructions object
+     * populates both jointsArr and limbArr
+     * @param {*} bodyInstructions 
+     */
     generateJoints(bodyInstructions) {
         //generate body
         let yOffset = 0;
@@ -49,10 +60,15 @@ class BodyJointGroup {
         this.drawjoints();
     }
 
+    //move the head towards a target vector
     moveHead(targetVector) {
         this.headJoint.pos = targetVector;
     }
 
+    /**
+     * Constrain body segment joints into a chain, starting from the head
+     * functions using the forward portion of the FABRIK algorithm
+     */
     constrainJointPositions() {
         //constrain the next of each joint, ignoring last
         for (let i = 0; i < this.jointArr.length - 1; i++) {
@@ -66,6 +82,9 @@ class BodyJointGroup {
         }
     }
 
+    /**
+     * makes sure that the angle between body segments remains above the $minAngle 
+     */
     constrainJointAngles() {
         //constrain the next of each joint, ignoring first and last
         for (let i = 1; i < this.jointArr.length - 1; i++) {
@@ -90,6 +109,12 @@ class BodyJointGroup {
         }
     }
 
+    /**
+     * sets the angle of the i+1 joint segment to a specified heading 
+     * helper function of constrainJointAngles
+     * @param {*} i 
+     * @param {*} setHeading 
+     */
     setAngle(i, setHeading) {
         let currentJoint = this.jointArr[i];
         let nextJoint = this.jointArr[i + 1];
@@ -97,19 +122,30 @@ class BodyJointGroup {
         nextJoint.pos = p5.Vector.add(currentJoint.pos, setVectorOffset);
     }
 
+    /**
+     * functions as a draw() function for limbJointGroups, making sure they tick with the rest of the program
+     */
     updateLimb() {
         this.updateLimbRootPositions();
         this.updateLimbTarget();
         this.limbAct();
     }
 
-    //! TODON have offset from radius and not center  
+
+    //! TODON have offset from radius and not center
+    /**
+     * updates the root position of the LimbJointGroups of the body, so that they follow the body
+     */
     updateLimbRootPositions() {
         for (const limb of this.limbArr) {
             limb.rootJoint.pos.set(limb.attachJoint.pos);
         }
     }
 
+    //! TODON make arms and legs alternate as they walk
+    /**
+     * updates the target of each LimbJointGroup if the distance exceeds limb.stepDistance
+     */
     updateLimbTarget() {
         for (let limb of this.limbArr) {
             const attachIndex = this.jointArr.indexOf(limb.attachJoint);
@@ -131,8 +167,6 @@ class BodyJointGroup {
 
             let appliedVectorTarget = p5.Vector.add(limb.attachJoint.pos, newVectorTarget);
             
-            
-            
             //if less than the step distance, do not update
             const distHeadToTarget = dist(limb.headJoint.pos.x, limb.headJoint.pos.y, appliedVectorTarget.x, appliedVectorTarget.y);
             if (distHeadToTarget > limb.stepDistance) {
@@ -148,6 +182,9 @@ class BodyJointGroup {
         }
     }
 
+    /**
+     * draws all joint segments of the body, starting from the last
+     */
     drawjoints() {
         //draw backwards
         for (let i = this.jointArr.length - 1; i >= 0; i--) {
@@ -162,25 +199,34 @@ class BodyJointGroup {
 
 
 
-//Lizard limbs
+/**
+ * Functions as the motor system for limbs
+ * Reads target input and acts accordingly
+ * Contains: array of joint segments, root points
+ * handles the positions of each joint segment and how they shold alight with a target abnd root, relies on FABRIK (fwd and back)
+ */
 class LimbJointGroup {
     constructor(jointInstructions, x, y, bendDirPreference, orientationSign, attachJoint) {
-        this.jointArr = [];
+        this.jointArr = []; //array of joint segments
         this.rootPos = createVector(x, y);
         this.bendDirPreference = bendDirPreference; //neg or pos 1, used as a base for directional rotation
         this.orientationSign = orientationSign; //used for differentating hind (-1) and front (1) limbs, they will bend backwards if -1
-        this.attachJoint = attachJoint;
+        this.attachJoint = attachJoint; //the joint of a BodyJointGroup in which the LimbjointGroup is attached to (used by the controlling BodyJointGroup)
         this.targetVector = createVector(0,0);
         this.generateJoints(jointInstructions);
-        this.rootJoint = this.jointArr[0];
-        this.headJoint = this.jointArr[this.jointArr.length - 1];
+        this.rootJoint = this.jointArr[0]; //segment which is the anchor of the limb system
+        this.headJoint = this.jointArr[this.jointArr.length - 1]; //segment which reaches for the target
         this.footDistance = this.rootJoint.jointRadius * 1.9; //make foot distance mult eventually
         this.stepDistance = this.rootJoint.jointRadius * 2.5; //make foot distance mult eventually
         this.degreeBendAmount = 10
     
     }
 
-
+    /**
+     * builds joint segments joint instructions object, fed from BodyJointGroup
+     * populates jointArr
+     * @param {*} bodyInstructions 
+     */
     generateJoints(jointInstructions) {
         //init from instructions
         let yOffset = 0;
@@ -192,12 +238,14 @@ class LimbJointGroup {
     }
 
     act() {
+        //move forward first, then backward each frame to "stick" to the root point
         this.moveForward(this.targetVector);
         this.rotateMiddleJoints(this.targetVector);
         this.moveBackward();
 
         this.drawjoints();
     }
+
 
     moveForward(targetVector) {
         this.headJoint.pos = targetVector;
