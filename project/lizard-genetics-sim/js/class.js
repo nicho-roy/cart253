@@ -246,12 +246,20 @@ class LimbJointGroup {
         this.drawjoints();
     }
 
-
+    /**
+     * moves the head joint to the target vector, and calls constrainJointPositionsForward()
+     * @param {*} targetVector 
+     */
     moveForward(targetVector) {
         this.headJoint.pos = targetVector;
         this.constrainJointPositionsForward();
     }
 
+    /**
+     * helper for moveForward()
+     * constrains all joints in a chain, starting at the head, which has already been displaced to its desired targte by this point
+     * forward FABRIK
+     */
     constrainJointPositionsForward() {
         //constrain the next of each joint, ignoring last, starting at the head
         for (let i = this.jointArr.length - 1; i > 0; i--) {
@@ -302,11 +310,18 @@ class LimbJointGroup {
         }
     }
 
+    /**
+     * set the root joint back to the root position, calls constrainJointPositionsBackward()
+     */
     moveBackward() {
         this.rootJoint.pos = this.rootPos;
         this.constrainJointPositionsBackward()
     }
 
+    /**
+     * helper for moveBackward()
+     * constrains all body segments back to the rootjoint, since by this point, the root joint has been moved back to the root position, after the chain has been moved forward towards the target
+     */
     constrainJointPositionsBackward() {
         //constrain the next of each joint, ignoring last, starting at the root
         for (let i = 0; i < this.jointArr.length - 1; i++) {
@@ -320,6 +335,9 @@ class LimbJointGroup {
         }
     }
 
+    /**
+     * @returns Number of segments of the LimbJointGroup
+     */
     getTotalLength() {
         let length = 0;
         this.jointArr.forEach(e => {
@@ -328,6 +346,9 @@ class LimbJointGroup {
         return length;
     }
 
+    /**
+     * draws all joint segments, starting backwards
+     */
     drawjoints() {
         //draw backwards
         for (let i = 0; i < this.jointArr.length; i++) {
@@ -337,7 +358,10 @@ class LimbJointGroup {
 }
 
 
-
+/**
+ * Joints act as the individual segments, used by both BodyJointGroups and LimbJointGroups
+ * They give the lizard a visual appearance
+ */
 class Joint {
     constructor(x, y, jointRadius, drawSize, fill) {
         this.pos = createVector(x, y);
