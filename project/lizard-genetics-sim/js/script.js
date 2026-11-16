@@ -65,7 +65,7 @@ let debugLizardJointarr2 = [
     {
         type: "limb", joints: [
             { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
-            { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
+            { jointRadius: 50, drawSize: 10, fill: "#660f56" },
             { jointRadius: 50, drawSize: 10, fill: "#d224b2" },
         ]
     },

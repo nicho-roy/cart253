@@ -8,7 +8,6 @@
 
 
 //TODON test lizards wityh smaller sizes
-//TODON attach limbs to proper connection points, not just the center of attach joints (perhaps make a helper function to get heading of a joint relative to the previous joint)
 
 
 
@@ -155,6 +154,7 @@ class BodyJointGroup {
     }
 
     /**
+     * ! unsued
      * helper of updateLimbRootPositions()
      * gets the intended root positions for the limbs, placing them on the edge of the attch joint
      * @param {*} limb 
@@ -170,6 +170,7 @@ class BodyJointGroup {
     }
 
     /**
+     * ! unsued
      * helper of getAttachPointsOfLimb()
      * gets the heading of a joint by measuing the vector of the pervious and next joints, and adding them
      * @param {*} curJoint 
@@ -185,8 +186,8 @@ class BodyJointGroup {
         return curVector.heading();
     }
 
-    //! TODON make arms and legs alternate as they walk
     /**
+     * TODON make arms and legs alternate as they walk
      * updates the target of each LimbJointGroup if the distance exceeds limb.stepDistance
      */
     updateLimbTarget() {
@@ -199,13 +200,9 @@ class BodyJointGroup {
             //create vector target
             const prevToNextHeading = prevToNextVector.heading();
             const newHeading = prevToNextHeading + (limb.bendDirPreference*90); //bendDirPreference accounts for left vs right
-            let newVectorTarget = p5.Vector.fromAngle(radians(newHeading), limb.footDistance);
+            let newVectorTarget = p5.Vector.fromAngle(radians(newHeading), limb.limbReach);
             newVectorTarget.add(prevToNextVector); //set it forward by bit
-            // //add some random spice
-            // let randVectorOffset = createVector(random(-1, 1), random(-1, 1));
-            // randVectorOffset.mult(25);
-            // newVectorTarget.add(randVectorOffset);
-            //limit to length of
+            //limit to length of the limb
             newVectorTarget.limit(limb.getTotalLength());
 
             let appliedVectorTarget = p5.Vector.add(limb.attachJoint.pos, newVectorTarget);
@@ -261,7 +258,7 @@ class LimbJointGroup {
         this.generateJoints(jointInstructions);
         this.rootJoint = this.jointArr[0]; //segment which is the anchor of the limb system
         this.headJoint = this.jointArr[this.jointArr.length - 1]; //segment which reaches for the target
-        this.footDistance = this.rootJoint.jointRadius * 1.9; //make foot distance mult eventually
+        this.limbReach = this.getTotalLength() * 0.6; //make foot distance mult eventually
         this.stepDistance = this.rootJoint.jointRadius * 2.5; //make foot distance mult eventually
         this.degreeBendAmount = 10
     
