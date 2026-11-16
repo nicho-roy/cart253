@@ -138,7 +138,7 @@ let lizardJointArr = [
     { type: "joint", jointRadius: 50, drawSize: 100, fill: "#4b15a8" },
     {
         type: "limb", joints: [
-            { jointRadius: 80, drawSize: 70, fill: "#4b15a8" },
+            { jointRadius: 70, drawSize: 70, fill: "#4b15a8" },
             { jointRadius: 80, drawSize: 70, fill: "#4b15a8" },
             { jointRadius: 80, drawSize: 100, fill: "#7e16bb" },
         ]

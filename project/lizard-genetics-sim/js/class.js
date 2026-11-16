@@ -144,17 +144,22 @@ class BodyJointGroup {
     }
 
 
-    //! TODON have offset from radius and not center
     /**
-     * updates the root position of the LimbJointGroups of the body, so that they follow the body
+     * updates the root position of the LimbJointGroups of body
      */
     updateLimbRootPositions() {
         for (const limb of this.limbArr) {
-            // limb.rootJoint.pos.set(limb.attachJoint.pos);
-            limb.rootJoint.pos.set(this.getAttachPointsOfLimb(limb));
+            limb.rootJoint.pos.set(limb.attachJoint.pos);
+            // limb.rootJoint.pos.set(this.getAttachPointsOfLimb(limb));
         }
     }
 
+    /**
+     * helper of updateLimbRootPositions()
+     * gets the intended root positions for the limbs, placing them on the edge of the attch joint
+     * @param {*} limb 
+     * @returns 
+     */
     getAttachPointsOfLimb(limb) {
         const attachJointHeading = this.getHeadingOfJoint(limb.attachJoint);
         const lateralOrientationHeadingOffset = (limb.bendDirPreference === 1) ? 90 : -90;
@@ -164,6 +169,12 @@ class BodyJointGroup {
         return limbAttachPoint;
     }
 
+    /**
+     * helper of getAttachPointsOfLimb()
+     * gets the heading of a joint by measuing the vector of the pervious and next joints, and adding them
+     * @param {*} curJoint 
+     * @returns 
+     */
     getHeadingOfJoint(curJoint) {
         const i = this.jointArr.indexOf(curJoint);
         const prevJoint = this.jointArr[i - 1];
