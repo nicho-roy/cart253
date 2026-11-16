@@ -11,6 +11,7 @@
 // current set: determines which set of legs should advance, only after the current set of legs moves, can the next one move
 
 //TODON test lizards wityh smaller sizes
+//TODON limit their velocity by their limb length
 
 
 
