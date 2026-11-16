@@ -88,7 +88,7 @@ let lizardSmallJointArr = [
             { jointRadius: 8, drawSize: 7, fill: "#f41b4a" },
             { jointRadius: 8, drawSize: 7, fill: "#f41b4a" },
             { jointRadius: 8, drawSize: 10, fill: "#d22481" },
-        ], orientation: 1, //pos for front
+        ],
     },
     { type: "joint", jointRadius: 5, drawSize: 10, fill: "#f41b4a" },
     { type: "joint", jointRadius: 5, drawSize: 10, fill: "#f41b7d" },
@@ -100,7 +100,7 @@ let lizardSmallJointArr = [
             { jointRadius: 8, drawSize: 7, fill: "#4b15a8" },
             { jointRadius: 8, drawSize: 7, fill: "#4b15a8" },
             { jointRadius: 8, drawSize: 10, fill: "#7e16bb" },
-        ], orientation: -1, //neg for hind
+        ],
     },
     { type: "joint", jointRadius: 5, drawSize: 9.5, fill: "#4717b5" },
     { type: "joint", jointRadius: 5, drawSize: 9.0, fill: "#1a12ba" },
@@ -165,8 +165,9 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    let body = new BodyJointGroup(lizardJointArr, 500, 200, 150);
+    // let body = new BodyJointGroup(lizardJointArr, 500, 200, 150);
     // let body = new BodyJointGroup(lizardSmallJointArr, 500, 200, 150);
+    let body = new BodyJointGroup(debugLizardJointarr2, 500, 200, 150);
 
     jointGroupsArr.push(body);
     

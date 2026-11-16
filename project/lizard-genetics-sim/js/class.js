@@ -150,8 +150,28 @@ class BodyJointGroup {
      */
     updateLimbRootPositions() {
         for (const limb of this.limbArr) {
-            limb.rootJoint.pos.set(limb.attachJoint.pos);
+            // limb.rootJoint.pos.set(limb.attachJoint.pos);
+            limb.rootJoint.pos.set(this.getAttachPointsOfLimb(limb));
         }
+    }
+
+    getAttachPointsOfLimb(limb) {
+        const attachJointHeading = this.getHeadingOfJoint(limb.attachJoint);
+        const lateralOrientationHeadingOffset = (limb.bendDirPreference === 1) ? 90 : -90;
+        const attachjointCenterToEdgeHeading = attachJointHeading + lateralOrientationHeadingOffset;
+        const attachjointCenterToEdgeVector = p5.Vector.fromAngle(radians(attachjointCenterToEdgeHeading), limb.attachJoint.drawSize/2);
+        const limbAttachPoint = p5.Vector.add(limb.attachJoint.pos, attachjointCenterToEdgeVector);
+        return limbAttachPoint;
+    }
+
+    getHeadingOfJoint(curJoint) {
+        const i = this.jointArr.indexOf(curJoint);
+        const prevJoint = this.jointArr[i - 1];
+        const nextJoint = this.jointArr[i + 1];
+        const curToPrev = p5.Vector.sub(prevJoint.pos, curJoint.pos);
+        const nextToCur = p5.Vector.sub(curJoint.pos, nextJoint.pos);
+        const curVector = p5.Vector.add(curToPrev, nextToCur);
+        return curVector.heading();
     }
 
     //! TODON make arms and legs alternate as they walk
