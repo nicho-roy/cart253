@@ -2,10 +2,13 @@
 
 
 
+//TODON fix hind legs bending awkwardly
+
+//TODON optimize setting limb position to target vector, by making it not set if already at target vector, same with body
+
 //TODON implment alternative limbs for walking
 // determine 2 sets of legs, 1: front left and back right, 2: front right and back left, 
 // current set: determines which set of legs should advance, only after the current set of legs moves, can the next one move
-
 
 //TODON test lizards wityh smaller sizes
 
@@ -27,6 +30,7 @@ class BodyJointGroup {
         this.generateJoints(bodyInstructions);
         this.headJoint = this.jointArr[0];
         this.currentGait = 0; //alternates between 0 and 1, cycles per step
+        this.gaitCompletion = 2; //decreases per step and gets reset to 2 when reaching 0
     }
 
     /**
@@ -192,6 +196,9 @@ class BodyJointGroup {
      */
     updateLimbTarget() {
         for (let limb of this.limbArr) {
+            //check current gait, if not part of it, then skip
+            if (!limb.gaitGroup === this.currentGait) continue;
+
             const attachIndex = this.jointArr.indexOf(limb.attachJoint);
             const prevJoint = this.jointArr[attachIndex-1];
             const nextJoint = this.jointArr[attachIndex+1];
@@ -211,9 +218,16 @@ class BodyJointGroup {
             const distHeadToTarget = dist(limb.headJoint.pos.x, limb.headJoint.pos.y, appliedVectorTarget.x, appliedVectorTarget.y);
             if (distHeadToTarget > limb.stepDistance) {
                 limb.targetVector = appliedVectorTarget;
+                this.gaitCompletion--;
             }
-            
         }
+
+        //swap current gait if steps completed
+        if (this.gaitCompletion <= 0) {
+            this.currentGait = (this.currentGait === 1) ? 0 : 1;
+            this.gaitCompletion = 2;
+        }
+        console.log(this.currentGait);
     }
 
     limbAct() {
@@ -252,13 +266,13 @@ class LimbJointGroup {
         this.bendDirPreference = bendDirPreference; //neg or pos 1, used as a base for directional rotation
         this.orientationSign = orientationSign; //used for differentating hind (-1) and front (1) limbs, they will bend backwards if -1
         this.gaitGroup = (bendDirPreference * orientationSign === 1) ? 0 : 1; //so limbs can alternate in the walk cycle
-        this.stepSpeed = 0.75; //[0-1] how much of the way the head moves towards the target per frame (0.75)
+        this.stepSpeed = 0.50; //[0-1] how much of the way the head moves towards the target per frame (0.75)
         this.attachJoint = attachJoint; //the joint of a BodyJointGroup in which the LimbjointGroup is attached to (used by the controlling BodyJointGroup)
         this.targetVector = createVector(0,0);
         this.generateJoints(jointInstructions);
         this.rootJoint = this.jointArr[0]; //segment which is the anchor of the limb system
         this.headJoint = this.jointArr[this.jointArr.length - 1]; //segment which reaches for the target
-        this.limbReach = this.getTotalLength() * 0.6; //make foot distance mult eventually
+        this.limbReach = this.getTotalLength() * 0.5; //make foot distance mult eventually
         this.stepDistance = this.rootJoint.jointRadius * 2.5; //make foot distance mult eventually
         this.degreeBendAmount = 10
     
@@ -357,6 +371,7 @@ class LimbJointGroup {
      */
     moveBackward() {
         this.rootJoint.pos = this.rootPos;
+        // this.rootJoint.pos.lerp(this.rootPos, this.stepSpeed);
         this.constrainJointPositionsBackward()
     }
 
@@ -388,6 +403,11 @@ class LimbJointGroup {
         return length;
     }
 
+    hasArrivedAtTarget() {
+        const hasArrivedAtTarget = (dist(this.targetVector.pos.x, this.targetVector.pos.y, this.headJoint.pos.x, this.headJoint.pos.y) < 10);
+        return hasArrivedAtTarget;
+    }
+
     /**
      * draws all joint segments, starting backwards
      */
@@ -396,6 +416,19 @@ class LimbJointGroup {
         for (let i = 0; i < this.jointArr.length; i++) {
             this.jointArr[i].draw();
         }
+        // this.DEBUG_drawTargetVector()
+    }
+
+    /**
+     * _DEBUG
+     * draws the target vector to visualize
+     */
+    DEBUG_drawTargetVector() {
+        push();
+        noStroke();
+        fill(color(255,0,0));
+        ellipse(this.targetVector.x, this.targetVector.y, this.headJoint.drawSize, this.headJoint.drawSize);
+        pop();
     }
 }
 

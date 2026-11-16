@@ -165,9 +165,9 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    // let body = new BodyJointGroup(lizardJointArr, 500, 200, 150);
+    let body = new BodyJointGroup(lizardJointArr, 500, 200, 150);
     // let body = new BodyJointGroup(lizardSmallJointArr, 500, 200, 150);
-    let body = new BodyJointGroup(debugLizardJointarr2, 500, 200, 150);
+    // let body = new BodyJointGroup(debugLizardJointarr2, 500, 200, 150);
 
     jointGroupsArr.push(body);
     
