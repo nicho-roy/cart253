@@ -12,6 +12,7 @@ const CANVAS = {
     y: 1080
 }
 
+//unused
 let debugJointarr2 = [
     { jointRadius: 50, drawSize: 10, fill: "#5ac724" },
     { jointRadius: 50, drawSize: 10, fill: "#c72424" },
@@ -26,6 +27,7 @@ let debugJointarr2 = [
     { jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
 ];
 
+//unused
 let exampleJointArray = [
     { jointRadius: 50, drawSize: 100, fill: "#2496c7" },
     { jointRadius: 50, drawSize: 140, fill: "#2496c7" },
@@ -43,7 +45,7 @@ let exampleJointArray = [
     { jointRadius: 50, drawSize: 10, fill: "#2496c7" },
 ];
 
-
+//unused
 let debugLizardJointarr2 = [
     { type: "joint", jointRadius: 50, drawSize: 10, fill: "#5ac724" },
     { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
@@ -73,6 +75,46 @@ let debugLizardJointarr2 = [
     { type: "joint", jointRadius: 50, drawSize: 10, fill: "#24c7bc" },
 
 ];
+
+
+let lizardSmallJointArr = [
+    { type: "joint", jointRadius: 5, drawSize: 8, fill: "#f41b2d" },
+    { type: "joint", jointRadius: 5, drawSize: 12, fill: "#f41b2d" },
+    { type: "joint", jointRadius: 5, drawSize: 12, fill: "#f41b2d" },
+    { type: "joint", jointRadius: 5, drawSize: 9, fill: "#f41b2d" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "#f41b2d" },
+    {
+        type: "limb", joints: [
+            { jointRadius: 8, drawSize: 7, fill: "#f41b4a" },
+            { jointRadius: 8, drawSize: 7, fill: "#f41b4a" },
+            { jointRadius: 8, drawSize: 10, fill: "#d22481" },
+        ], orientation: 1, //pos for front
+    },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "#f41b4a" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "#f41b7d" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "#8f15a8" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "#7515a8" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "#4b15a8" },
+    {
+        type: "limb", joints: [
+            { jointRadius: 8, drawSize: 7, fill: "#4b15a8" },
+            { jointRadius: 8, drawSize: 7, fill: "#4b15a8" },
+            { jointRadius: 8, drawSize: 10, fill: "#7e16bb" },
+        ], orientation: -1, //neg for hind
+    },
+    { type: "joint", jointRadius: 5, drawSize: 9.5, fill: "#4717b5" },
+    { type: "joint", jointRadius: 5, drawSize: 9.0, fill: "#1a12ba" },
+    { type: "joint", jointRadius: 5, drawSize: 8.5, fill: "#190fc9" },
+    { type: "joint", jointRadius: 5, drawSize: 8.0, fill: "#1d13d3" },
+    { type: "joint", jointRadius: 5, drawSize: 7.0, fill: "#1d13d3" },
+    { type: "joint", jointRadius: 5, drawSize: 6.0, fill: "#1d13d3" },
+    { type: "joint", jointRadius: 5, drawSize: 5.0, fill: "#1d13d3" },
+    { type: "joint", jointRadius: 5, drawSize: 4.0, fill: "#1d13d3" },
+    { type: "joint", jointRadius: 5, drawSize: 3.0, fill: "#1d13d3" },
+    { type: "joint", jointRadius: 5, drawSize: 2.0, fill: "#1d13d3" },
+    { type: "joint", jointRadius: 5, drawSize: 1.0, fill: "#1d13d3" },
+
+];
     
 
 
@@ -87,7 +129,7 @@ let lizardJointArr = [
             { jointRadius: 80, drawSize: 70, fill: "#f41b4a" },
             { jointRadius: 80, drawSize: 70, fill: "#f41b4a" },
             { jointRadius: 80, drawSize: 100, fill: "#d22481" },
-        ], orientation: 1, //pos for front
+        ]
     },
     { type: "joint", jointRadius: 50, drawSize: 100, fill: "#f41b4a" },
     { type: "joint", jointRadius: 50, drawSize: 100, fill: "#f41b7d" },
@@ -99,7 +141,7 @@ let lizardJointArr = [
             { jointRadius: 80, drawSize: 70, fill: "#4b15a8" },
             { jointRadius: 80, drawSize: 70, fill: "#4b15a8" },
             { jointRadius: 80, drawSize: 100, fill: "#7e16bb" },
-        ], orientation: -1, //neg for hind
+        ]
     },
     { type: "joint", jointRadius: 50, drawSize: 95, fill: "#4717b5" },
     { type: "joint", jointRadius: 50, drawSize: 90, fill: "#1a12ba" },
@@ -124,6 +166,8 @@ async function setup() {
     createCanvas(CANVAS.x, CANVAS.y);
 
     let body = new BodyJointGroup(lizardJointArr, 500, 200, 150);
+    // let body = new BodyJointGroup(lizardSmallJointArr, 500, 200, 150);
+
     jointGroupsArr.push(body);
     
 }

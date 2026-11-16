@@ -3,6 +3,10 @@
 
 
 //TODON implment alternative limbs for walking
+// determine 2 sets of legs, 1: front left and back right, 2: front right and back left, 
+// current set: determines which set of legs should advance, only after the current set of legs moves, can the next one move
+
+
 //TODON test lizards wityh smaller sizes
 //TODON attach limbs to proper connection points, not just the center of attach joints (perhaps make a helper function to get heading of a joint relative to the previous joint)
 
@@ -23,6 +27,7 @@ class BodyJointGroup {
         this.minAngle = minAngle; //min angle in shich the body will fold in on itself when turning
         this.generateJoints(bodyInstructions);
         this.headJoint = this.jointArr[0];
+        this.currentGait = 0; //alternates between 0 and 1, cycles per step
     }
 
     /**
@@ -33,6 +38,7 @@ class BodyJointGroup {
     generateJoints(bodyInstructions) {
         //generate body
         let yOffset = 0;
+        let orientationSign = 1;
         for (let i = 0; i < bodyInstructions.length; i++) {
             //if current segment is joint
             if (bodyInstructions[i].type == "joint") {
@@ -44,10 +50,10 @@ class BodyJointGroup {
             //if current segment is limb
             if (bodyInstructions[i].type == "limb") {
                 //init limb at temporary position 
-                let orientationSign = bodyInstructions[i].orientation;
                 const prevJoint = this.jointArr[this.jointArr.length - 1]; //get last joint
                 let limbLeft = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, 1, orientationSign, prevJoint);
                 let limbRight = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, -1, orientationSign, prevJoint);
+                orientationSign = -1; //switch sign after first pair of limbs
                 this.limbArr.push(limbLeft, limbRight);
             }
         }
@@ -55,6 +61,7 @@ class BodyJointGroup {
     }
 
     act() {
+        //TODON check if current target is the same as the last, as to not run every frame
         const targetVector = createVector(mouseX, mouseY);
         this.moveHead(targetVector);
         this.constrainJointPositions();
@@ -216,6 +223,8 @@ class LimbJointGroup {
         this.rootPos = createVector(x, y);
         this.bendDirPreference = bendDirPreference; //neg or pos 1, used as a base for directional rotation
         this.orientationSign = orientationSign; //used for differentating hind (-1) and front (1) limbs, they will bend backwards if -1
+        this.gaitGroup = (bendDirPreference * orientationSign === 1) ? 0 : 1; //so limbs can alternate in the walk cycle
+        this.stepSpeed = 0.75; //[0-1] how much of the way the head moves towards the target per frame (0.75)
         this.attachJoint = attachJoint; //the joint of a BodyJointGroup in which the LimbjointGroup is attached to (used by the controlling BodyJointGroup)
         this.targetVector = createVector(0,0);
         this.generateJoints(jointInstructions);
@@ -256,7 +265,7 @@ class LimbJointGroup {
      * @param {*} targetVector 
      */
     moveForward(targetVector) {
-        this.headJoint.pos = targetVector;
+        this.headJoint.pos.lerp(targetVector, this.stepSpeed);
         this.constrainJointPositionsForward();
     }
 
