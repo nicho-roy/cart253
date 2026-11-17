@@ -6,11 +6,15 @@
  * feeds LimbJointGroup a target position for walk cycles
  */
 class BodyJointGroup {
-    constructor(bodyInstructions, x, y, minAngle) {
-        // this.targetVector = 
+    constructor(bodyInstructions, pos, speed, velLimit, minAngle) {
+        this.pos = pos;
+        this.vel = createVector(0, 0);
+        this.velLimit = velLimit;
+        this.acc = createVector(0, 0);
+        this.speed = speed;
+        this.targetVector = createVector(pos.x,pos.y);
         this.jointArr = []; //array containing joint segments of the body
         this.limbArr = []; //array containing LimbJointGroups (which themselves have an array of joint segments)
-        this.pos = createVector(x, y);
         this.minAngle = minAngle; //min angle in shich the body will fold in on itself when turning
         this.generateJoints(bodyInstructions);
         this.headJoint = this.jointArr[0];
@@ -48,10 +52,20 @@ class BodyJointGroup {
 
     }
 
+    /**
+     * sets the target position
+     * called by lizard behaviour controller
+     * @param {*} targetPosition 
+     */
+    setMoveTarget(targetVector) {
+        this.targetVector = targetVector;
+    }
+
     act() {
         //TODON check if current target is the same as the last, as to not run every frame
-        const targetVector = createVector(mouseX, mouseY);
-        this.moveHead(targetVector);
+        // const targetVector = createVector(mouseX, mouseY);
+        const targetVector = this.pos;
+        this.moveTowardsTargetVector(targetVector);
         this.constrainJointPositions();
         this.constrainJointAngles();
 
@@ -60,9 +74,15 @@ class BodyJointGroup {
         this.drawjoints();
     }
 
-    //move the head towards a target vector
-    moveHead(targetVector) {
-        this.headJoint.pos = targetVector;
+    /**
+     * TODON make acceralet towards target
+     * attempts to move towards the target vector by accelerating towards it
+     * updates the bodyjointGroup's positon, and sets the head position to match
+     * @param {*} targetVector 
+     */
+    moveTowardsTargetVector() {
+
+        this.headJoint.pos = this.targetVector;
     }
 
     /**

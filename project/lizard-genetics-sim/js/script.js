@@ -158,6 +158,7 @@ let lizardJointArr = [
 ];
 
 
+let lizardArr = [];
 let jointGroupsArr = [];
 
 
@@ -165,11 +166,12 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    let body = new BodyJointGroup(lizardJointArr, 500, 200, 150);
+    let lizard = new Lizard(500,500,10);
+
+    // let body = new BodyJointGroup(lizardJointArr, 500, 200, 20, 150);
     // let body = new BodyJointGroup(lizardSmallJointArr, 500, 200, 150);
     // let body = new BodyJointGroup(debugLizardJointarr2, 500, 200, 150);
-
-    jointGroupsArr.push(body);
+    //jointGroupsArr.push(body);
     
 }
 
@@ -187,7 +189,7 @@ function draw() {
 //GRAPHICS
 function drawAll() {
 
-    drawJointGroups();
+    drawArr(lizardArr);
 }
 
 
@@ -199,10 +201,11 @@ function drawText() {
     pop();
 }
 
-function drawJointGroups() {
-    jointGroupsArr.forEach(e => {
+function drawArr(arr) {
+    arr.forEach(e => {
         e.act();
     });
 }
+
 
 
