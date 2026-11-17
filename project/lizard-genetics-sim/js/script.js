@@ -166,7 +166,7 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    let lizard = new Lizard(500,500,5);
+    let lizard = new Lizard(500,500,1,2);
 
     // let body = new BodyJointGroup(lizardJointArr, 500, 200, 20, 150);
     // let body = new BodyJointGroup(lizardSmallJointArr, 500, 200, 150);

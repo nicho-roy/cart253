@@ -25,12 +25,12 @@
 class Lizard {
     static SPEED_LIMIT_MULT = 5;
     static DEFAULT_MINANGLE = 150;
-    constructor(x,y,speed) {
+    constructor(x,y,speed,size) {
         this.pos = createVector(x,y);
-        this.speed = speed;
+        this.speed = speed; //5
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
 
-        this.bodyJointGroup = new BodyJointGroup(lizardJointArr, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
+        this.bodyJointGroup = new BodyJointGroup(lizardSmallJointArr, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
 
         lizardArr.push(this);
     }

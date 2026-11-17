@@ -6,7 +6,8 @@
  * feeds LimbJointGroup a target position for walk cycles
  */
 class BodyJointGroup {
-    constructor(bodyInstructions, pos, speed, velLimit, minAngle) {
+    constructor(bodyInstructions, size, pos, speed, velLimit, minAngle) {
+        this.size = size
         this.pos = pos;
         this.vel = createVector(0, 0);
         this.velLimit = velLimit;
@@ -34,7 +35,7 @@ class BodyJointGroup {
         for (let i = 0; i < bodyInstructions.length; i++) {
             //if current segment is joint
             if (bodyInstructions[i].type == "joint") {
-                let joint = new Joint(this.pos.x, this.pos.y + yOffset, bodyInstructions[i].jointRadius, bodyInstructions[i].drawSize, bodyInstructions[i].fill);
+                let joint = new Joint(this.pos.x, this.pos.y + (yOffset * this.size), bodyInstructions[i].jointRadius * this.size, bodyInstructions[i].drawSize * this.size, bodyInstructions[i].fill);
                 this.jointArr.push(joint);
                 yOffset += bodyInstructions[i].jointRadius;
             }
@@ -43,8 +44,8 @@ class BodyJointGroup {
             if (bodyInstructions[i].type == "limb") {
                 //init limb at temporary position 
                 const prevJoint = this.jointArr[this.jointArr.length - 1]; //get last joint
-                let limbLeft = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, 1, orientationSign, prevJoint);
-                let limbRight = new LimbJointGroup(bodyInstructions[i].joints, prevJoint.pos.x, prevJoint.pos.y, -1, orientationSign, prevJoint);
+                let limbLeft = new LimbJointGroup(bodyInstructions[i].joints, this.size, prevJoint.pos.x, prevJoint.pos.y, 1, orientationSign, prevJoint);
+                let limbRight = new LimbJointGroup(bodyInstructions[i].joints, this.size, prevJoint.pos.x, prevJoint.pos.y, -1, orientationSign, prevJoint);
                 orientationSign = -1; //switch sign after first pair of limbs
                 this.limbArr.push(limbLeft, limbRight);
             }

@@ -5,8 +5,9 @@
  * handles the positions of each joint segment and how they shold alight with a target abnd root, relies on FABRIK (fwd and back)
  */
 class LimbJointGroup {
-    constructor(jointInstructions, x, y, bendDirPreference, orientationSign, attachJoint) {
+    constructor(jointInstructions, size, x, y, bendDirPreference, orientationSign, attachJoint) {
         this.jointArr = []; //array of joint segments
+        this.size = size;
         this.rootPos = createVector(x, y);
         this.bendDirPreference = bendDirPreference; //neg or pos 1, used as a base for directional rotation
         this.orientationSign = orientationSign; //used for differentating hind (-1) and front (1) limbs, they will bend backwards if -1
@@ -32,7 +33,7 @@ class LimbJointGroup {
         //init from instructions
         let yOffset = 0;
         for (let i = 0; i < jointInstructions.length; i++) {
-            let joint = new Joint(this.rootPos.x, this.rootPos.y + yOffset, jointInstructions[i].jointRadius, jointInstructions[i].drawSize, jointInstructions[i].fill);
+            let joint = new Joint(this.rootPos.x, this.rootPos.y + (yOffset * this.size), jointInstructions[i].jointRadius * this.size, jointInstructions[i].drawSize * this.size, jointInstructions[i].fill);
             this.jointArr.push(joint);
             yOffset += jointInstructions[i].jointRadius;
         }
