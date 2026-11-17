@@ -10,9 +10,10 @@ class BodyJointGroup {
         this.size = size
         this.pos = pos;
         this.vel = createVector(0, 0);
-        this.velLimit = velLimit;
         this.acc = createVector(0, 0);
-        this.speed = speed;
+        this.baseAccLimit = speed; //we want our acc to be limited by our speed, to be mult by speedMult
+        this.baseVelLimit = velLimit; //to be mult by speedMult
+        this.speedMult = 1; //we want a mult so lizard manager can easily edit the speed
         this.targetVector = createVector(pos.x,pos.y);
         this.jointArr = []; //array containing joint segments of the body
         this.limbArr = []; //array containing LimbJointGroups (which themselves have an array of joint segments)
@@ -21,6 +22,14 @@ class BodyJointGroup {
         this.headJoint = this.jointArr[0];
         this.currentGait = 0; //alternates between 0 and 1, cycles per step
         this.gaitCompletion = 2; //decreases per step and gets reset to 2 when reaching 0
+    }
+
+    get accLimit() {
+        return this.baseAccLimit * this.speedMult;
+    }
+
+    get velLimit() {
+        return this.baseVelLimit * this.speedMult;
     }
 
     /**
@@ -53,15 +62,6 @@ class BodyJointGroup {
 
     }
 
-    /**
-     * sets the target position
-     * called by lizard behaviour controller
-     * @param {*} targetPosition 
-     */
-    setMoveTarget(targetVector) {
-        this.targetVector = targetVector;
-    }
-
     act() {
         //TODON check if current target is the same as the last, as to not run every frame
         // const targetVector = createVector(mouseX, mouseY);
@@ -82,11 +82,11 @@ class BodyJointGroup {
      */
     moveTowardsTargetVector() {
         this.acc = createVector(0,0); //reset acc
-
         const vectorToTarget = p5.Vector.sub(this.targetVector, this.pos);
         const distToTarget = vectorToTarget.mag();
+
         //formula for constant-acceleration IK equation: v² = u² + 2as. (dont ask me to explain it i dont know why it works either)
-        const slowRadius = (this.velLimit * this.velLimit) / (2 * this.speed);
+        const slowRadius = (this.velLimit * this.velLimit) / (2 * this.accLimit);
 
         let desiredSpeed = this.velLimit; //will later be capped by speed
         if (distToTarget <= slowRadius) {
@@ -95,7 +95,7 @@ class BodyJointGroup {
 
         //subtract desiredVel by velocity to cancel out any sideways acceleration that would otherwise lead to an endless orbit
         const desiredVel = vectorToTarget.setMag(desiredSpeed);
-        const accVector = p5.Vector.sub(desiredVel, this.vel).limit(this.speed); 
+        const accVector = p5.Vector.sub(desiredVel, this.vel).limit(this.accLimit); 
 
         //apply acc
         this.acc = accVector;

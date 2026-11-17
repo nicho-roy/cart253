@@ -27,7 +27,9 @@ class Lizard {
     static DEFAULT_MINANGLE = 150;
     constructor(x,y,speed,size) {
         this.pos = createVector(x,y);
-        this.speed = speed; //1
+        this.speed = speed; //0.5
+        this.sprintMult = 3;
+        this.isSprinting = false;
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
         this.targetVector = createVector(x,y);
         this.bodyJointGroup = new BodyJointGroup(lizardSmallJointArr, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
@@ -50,7 +52,9 @@ class Lizard {
     }
 
     moveToTarget() {
-        this.bodyJointGroup.setMoveTarget(this.targetVector);
+        const currentSpeedMult = (this.isSprinting) ? this.sprintMult : 1
+        this.bodyJointGroup.speedMult = currentSpeedMult;
+        this.bodyJointGroup.targetVector = this.targetVector;
     }
 
 

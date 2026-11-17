@@ -1,7 +1,7 @@
 class LizardWanderState extends LizardBaseState {
     constructor() {
         super();
-        this.wanderAttentionTime = 100;
+        this.wanderAttentionTime = 200;
         this.wanderAttentionTimer = 0;
     }
 
