@@ -30,33 +30,43 @@ class Lizard {
         this.speed = speed; //1
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
         this.targetVector = createVector(x,y);
-        this.stateManager = new LizardStateManager();
-
         this.bodyJointGroup = new BodyJointGroup(lizardSmallJointArr, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
+        
+        //state machine manager
+        this.currentState;
+        this.wanderState = new LizardWanderState();
+        this.chaseState = new LizardChaseState();
+        this.chaseTarget;
+        this.awake();
+
 
         lizardArr.push(this);
     }
 
     act() {
-        const targetVector = this.getTargetVector();
-        this.moveTo(targetVector);
+        this.updateState();
+        this.moveToTarget();
         this.bodyJointGroup.act();
     }
 
-    getTargetVector() {
-        const randX = random(0,width);
-        const randY = random(0,height);
-        const targetVector = createVector(randX,randY);
-        this.targetVector = targetVector;
-        return this.targetVector;
-    }
-
-    moveTo(targetPosition) {
-        this.bodyJointGroup.setMoveTarget(targetPosition);
+    moveToTarget() {
+        this.bodyJointGroup.setMoveTarget(this.targetVector);
     }
 
 
+    //STATE MACHINE
+    awake() {
+        this.switchState(this.wanderState);
+    }
+    
+    updateState() {
+        this.currentState.updateState(this);
+    }
 
+    switchState(state) {
+        this.currentState = state;
+        this.currentState.enterState(this);
+    }
 
 
 }
