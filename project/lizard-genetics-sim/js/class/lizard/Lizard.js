@@ -30,6 +30,7 @@ class Lizard {
         this.speed = speed; //1
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
         this.targetVector = createVector(x,y);
+        this.stateManager = new LizardStateManager();
 
         this.bodyJointGroup = new BodyJointGroup(lizardSmallJointArr, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
 
