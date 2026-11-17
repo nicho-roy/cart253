@@ -29,6 +29,7 @@ class Lizard {
         this.pos = createVector(x,y);
         this.speed = speed; //1
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
+        this.targetVector = createVector(x,y);
 
         this.bodyJointGroup = new BodyJointGroup(lizardSmallJointArr, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
 
@@ -42,7 +43,11 @@ class Lizard {
     }
 
     getTargetVector() {
-        return createVector(mouseX,mouseY);
+        const randX = random(0,width);
+        const randY = random(0,height);
+        const targetVector = createVector(randX,randY);
+        this.targetVector = targetVector;
+        return this.targetVector;
     }
 
     moveTo(targetPosition) {
