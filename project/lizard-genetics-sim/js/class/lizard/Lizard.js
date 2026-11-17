@@ -23,11 +23,11 @@
  * supplies the target position, and shares position with the body joint group
  */
 class Lizard {
-    static SPEED_LIMIT_MULT = 5;
+    static SPEED_LIMIT_MULT = 5; //5
     static DEFAULT_MINANGLE = 150;
     constructor(x,y,speed,size) {
         this.pos = createVector(x,y);
-        this.speed = speed; //5
+        this.speed = speed; //1
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
 
         this.bodyJointGroup = new BodyJointGroup(lizardSmallJointArr, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
@@ -36,8 +36,13 @@ class Lizard {
     }
 
     act() {
-        this.moveTo(createVector(mouseX,mouseY));
+        const targetVector = this.getTargetVector();
+        this.moveTo(targetVector);
         this.bodyJointGroup.act();
+    }
+
+    getTargetVector() {
+        return createVector(mouseX,mouseY);
     }
 
     moveTo(targetPosition) {
