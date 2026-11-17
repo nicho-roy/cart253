@@ -75,14 +75,33 @@ class BodyJointGroup {
     }
 
     /**
-     * TODON make acceralet towards target
      * attempts to move towards the target vector by accelerating towards it
-     * updates the bodyjointGroup's positon, and sets the head position to match
-     * @param {*} targetVector 
+     * updates this.pos, and sets the head position to match
+     * Slows down when approaching the target as to not overshoot it
      */
     moveTowardsTargetVector() {
+        this.acc = createVector(0,0); //reset acc
 
-        this.headJoint.pos = this.targetVector;
+        const vectorToTarget = p5.Vector.sub(this.targetVector, this.pos);
+        const distToTarget = vectorToTarget.mag();
+        //formula for constant-acceleration IK equation: v² = u² + 2as. (dont ask me to explain it i dont know why it works either)
+        const slowRadius = (this.velLimit * this.velLimit) / (2 * this.speed);
+
+        let desiredSpeed = this.velLimit; //will later be capped by speed
+        if (distToTarget <= slowRadius) {
+            desiredSpeed = map(distToTarget,0,slowRadius,0,this.velLimit);
+        }
+
+        //subtract desiredVel by velocity to cancel out any sideways acceleration that would otherwise lead to an endless orbit
+        const desiredVel = vectorToTarget.setMag(desiredSpeed);
+        const accVector = p5.Vector.sub(desiredVel, this.vel).limit(this.speed); 
+
+        //apply acc
+        this.acc = accVector;
+        this.vel.add(this.acc);
+        this.vel.limit(this.velLimit);
+        this.pos.add(this.vel);
+        this.headJoint.pos = this.pos;
     }
 
     /**

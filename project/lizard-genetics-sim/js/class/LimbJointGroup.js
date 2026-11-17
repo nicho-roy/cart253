@@ -18,7 +18,7 @@ class LimbJointGroup {
         this.rootJoint = this.jointArr[0]; //segment which is the anchor of the limb system
         this.headJoint = this.jointArr[this.jointArr.length - 1]; //segment which reaches for the target
         this.limbReach = this.getTotalLength() * 0.5; //make foot distance mult eventually
-        this.stepDistance = this.rootJoint.jointRadius * 2.5; //make foot distance mult eventually
+        this.stepDistance = this.getTotalLength(); //make foot distance mult eventually (this.rootJoint.jointRadius * 2.5)
         this.degreeBendAmount = 10
     
     }

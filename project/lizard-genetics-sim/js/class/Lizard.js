@@ -11,7 +11,7 @@
 // current set: determines which set of legs should advance, only after the current set of legs moves, can the next one move
 
 //TODON test lizards wityh smaller sizes
-//TODON limit their velocity by their limb length
+//TODON tie speed to step distance
 
 
 
@@ -23,14 +23,14 @@
  * supplies the target position, and shares position with the body joint group
  */
 class Lizard {
-    static SPEED_LIMIT_MULT = 10;
+    static SPEED_LIMIT_MULT = 5;
     static DEFAULT_MINANGLE = 150;
     constructor(x,y,speed) {
         this.pos = createVector(x,y);
         this.speed = speed;
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
 
-        this.bodyJointGroup = new BodyJointGroup(lizardSmallJointArr, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
+        this.bodyJointGroup = new BodyJointGroup(lizardJointArr, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
 
         lizardArr.push(this);
     }
