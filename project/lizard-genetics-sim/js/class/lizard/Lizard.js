@@ -24,7 +24,7 @@
  */
 class Lizard {
     static SPEED_LIMIT_MULT = 5; //5
-    static PERCEPTIONRADUIS_MULT = 1;
+    static PERCEPTIONRADUIS_MULT = 2;
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
     constructor(x,y,speed,size) {
@@ -59,6 +59,7 @@ class Lizard {
         this.updateState();
         this.moveToTarget();
         this.body.act();
+        this.DEBUG_drawPerceptionRadius()
     }
 
     moveToTarget() {
@@ -95,6 +96,20 @@ class Lizard {
     remove() {
         const i = objArr.indexOf(this);
         objArr.splice(i, 1);
+    }
+
+
+    //DEBUG
+
+    /**
+     * _DEBUG
+     */
+    DEBUG_drawPerceptionRadius() {
+        push();
+        noStroke();
+        fill(color(255, 0, 0,30));
+        ellipse(this.pos.x, this.pos.y, this.perceptionRadius*2, this.perceptionRadius*2);
+        pop();
     }
 
 
