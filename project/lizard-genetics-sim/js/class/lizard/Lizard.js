@@ -24,7 +24,7 @@
  */
 class Lizard {
     static SPEED_LIMIT_MULT = 5; //5
-    static PERCEPTIONRADUIS_MULT = 2;
+    static PERCEPTIONRADUIS_MULT = 1.25;
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
     constructor(x,y,speed,size) {
