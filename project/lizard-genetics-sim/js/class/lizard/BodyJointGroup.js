@@ -262,6 +262,17 @@ class BodyJointGroup {
     }
 
     /**
+    * @returns Number of segments of the body
+    */
+    getTotalLength() {
+        let length = 0;
+        this.jointArr.forEach(e => {
+            length += e.jointRadius;
+        });
+        return length;
+    }
+
+    /**
      * draws all joint segments of the body, starting from the last
      */
     drawjoints() {

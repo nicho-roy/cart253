@@ -24,6 +24,7 @@
  */
 class Lizard {
     static SPEED_LIMIT_MULT = 5; //5
+    static DEFAULT_PERCEPTION_MULT = 3;
     static DEFAULT_MINANGLE = 150;
     constructor(x,y,speed,size) {
         this.pos = createVector(x,y);
@@ -32,7 +33,8 @@ class Lizard {
         this.isSprinting = false;
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
         this.targetVector = createVector(x,y);
-        this.bodyJointGroup = new BodyJointGroup(lizardSmallJointArr, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
+        this.body = new BodyJointGroup(lizardSmallJointArr, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
+        this.perceptionRadius = this.body.getTotalLength() * Lizard.DEFAULT_PERCEPTION_MULT;
         
         //state machine manager
         this.currentState;
@@ -48,13 +50,13 @@ class Lizard {
     act() {
         this.updateState();
         this.moveToTarget();
-        this.bodyJointGroup.act();
+        this.body.act();
     }
 
     moveToTarget() {
         const currentSpeedMult = (this.isSprinting) ? this.sprintMult : 1
-        this.bodyJointGroup.speedMult = currentSpeedMult;
-        this.bodyJointGroup.targetVector = this.targetVector;
+        this.body.speedMult = currentSpeedMult;
+        this.body.targetVector = this.targetVector;
     }
 
 

@@ -10,6 +10,7 @@ class LizardWanderState extends LizardBaseState {
      */
     enterState(lizard) {
         console.log("entered wander state");
+        lizard.isSprinting = false;
         this.assignRandomWanderTarget(lizard);
     }
 
@@ -17,10 +18,22 @@ class LizardWanderState extends LizardBaseState {
      * to be called every frame of a state
      */
     updateState(lizard) {
+        //check if anything to chase
+        this.detectChaseTarget(lizard);
+
+        //else wander like normal
         this.wanderAttentionTimer++;
         if (this.wanderAttentionTimer >= this.wanderAttentionTime) {
             this.assignRandomWanderTarget(lizard);
             this.wanderAttentionTimer = 0;
+        }
+    }
+
+    detectChaseTarget(lizard) {
+        const objPos = createVector(mouseX, mouseY);
+        if (dist(lizard.pos.x, lizard.pos.y, objPos.x, objPos.y) < lizard.perceptionRadius) {
+            lizard.chaseTarget = objPos; //!SHOULD BE AN OBJECT WITH A POS
+            lizard.switchState(lizard.chaseState);
         }
     }
 
