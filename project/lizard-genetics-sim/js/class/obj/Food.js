@@ -21,6 +21,11 @@ class Food {
         this.draw();
     }
 
+    remove() {
+        const i = objArr.indexOf(this);
+        objArr.splice(i, 1);
+    }
+
     draw() {
         push();
         noStroke();

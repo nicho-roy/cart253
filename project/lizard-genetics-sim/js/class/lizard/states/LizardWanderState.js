@@ -30,10 +30,14 @@ class LizardWanderState extends LizardBaseState {
     }
 
     detectChaseTarget(lizard) {
-        const objPos = createVector(mouseX, mouseY);
-        if (dist(lizard.pos.x, lizard.pos.y, objPos.x, objPos.y) < lizard.perceptionRadius) {
-            lizard.chaseTarget = objPos; //!SHOULD BE AN OBJECT WITH A POS
+        for (const e of objArr) {
+            if (e === this) continue;
+            if (!lizard.preyTypes.some(T => e instanceof T)) continue;
+            if (dist(lizard.pos.x, lizard.pos.y, e.pos.x, e.pos.y) > lizard.perceptionRadius) continue;
+
+            lizard.chaseTarget = e;
             lizard.switchState(lizard.chaseState);
+            return;
         }
     }
 

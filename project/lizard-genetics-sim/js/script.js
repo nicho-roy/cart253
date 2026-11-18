@@ -158,14 +158,14 @@ let lizardJointArr = [
 ];
 
 
-let objArr = [];
+let objArr = []; //every item must have: pos, act()
 
 async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
     new Lizard(500, 500, 0.5, 2);
-    Food.generateFood(50);
+    Food.generateFood(10);
 
     
 }
