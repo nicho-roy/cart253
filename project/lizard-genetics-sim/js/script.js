@@ -158,17 +158,14 @@ let lizardJointArr = [
 ];
 
 
-let lizardArr = [];
-let jointGroupsArr = [];
-
+let objArr = [];
 
 async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
     new Lizard(500, 500, 0.5, 2);
-    // new Lizard(500, 500, 1, 2);
-    // new Lizard(500, 500, 1, 2);
+    Food.generateFood(50);
 
     
 }
@@ -187,7 +184,7 @@ function draw() {
 //GRAPHICS
 function drawAll() {
 
-    drawArr(lizardArr);
+    drawArr(objArr);
 }
 
 

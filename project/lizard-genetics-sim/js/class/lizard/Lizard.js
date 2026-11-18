@@ -44,7 +44,7 @@ class Lizard {
         this.awake();
 
 
-        lizardArr.push(this);
+        objArr.push(this);
     }
 
     act() {
