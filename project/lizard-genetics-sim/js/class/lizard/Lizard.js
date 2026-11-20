@@ -13,6 +13,7 @@
 //TODON test lizards wityh smaller sizes
 //TODON tie speed to step distance
 
+//TODON mini oscillations to body as it moves
 
 
 //lizards need, inital pos, 
@@ -35,11 +36,15 @@ class Lizard {
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
         this.size = size;
         this.targetVector = createVector(x,y);
-        //body handles the drawing of lizard body and limbs
-        this.body = new BodyJointGroup(lizardSmallJointArr, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
-        this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT;
+
+        //appearance
+        this.color1 = color(random(0, 255), random(0, 255), random(0, 255));
+        this.color2 = color(random(0, 255), random(0, 255), random(0, 255));
+        this.bodyInstruction = this.generateBodyInstructions(lizardBaseArr);
+        this.body = new BodyJointGroup(this.bodyInstruction, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
 
         //survival
+        this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT; //must call after body instance
         this.hunger = 100;
         
         //state machine manager
@@ -55,11 +60,51 @@ class Lizard {
         objArr.push(this);
     }
 
+    //! DOCUENTAITON
+    generateBodyInstructions(baseArr) {
+        let newBodyArr = [];
+        for (let i = 0; i < baseArr.length; i++) {
+            let joint = baseArr[i];
+            //if the current segment is a regular joint
+            if (joint.type == "joint") {
+                let newJoint = joint;
+                let color = this.lerpColors(this.color1,this.color2,i,baseArr.length);
+                newJoint.fill = color;
+                newBodyArr.push(newJoint);
+            }
+
+            //if the current segment is a limb  
+            else if (joint.type == "limb") {
+                //loop through limb joints
+
+            }
+        }
+        return newBodyArr;
+    }
+
+    /**
+     * Helper for generateBodyInstructions
+     * Finds a color in between 2 colors weighted by how far the index is along the length of a hypothetical array
+     * @param {*} color1 
+     * @param {*} color2 
+     * @param {*} index 
+     * @param {*} totalCount 
+     * @returns 
+     */
+    lerpColors(color1, color2, index, totalCount) {
+        const currentStep = index / totalCount;
+        let r = lerp(red(color1), red(color2), currentStep);
+        let g = lerp(green(color1), green(color2), currentStep);
+        let b = lerp(blue(color1), blue(color2), currentStep);
+        const newColor = color(r,g,b);
+        return newColor;
+    }
+
     act() {
         this.updateState();
         this.moveToTarget();
         this.body.act();
-        this.DEBUG_DRAW();
+        // this.DEBUG_DRAW();
     }
 
     moveToTarget() {

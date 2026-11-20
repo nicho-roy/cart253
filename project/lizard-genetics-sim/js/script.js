@@ -158,6 +158,47 @@ let lizardJointArr = [
 ];
 
 
+
+let lizardBaseArr = [
+    { type: "joint", jointRadius: 5, drawSize: 8, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 12, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 12, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 9, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "" },
+    {
+        type: "limb", joints: [
+            { jointRadius: 8, drawSize: 7, fill: "" },
+            { jointRadius: 8, drawSize: 7, fill: "" },
+            { jointRadius: 8, drawSize: 10, fill: "" },
+        ],
+    },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 10, fill: "" },
+    {
+        type: "limb", joints: [
+            { jointRadius: 8, drawSize: 7, fill: "" },
+            { jointRadius: 8, drawSize: 7, fill: "" },
+            { jointRadius: 8, drawSize: 10, fill: "" },
+        ],
+    },
+    { type: "joint", jointRadius: 5, drawSize: 9.5, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 9.0, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 8.5, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 8.0, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 7.0, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 6.0, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 5.0, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 4.0, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 3.0, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 2.0, fill: "" },
+    { type: "joint", jointRadius: 5, drawSize: 1.0, fill: "" },
+
+];
+
+
 let objArr = []; //every item must have: pos, act()
 
 async function setup() {
