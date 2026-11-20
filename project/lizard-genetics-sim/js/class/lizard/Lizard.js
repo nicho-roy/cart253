@@ -59,7 +59,7 @@ class Lizard {
         this.updateState();
         this.moveToTarget();
         this.body.act();
-        this.DEBUG_drawPerceptionRadius()
+        this.DEBUG_DRAW();
     }
 
     moveToTarget() {
@@ -104,6 +104,10 @@ class Lizard {
     /**
      * _DEBUG
      */
+    DEBUG_DRAW() {
+        this.DEBUG_drawPerceptionRadius()
+    }
+
     DEBUG_drawPerceptionRadius() {
         push();
         noStroke();

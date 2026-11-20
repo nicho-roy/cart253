@@ -9,7 +9,7 @@ class LizardWanderState extends LizardBaseState {
      * to be called on the first frame of entering a state
      */
     enterState(lizard) {
-        console.log("entered wander state");
+        // console.log("entered wander state");
         lizard.isSprinting = false;
         this.assignRandomWanderTarget(lizard);
     }
