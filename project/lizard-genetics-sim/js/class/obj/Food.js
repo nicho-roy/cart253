@@ -10,7 +10,7 @@ class Food {
         objArr.push(this);
     }
 
-    static generateFood(amt) {
+    static GenerateFood(amt) {
         for (let i = 0; i < amt; i++) {
             const pos = Util.getRandomScreenPos();
             const randNutrition = random(1,10);

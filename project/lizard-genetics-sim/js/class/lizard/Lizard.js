@@ -155,7 +155,14 @@ class Lizard {
     }
 
 
-    
+    static SpawnLizards(amt) {
+        for (let i = 0; i < amt; i++) {
+            const pos = Util.getRandomScreenPos();
+            const size = random(0.25, 0.75);
+            const speed = random(1, 3);
+            new Lizard(pos.x,pos.y,size,speed);
+        }
+    }
 
 
     //DEBUG
