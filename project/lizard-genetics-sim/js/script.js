@@ -206,7 +206,9 @@ async function setup() {
     createCanvas(CANVAS.x, CANVAS.y);
 
     new Lizard(500, 500, 0.5, 2);
-    Food.generateFood(10);
+    new Lizard(500, 500, 0.5, 2);
+    new Lizard(500, 500, 0.5, 2);
+    Food.generateFood(30);
 
     
 }

@@ -81,7 +81,7 @@ class Lizard {
                 let newLimbJoints = []
                 for (let j = 0; j < joint.joints.length; j++) {
                     let newLimbJoint = baseArr[i].joints[j];
-                    let newLimbJointColor = this.lerpColors(newColor, this.color2, i+j, baseArr.length);
+                    let newLimbJointColor = this.lerpColors(newColor, this.color2, i+j*3, baseArr.length);
                     newLimbJoint.fill = newLimbJointColor;
                     newLimbJoints.push(newLimbJoint);
                 }
@@ -150,8 +150,12 @@ class Lizard {
 
     remove() {
         const i = objArr.indexOf(this);
+        if (i !== -1) objArr.splice(i, 1);
         objArr.splice(i, 1);
     }
+
+
+    
 
 
     //DEBUG

@@ -4,6 +4,7 @@ class Food {
     constructor(x, y, nutrition) {
         this.pos = createVector(x, y);
         this.nutrition = nutrition;
+        this.alive = true;
         this.drawSize = nutrition * Food.NUTRITION_SIZE_MULT;
         this.fill = "#4fa03b";
         objArr.push(this);
@@ -21,8 +22,15 @@ class Food {
         this.draw();
     }
 
+    /**
+     * has an alive tag so if the 2 lizards target the same item then one can back off
+     * @returns 
+     */
     remove() {
+        if (!this.alive) return;
+        this.alive = false;
         const i = objArr.indexOf(this);
+        if (i == -1) return;
         objArr.splice(i, 1);
     }
 
