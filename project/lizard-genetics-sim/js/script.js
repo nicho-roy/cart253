@@ -206,7 +206,7 @@ async function setup() {
     createCanvas(CANVAS.x, CANVAS.y);
 
     Lizard.SpawnLizards(30);
-    Food.GenerateFood(30);
+    Food.GenerateFood(300);
 
     
 }

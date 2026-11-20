@@ -1,4 +1,11 @@
-//apologies pippin, i didnt see that you wrote feedback in my last submissions. Ill try to comment better this time.
+//i didnt see that you wrote feedback in my last submissions. Ill try to comment better this time.
+
+
+
+//TODO lizard breeding
+//lizards will compare and vary their genomes slightly to offspring and make a baby with traits in the middle of the 2 parents, with a mutation modifier
+
+//TODO lizard rest/recover state
 
 
 
@@ -10,10 +17,9 @@
 // determine 2 sets of legs, 1: front left and back right, 2: front right and back left, 
 // current set: determines which set of legs should advance, only after the current set of legs moves, can the next one move
 
-//TODON test lizards wityh smaller sizes
 //TODON tie speed to step distance
 
-//TODON mini oscillations to body as it moves
+//TODON mini oscillations to body for lizard walking
 
 
 //lizards need, inital pos, 
