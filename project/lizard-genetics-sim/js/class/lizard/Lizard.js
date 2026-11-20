@@ -65,18 +65,28 @@ class Lizard {
         let newBodyArr = [];
         for (let i = 0; i < baseArr.length; i++) {
             let joint = baseArr[i];
+            let newColor = this.lerpColors(this.color1, this.color2, i, baseArr.length);
+
             //if the current segment is a regular joint
             if (joint.type == "joint") {
                 let newJoint = joint;
-                let color = this.lerpColors(this.color1,this.color2,i,baseArr.length);
-                newJoint.fill = color;
+                newJoint.fill = newColor;
                 newBodyArr.push(newJoint);
             }
 
             //if the current segment is a limb  
             else if (joint.type == "limb") {
                 //loop through limb joints
-
+                let newLimb = joint;
+                let newLimbJoints = []
+                for (let j = 0; j < joint.joints.length; j++) {
+                    let newLimbJoint = baseArr[i].joints[j];
+                    let newLimbJointColor = this.lerpColors(newColor, this.color2, i+j, baseArr.length);
+                    newLimbJoint.fill = newLimbJointColor;
+                    newLimbJoints.push(newLimbJoint);
+                }
+                newLimb.joints = newLimbJoints;
+                newBodyArr.push(newLimb);
             }
         }
         return newBodyArr;
