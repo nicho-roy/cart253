@@ -28,7 +28,7 @@ class Lizard {
     static PERCEPTIONRADUIS_MULT = 1.25;
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
-    constructor(x,y,speed,size) {
+    constructor(x,y,speed,size,colorGenes) {
         this.pos = createVector(x,y);
         this.speed = speed; //0.5
         this.sprintMult = 3;
@@ -38,8 +38,11 @@ class Lizard {
         this.targetVector = createVector(x,y);
 
         //appearance
-        this.color1 = color(random(0, 255), random(0, 255), random(0, 255));
-        this.color2 = color(random(0, 255), random(0, 255), random(0, 255));
+        this.colorGenes = {};
+        this.colorGenes.color1 = colorGenes.color1;
+        this.colorGenes.color2 = colorGenes.color2;
+        this.colorGenes.bodyColorVariance = constrain(colorGenes.bodyColorVariance,0,10); //much much color shift to color2 along the body
+        this.colorGenes.limbColorVariance = constrain(colorGenes.limbColorVariance, 0, 10); //much much color shift to color2 along the limbs
         this.bodyInstruction = this.generateBodyInstructions(lizardBaseArr);
         this.body = new BodyJointGroup(this.bodyInstruction, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
 
@@ -60,12 +63,16 @@ class Lizard {
         objArr.push(this);
     }
 
-    //! DOCUENTAITON
+    /**
+     * generates a new individualized set of body instructions from a base lizard archetype
+     * @param {*} baseArr 
+     * @returns 
+     */
     generateBodyInstructions(baseArr) {
         let newBodyArr = [];
         for (let i = 0; i < baseArr.length; i++) {
             let joint = baseArr[i];
-            let newColor = this.lerpColors(this.color1, this.color2, i, baseArr.length);
+            let newColor = this.lerpColors(this.colorGenes.color1, this.colorGenes.color2, i * this.colorGenes.bodyColorVariance, baseArr.length);
 
             //if the current segment is a regular joint
             if (joint.type == "joint") {
@@ -81,7 +88,7 @@ class Lizard {
                 let newLimbJoints = []
                 for (let j = 0; j < joint.joints.length; j++) {
                     let newLimbJoint = baseArr[i].joints[j];
-                    let newLimbJointColor = this.lerpColors(newColor, this.color2, i+j*3, baseArr.length);
+                    let newLimbJointColor = this.lerpColors(newColor, this.colorGenes.color2, i + j * this.colorGenes.limbColorVariance, baseArr.length);
                     newLimbJoint.fill = newLimbJointColor;
                     newLimbJoints.push(newLimbJoint);
                 }
@@ -155,12 +162,20 @@ class Lizard {
     }
 
 
+    //STATIC
+
     static SpawnLizards(amt) {
         for (let i = 0; i < amt; i++) {
             const pos = Util.getRandomScreenPos();
             const size = random(0.25, 0.75);
-            const speed = random(1, 3);
-            new Lizard(pos.x,pos.y,size,speed);
+            const speed = random(1, 1.5);
+            const colorGenes = {
+                color1: color(random(0, 255), random(0, 255), random(0, 255)),
+                color2: color(random(0, 255), random(0, 255), random(0, 255)),
+                bodyColorVariance: random(0.5, 2.5),
+                limbColorVariance: random(0.5, 4),
+            }
+            new Lizard(pos.x,pos.y,size,speed,colorGenes);
         }
     }
 
