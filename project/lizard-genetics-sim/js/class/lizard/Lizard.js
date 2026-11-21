@@ -34,7 +34,7 @@ class Lizard {
     static PERCEPTIONRADUIS_MULT = 1.25;
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
-    constructor(x,y,speed,size,colorGenes) {
+    constructor(x,y,speed,size,bodyInstructions,colorGenes) {
         this.pos = createVector(x,y);
         this.speed = speed; //0.5
         this.sprintMult = 3;
@@ -49,7 +49,7 @@ class Lizard {
         this.colorGenes.color2 = colorGenes.color2;
         this.colorGenes.bodyColorVariance = constrain(colorGenes.bodyColorVariance,0,10); //much much color shift to color2 along the body
         this.colorGenes.limbColorVariance = constrain(colorGenes.limbColorVariance, 0, 10); //much much color shift to color2 along the limbs
-        this.bodyInstruction = this.generateBodyInstructions(lizardBaseArr);
+        this.bodyInstruction = this.generateBodyInstructions(bodyInstructions);
         this.body = new BodyJointGroup(this.bodyInstruction, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
 
         //survival
@@ -63,6 +63,8 @@ class Lizard {
         this.chaseTarget;
         this.preyTypes = [Food];
         this.eatRange = this.size * Lizard.EATRANGE_MULT;
+        this.breedState = new LizardBreedState();
+        this.breedTarget;
         this.awake();
 
 
@@ -70,7 +72,7 @@ class Lizard {
     }
 
     /**
-     * generates a new individualized set of body instructions from a base lizard archetype
+     * generates a new individualized set of body instructions from a given one
      * @param {*} baseArr 
      * @returns 
      */
@@ -127,7 +129,7 @@ class Lizard {
         this.updateState();
         this.moveToTarget();
         this.body.act();
-        // this.DEBUG_DRAW();
+        this.DEBUG_DRAW();
     }
 
     moveToTarget() {
@@ -146,6 +148,12 @@ class Lizard {
         obj.remove();
     }
 
+    remove() {
+        const i = objArr.indexOf(this);
+        if (i !== -1) objArr.splice(i, 1);
+        objArr.splice(i, 1);
+    }
+
 
     //STATE MACHINE
     awake() {
@@ -159,12 +167,6 @@ class Lizard {
     switchState(state) {
         this.currentState = state;
         this.currentState.enterState(this);
-    }
-
-    remove() {
-        const i = objArr.indexOf(this);
-        if (i !== -1) objArr.splice(i, 1);
-        objArr.splice(i, 1);
     }
 
 
@@ -181,7 +183,7 @@ class Lizard {
                 bodyColorVariance: random(0.5, 2.5),
                 limbColorVariance: random(0.5, 4),
             }
-            new Lizard(pos.x,pos.y,size,speed,colorGenes);
+            new Lizard(pos.x,pos.y,size,speed,lizardBaseArr,colorGenes);
         }
     }
 
@@ -192,7 +194,8 @@ class Lizard {
      * _DEBUG
      */
     DEBUG_DRAW() {
-        this.DEBUG_drawPerceptionRadius()
+
+        // this.DEBUG_drawPerceptionRadius();
     }
 
     DEBUG_drawPerceptionRadius() {
