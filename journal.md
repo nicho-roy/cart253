@@ -11,7 +11,7 @@
 > I havent coded breeding yet, but my intention is for them to produce offspring with a mix of the parents genetics, with a random mutation offset, much like the fish simulation.
 > As for individual traits of lizards, they each have 2 colors in their genetics, which will appear on their body in gradients varrying in intensity. Additionaly, they have a speed and size modifier, which will be used more later. For now, the script spawns a few random ones with contrains to their genetics, and they run around and chase food. My next plan is for lizards to get hungry and feel the need to eat, rather than just gorging themselves, which also comes with a starving/resting state for when they are hungry and need to conserve energy. There is so much i want to do for this game, this is only a snippet of the important stuff for now. There are some other minor things I added, such as making the lizards limb alternate while walking and tweaking some other limb behaviours, but they're pretty minor so I wont get into it here. Also, I cleaned up my existing lizard physics code, by finally commenting it, and fixing some organizational issues. My previous code was getting a bit diffuclt to debug so it was necessary.
 >[Lizard Genetics Sim](./project/lizard-genetics-sim/index.html)
->[gen-sim1-img](./assets/images/gen-sim1.png)
+>![gen-sim1-img](./assets/images/gen-sim1.png)
 
 
 ## 2026-11-6 (part 2)
