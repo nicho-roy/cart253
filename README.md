@@ -14,11 +14,12 @@ This is a repo containing a collection of short programing projects for my CART 
 
 ## Links
 
+### Final Project
+>[Lizard Genetics Simulation](./project/lizard-genetics-sim/index.html)
 
 
 ### Data
 >[Data Challenge](./topics/data/index.html)
-
 
 
 ### Arrays
