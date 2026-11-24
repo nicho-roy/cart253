@@ -11,7 +11,6 @@ class Joint {
     }
 
     draw() {
-        
         // push();
         noStroke();
         fill(this.fill);
