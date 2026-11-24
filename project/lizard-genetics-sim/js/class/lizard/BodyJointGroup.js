@@ -108,9 +108,28 @@ class BodyJointGroup {
     /**
      * Constrain body segment joints into a chain, starting from the head
      * functions using the forward portion of the FABRIK algorithm
-     * Updated to forego using vectors, since they can lead to bad performance with so many calls per frame
      */
     constrainJointPositions() {
+        //constrain the next of each joint, ignoring last
+        for (let i = 0; i < this.jointArr.length - 1; i++) {
+            let currentjoint = this.jointArr[i];
+            let nextJoint = this.jointArr[i + 1];
+            const anchor = currentjoint.pos;
+            const currentToNext = p5.Vector.sub(nextJoint.pos, anchor);
+            const constrainedVector = currentToNext.setMag(currentjoint.jointRadius);
+            const nextJointPos = p5.Vector.add(anchor, constrainedVector)
+            nextJoint.pos = nextJointPos;
+        }
+    }
+
+    /**
+     * ! Unused, DEBUG
+     * This was generted by ai and used as a means to test if vectors are slowing down the program. It will go unused in the main scrpit
+     * Constrain body segment joints into a chain, starting from the head
+     * functions using the forward portion of the FABRIK algorithm
+     * Updated to forego using vectors, since they can lead to bad performance with so many calls per frame
+     */
+    DEBUG_constrainJointPositions() {
         for (let i = 0; i < this.jointArr.length - 1; i++) {
             const currentJoint = this.jointArr[i];
             const nextJoint = this.jointArr[i + 1];
@@ -128,24 +147,6 @@ class BodyJointGroup {
             // 3. start at current joint, follow the arrow (add)
             nextJoint.pos.x = currentJoint.pos.x + constrainedX;
             nextJoint.pos.y = currentJoint.pos.y + constrainedY;
-        }
-    }
-
-    /**
-     * ! Old
-     * Constrain body segment joints into a chain, starting from the head
-     * functions using the forward portion of the FABRIK algorithm
-     */
-    OLD_constrainJointPositions() {
-        //constrain the next of each joint, ignoring last
-        for (let i = 0; i < this.jointArr.length - 1; i++) {
-            let currentjoint = this.jointArr[i];
-            let nextJoint = this.jointArr[i + 1];
-            const anchor = currentjoint.pos;
-            const currentToNext = p5.Vector.sub(nextJoint.pos, anchor);
-            const constrainedVector = currentToNext.setMag(currentjoint.jointRadius);
-            const nextJointPos = p5.Vector.add(anchor, constrainedVector)
-            nextJoint.pos = nextJointPos;
         }
     }
 
