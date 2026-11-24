@@ -11,10 +11,10 @@ class Joint {
     }
 
     draw() {
-        push();
+        // push();
         noStroke();
         fill(this.fill);
         ellipse(this.pos.x, this.pos.y, this.drawSize, this.drawSize);
-        pop();
+        // pop();
     }
 }

@@ -178,15 +178,15 @@ class Lizard {
     static SpawnLizards(amt) {
         for (let i = 0; i < amt; i++) {
             const pos = Util.getRandomScreenPos();
-            const size = random(0.25, 0.75);
-            const speed = random(1, 1.5);
+            const speed = random(0.25, 0.75);
+            const size = random(1, 1.5);
             const colorGenes = {
                 color1: color(random(0, 255), random(0, 255), random(0, 255)),
                 color2: color(random(0, 255), random(0, 255), random(0, 255)),
                 bodyColorVariance: random(0.5, 2.5),
                 limbColorVariance: random(0.5, 4),
             }
-            new Lizard(pos.x,pos.y,size,speed,lizardBaseArr,colorGenes);
+            new Lizard(pos.x,pos.y,speed,size,lizardBaseArr,colorGenes);
         }
     }
 

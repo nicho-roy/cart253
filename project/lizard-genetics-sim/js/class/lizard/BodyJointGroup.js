@@ -108,8 +108,35 @@ class BodyJointGroup {
     /**
      * Constrain body segment joints into a chain, starting from the head
      * functions using the forward portion of the FABRIK algorithm
+     * Updated to forego using vectors, since they can lead to bad performance with so many calls per frame
      */
     constrainJointPositions() {
+        for (let i = 0; i < this.jointArr.length - 1; i++) {
+            const currentJoint = this.jointArr[i];
+            const nextJoint = this.jointArr[i + 1];
+
+            // 1. arrow from current to next (sub)
+            const dx = nextJoint.pos.x - currentJoint.pos.x;
+            const dy = nextJoint.pos.y - currentJoint.pos.y;
+
+            // 2. keep the direction, force the length to jointRadius (setMag)
+            const currentLength = Math.hypot(dx, dy);   // length of the arrow
+            const scale = currentJoint.jointRadius / currentLength;
+            const constrainedX = dx * scale;
+            const constrainedY = dy * scale;
+
+            // 3. start at current joint, follow the arrow (add)
+            nextJoint.pos.x = currentJoint.pos.x + constrainedX;
+            nextJoint.pos.y = currentJoint.pos.y + constrainedY;
+        }
+    }
+
+    /**
+     * ! Old
+     * Constrain body segment joints into a chain, starting from the head
+     * functions using the forward portion of the FABRIK algorithm
+     */
+    OLD_constrainJointPositions() {
         //constrain the next of each joint, ignoring last
         for (let i = 0; i < this.jointArr.length - 1; i++) {
             let currentjoint = this.jointArr[i];
