@@ -217,7 +217,6 @@ function draw() {
 
 
 
-
     drawAll();
 }
 
@@ -226,14 +225,15 @@ function draw() {
 function drawAll() {
 
     drawArr(objArr);
+    drawText(`FPS: ${frameRate().toFixed()}, obj ${objArr.length}`,20,20);
 }
 
 
-function drawText() {
+function drawText(textStr,x,y) {
     push();
-    textSize(30);
+    textSize(12);
     fill("#000000");
-    text("Drag with mouse", 50, 50);
+    text(textStr, x, y);
     pop();
 }
 
