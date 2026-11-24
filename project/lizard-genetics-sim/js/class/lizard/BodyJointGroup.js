@@ -71,8 +71,6 @@ class BodyJointGroup {
         this.constrainJointAngles();
 
         this.updateLimb();
-
-        this.drawjoints();
     }
 
     /**
@@ -298,6 +296,18 @@ class BodyJointGroup {
             length += e.jointRadius;
         });
         return length;
+    }
+
+    /**
+     * Function for drawing all joints and limb joints
+     * calls bodyJointGroup.draw(), and limbjointGroup.draw()
+     * To be called by Lizard
+     */
+    draw() {
+        this.limbArr.forEach(e => {
+            e.draw();
+        });
+        this.drawjoints();
     }
 
     /**

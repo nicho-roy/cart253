@@ -22,7 +22,7 @@
 //TODON mini oscillations to body for lizard walking
 
 
-//lizards need, inital pos, 
+//!!!!!!! BUG WHEN LOOPING THROUGH LIZARD ARRAY IN WANDER.DETECT. CAUSES A STUTTER EVERY 10 FRAMES
 
 /**
  * Functions as the behaviour and impluse controller of the lizard
@@ -35,7 +35,8 @@ class Lizard {
     static PERCEPTIONRADUIS_MULT = 1.25;
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
-    constructor(x,y,speed,size,bodyInstructions,colorGenes) {
+    static BASE_HUNGER_DRAIN = 0.1;
+    constructor(x,y,speed,size,generation,bodyInstructions,colorGenes) {
         this.id = Lizard.ID_COUNTER++;
         this.pos = createVector(x,y);
         this.speed = speed; //0.5
@@ -44,7 +45,7 @@ class Lizard {
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
         this.size = size;
         this.targetVector = createVector(x,y);
-        this.frameBuffer = 10; //frame buffer cooldown so actions dont run every frame
+        this.frameBuffer = 15; //frame buffer cooldown so actions dont run every frame
 
         //appearance
         this.colorGenes = {};
@@ -56,8 +57,12 @@ class Lizard {
         this.body = new BodyJointGroup(this.bodyInstruction, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
 
         //survival
+        this.alive = true;
         this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT; //must call after body instance
         this.hunger = 100;
+        this.breedingHungerCost = 100;
+        this.gender = Lizard.RollGender();
+        this.generation = generation;
         
         //state machine manager
         this.currentState;
@@ -129,9 +134,13 @@ class Lizard {
     }
 
     act() {
-        this.updateState();
-        this.moveToTarget();
-        this.body.act();
+        if (this.alive) {
+            this.updateState();
+            this.moveToTarget();
+            this.body.act();
+            this.calcHungerDrain();
+        }
+        this.draw();
         this.DEBUG_DRAW();
     }
 
@@ -139,6 +148,14 @@ class Lizard {
         const currentSpeedMult = (this.isSprinting) ? this.sprintMult : 1
         this.body.speedMult = currentSpeedMult;
         this.body.targetVector = this.targetVector;
+    }
+
+    calcHungerDrain() {
+        let hungerDrain = Lizard.BASE_HUNGER_DRAIN;
+        hungerDrain *= this.size;
+        hungerDrain *= this.speed / 2;
+        this.hunger -= hungerDrain;
+        if (this.hunger <= 0) this.alive = false;
     }
 
     /**
@@ -149,6 +166,10 @@ class Lizard {
     eat(obj) {
         this.hunger += obj.nutrition;
         obj.remove();
+    }
+
+    breed() {
+        
     }
 
     remove() {
@@ -186,10 +207,25 @@ class Lizard {
                 bodyColorVariance: random(0.5, 2.5),
                 limbColorVariance: random(0.5, 4),
             }
-            new Lizard(pos.x,pos.y,speed,size,lizardBaseArr,colorGenes);
+            new Lizard(pos.x,pos.y,speed,size,1,lizardBaseArr,colorGenes);
         }
     }
 
+    static RollGender() {
+        const isFemale = Util.rollPercentChance(50);
+        if (isFemale) {
+            return 'F';
+        } else {
+            return 'M';
+        }
+    }
+
+    /**
+     * Calls draw method of the body
+     */
+    draw() {
+        this.body.draw();
+    }
 
     //DEBUG
 
@@ -197,16 +233,30 @@ class Lizard {
      * _DEBUG
      */
     DEBUG_DRAW() {
-
-        // this.DEBUG_drawPerceptionRadius();
+        // this.drawPerceptionRadius();
+        this.drawText();
     }
 
-    DEBUG_drawPerceptionRadius() {
-        push();
+    drawPerceptionRadius() {
         noStroke();
         fill(color(255, 0, 0,30));
         ellipse(this.pos.x, this.pos.y, this.perceptionRadius*2, this.perceptionRadius*2);
-        pop();
+    }
+
+    drawText() {
+        const textHeight = 16;
+        let textLine = 0;
+        textSize(textHeight);
+        fill("#000000");
+        if (!this.alive) {
+            fill("#542323");
+        }
+        text(`id: ${this.id}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        text(`gen: ${this.generation}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        text(`hunger: ${this.hunger.toFixed(0)}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        text(`gender: ${this.gender}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        text(`size: ${this.size.toFixed(2)}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        text(`speed: ${this.speed.toFixed(2)}`, this.pos.x, this.pos.y + textHeight * textLine++);
     }
 
 

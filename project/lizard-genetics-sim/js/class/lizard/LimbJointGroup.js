@@ -44,8 +44,6 @@ class LimbJointGroup {
         this.moveForward(this.targetVector);
         this.rotateMiddleJoints(this.targetVector);
         this.moveBackward();
-
-        this.drawjoints();
     }
 
     /**
@@ -152,6 +150,14 @@ class LimbJointGroup {
     hasArrivedAtTarget() {
         const hasArrivedAtTarget = (dist(this.targetVector.pos.x, this.targetVector.pos.y, this.headJoint.pos.x, this.headJoint.pos.y) < 10);
         return hasArrivedAtTarget;
+    }
+
+    /**
+     * Function for drawing all joints
+     * To be called by BodyJointGroup
+     */
+    draw() {
+        this.drawjoints();
     }
 
     /**

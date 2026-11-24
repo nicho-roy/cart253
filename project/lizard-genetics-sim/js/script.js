@@ -202,30 +202,32 @@ let lizardBaseArr = [
 let objArr = []; //every item must have: pos, act()
 
 async function setup() {
-    pixelDensity(0.5);
+    pixelDensity(0.001);
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
     Lizard.SpawnLizards(25);
-    Food.GenerateFood(300);
+    // Food.GenerateFood(300);
 
     
 }
 
 
 function draw() {
-    background(240);
+    
 
 
-    drawAll();
+    drawAll(1);
 }
 
 
 //GRAPHICS
-function drawAll() {
-
-    drawArr(objArr);
-    drawText();
+function drawAll(amt) {
+    for (let i = 0; i < amt; i++) {
+        background(240);
+        drawArr(objArr);
+        drawText();
+    }
 }
 
 let fpsSmooth = 60;
