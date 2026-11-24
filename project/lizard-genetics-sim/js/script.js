@@ -202,6 +202,7 @@ let lizardBaseArr = [
 let objArr = []; //every item must have: pos, act()
 
 async function setup() {
+    pixelDensity(0.5);
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
@@ -225,15 +226,16 @@ function draw() {
 function drawAll() {
 
     drawArr(objArr);
-    drawText(`FPS: ${frameRate().toFixed()}, obj ${objArr.length}`,20,20);
+    drawText();
 }
 
-
-function drawText(textStr,x,y) {
+let fpsSmooth = 60;
+function drawText() {
     push();
     textSize(12);
     fill("#000000");
-    text(textStr, x, y);
+    fpsSmooth = lerp(fpsSmooth, frameRate(), 0.05);
+    text(`FPS: ${fpsSmooth.toFixed()}, obj ${objArr.length}`, 20, 20);
     pop();
 }
 

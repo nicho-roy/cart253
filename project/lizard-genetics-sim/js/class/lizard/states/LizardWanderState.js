@@ -30,6 +30,8 @@ class LizardWanderState extends LizardBaseState {
     }
 
     detectChaseTarget(lizard) {
+        //run every 10 frames for performance
+        if (!((frameCount + lizard.id) % lizard.frameBuffer === 0)) return;
         for (const e of objArr) {
             if (e === this) continue;
             if (!lizard.preyTypes.some(T => e instanceof T)) continue;

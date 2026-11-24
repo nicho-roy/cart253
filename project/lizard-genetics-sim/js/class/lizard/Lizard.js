@@ -30,11 +30,13 @@
  * supplies the target position, and shares position with the body joint group
  */
 class Lizard {
+    static ID_COUNTER = 1;
     static SPEED_LIMIT_MULT = 5; //5
     static PERCEPTIONRADUIS_MULT = 1.25;
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
     constructor(x,y,speed,size,bodyInstructions,colorGenes) {
+        this.id = Lizard.ID_COUNTER++;
         this.pos = createVector(x,y);
         this.speed = speed; //0.5
         this.sprintMult = 3;
@@ -42,6 +44,7 @@ class Lizard {
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
         this.size = size;
         this.targetVector = createVector(x,y);
+        this.frameBuffer = 10; //frame buffer cooldown so actions dont run every frame
 
         //appearance
         this.colorGenes = {};
