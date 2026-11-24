@@ -179,7 +179,7 @@ class Lizard {
         for (let i = 0; i < amt; i++) {
             const pos = Util.getRandomScreenPos();
             const speed = random(0.25, 0.75);
-            const size = random(1, 1.5);
+            const size = random(1, 8.5);
             const colorGenes = {
                 color1: color(random(0, 255), random(0, 255), random(0, 255)),
                 color2: color(random(0, 255), random(0, 255), random(0, 255)),

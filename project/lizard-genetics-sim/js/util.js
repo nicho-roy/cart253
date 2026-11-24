@@ -9,4 +9,13 @@ class Util {
         return createVector(randX,randY);
     }
 
+    static rollPercentChance(percent) {
+        const r = random(1,100);
+        if(r <= percent) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
