@@ -2,10 +2,10 @@
 
 
 
-//TODO lizard breeding
-//lizards will compare and vary their genomes slightly to offspring and make a baby with traits in the middle of the 2 parents, with a mutation modifier
 
-//TODO lizard rest/recover state
+//TODO lizard rest/recover state when low on food
+
+//TODON lizard predation, and prey fleeing
 
 
 
