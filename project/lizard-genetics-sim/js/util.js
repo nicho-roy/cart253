@@ -9,6 +9,12 @@ class Util {
         return createVector(randX,randY);
     }
 
+    static getRandomVectorOfMag(mag) {
+        const randX = random(mag, -mag);
+        const randY = random(mag, -mag);
+        return createVector(randX, randY);
+    }
+
     static rollPercentChance(percent) {
         const r = random(0,100);
         if(r >= percent) {

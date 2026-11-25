@@ -2,6 +2,8 @@ class LizardBreedState extends LizardBaseState {
     constructor() {
         super();
         this.name = "breeding"
+        this.breedTime = random(100,150);
+        this.breedTimer = 0;
     }
 
     /**
@@ -20,7 +22,8 @@ class LizardBreedState extends LizardBaseState {
             lizard.switchState(lizard.wanderState);
             return;
         }
-        lizard.targetVector = lizard.breedTarget.pos;
+        const shimmy = Util.getRandomVectorOfMag(200);
+        lizard.targetVector = p5.Vector.add(lizard.breedTarget.pos, shimmy);
         this.checkBreedTarget(lizard);
     }
 
@@ -30,12 +33,31 @@ class LizardBreedState extends LizardBaseState {
      * @returns 
      */
     checkBreedTarget(lizard) {
-        const toTarget = p5.Vector.sub(lizard.targetVector, lizard.pos);
+        const partner = lizard.breedTarget;
+        const toTarget = p5.Vector.sub(partner.pos, lizard.pos);
         const distToTarget = toTarget.mag();
-        if (distToTarget <= lizard.eatRange) {
-            lizard.breed();
-            lizard.switchState(lizard.wanderState);
+        if (distToTarget > lizard.eatRange) return
+        
+        this.breedTimer++;
+        
+        const partnerState = partner.currentState;;
+        if (this.isReadyToBreed() && partnerState instanceof LizardBreedState && partnerState.isReadyToBreed()) {
+            //initiate reproduction, the first to reach this point will initiate for the both of them
+            this.initiateReproduction(lizard);
+            partnerState.initiateReproduction(partner);
         }
+    }
+
+    isReadyToBreed() {
+        return this.breedTimer >= this.breedTime;
+    }
+
+    initiateReproduction(lizard) {
+        lizard.breed();
+        lizard.breedTarget = null;
+        this.breedTimer = 0;
+        lizard.switchState(lizard.wanderState);
+        return;
     }
 
 }

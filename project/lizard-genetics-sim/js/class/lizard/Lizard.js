@@ -32,7 +32,7 @@
 class Lizard {
     static ID_COUNTER = 1;
     static SPEED_LIMIT_MULT = 5; //5
-    static PERCEPTIONRADUIS_MULT = 1.25;
+    static PERCEPTIONRADUIS_MULT = 1.25; //1.25
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
     static BASE_HUNGER_DRAIN = 0.1;
@@ -60,7 +60,7 @@ class Lizard {
         this.alive = true;
         this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT; //must call after body instance
         this.hunger = 100;
-        this.breedingHungerCost = 50;
+        this.breedHungerCost = 50;
         this.gender = Lizard.RollGender();
         this.generation = generation;
         
@@ -170,7 +170,7 @@ class Lizard {
     }
 
     breed() {
-        this.hunger -= this.breedingHungerCost;
+        this.hunger -= this.breedHungerCost;
         console.log('breed');
         if (this.gender === 'F') {
             //TODO SPAWN OFFSPRING
