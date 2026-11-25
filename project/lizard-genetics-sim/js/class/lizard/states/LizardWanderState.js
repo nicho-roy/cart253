@@ -95,10 +95,13 @@ class LizardWanderState extends LizardBaseState {
     }
 
     checkRest(lizard) {
-        if (lizard.hunger <= lizard.restHungerThreshold) {
-            lizard.targetVector = lizard.pos;
-            lizard.switchState(lizard.restState)
-        }
+        //run every X frames for performance
+        if (!((frameCount + lizard.id) % lizard.frameBuffer === 0)) return;
+        if (lizard.hunger > lizard.restHungerThreshold) return;
+        if (!(Util.RollPercentChance(lizard.restChance))) return; //a chance to enter the rest state each frame
+
+        lizard.targetVector = lizard.pos;
+        lizard.switchState(lizard.restState)
     }
 
 }

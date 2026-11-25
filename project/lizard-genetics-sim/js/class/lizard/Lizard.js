@@ -35,7 +35,7 @@ class Lizard {
     static PERCEPTIONRADUIS_MULT = 1.25; //1.25
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
-    static BASE_HUNGER_DRAIN = 0.5; //0.1
+    static BASE_HUNGER_DRAIN = 0.05; //0.1
     static MUTATION_MULT = 1.5;
     constructor(x,y,speed,size,generation,bodyInstructions,colorGenes) {
         this.id = Lizard.ID_COUNTER++;
@@ -58,13 +58,14 @@ class Lizard {
 
         //survival
         this.alive = true;
+        this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT; //must call after body instance
         this.isSprinting = false;
         this.isResting = false;
         this.restingHungerDrainMult = 0.2;
-        this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT; //must call after body instance
-        this.hunger = 100;
-        this.breedHungerCost = 100;
-        this.restHungerThreshold = 50;
+        this.restChance = 1; //likelyhood to rest per cycle (framebuffer) once in the hunger range //TODON varry per individual
+        this.hunger = 100; //TODON varry per individual, based on size maybe
+        this.breedHungerCost = 100; //TODON varry per individual, derived from hunger
+        this.restHungerThreshold = 75; //TODON varry per individual
         this.gender = Lizard.RollGender();
         this.generation = generation;
         
@@ -290,7 +291,7 @@ class Lizard {
         }
         // text(`id: ${this.id}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`gen: ${this.generation}`, this.pos.x, this.pos.y + textHeight * textLine++);
-        text(`gen: ${this.currentState.name}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        text(`state: ${this.currentState.name}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`hunger: ${this.hunger.toFixed(0)}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`gender: ${this.gender}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`size: ${this.size.toFixed(2)}`, this.pos.x, this.pos.y + textHeight * textLine++);

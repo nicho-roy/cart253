@@ -214,7 +214,7 @@ async function setup() {
 
 
 function draw() {
-    Food.TickFoodGeneration(0.5);    
+    Food.TickFoodGeneration(1);    
 
     drawAll(1);
 }
