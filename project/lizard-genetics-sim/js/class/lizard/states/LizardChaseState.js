@@ -2,6 +2,7 @@
 class LizardChaseState extends LizardBaseState {
     constructor() {
         super();
+        this.name = "chasing"
     }
 
     /**

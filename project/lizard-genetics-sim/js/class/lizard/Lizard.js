@@ -60,7 +60,7 @@ class Lizard {
         this.alive = true;
         this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT; //must call after body instance
         this.hunger = 100;
-        this.breedingHungerCost = 100;
+        this.breedingHungerCost = 50;
         this.gender = Lizard.RollGender();
         this.generation = generation;
         
@@ -171,6 +171,7 @@ class Lizard {
 
     breed() {
         this.hunger -= this.breedingHungerCost;
+        console.log('breed');
         if (this.gender === 'F') {
             //TODO SPAWN OFFSPRING
         }
@@ -237,7 +238,7 @@ class Lizard {
      * _DEBUG
      */
     DEBUG_DRAW() {
-        // this.drawPerceptionRadius();
+        this.drawPerceptionRadius();
         this.drawText();
     }
 
@@ -257,6 +258,7 @@ class Lizard {
         }
         // text(`id: ${this.id}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`gen: ${this.generation}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        text(`gen: ${this.currentState.name}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`hunger: ${this.hunger.toFixed(0)}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`gender: ${this.gender}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`size: ${this.size.toFixed(2)}`, this.pos.x, this.pos.y + textHeight * textLine++);
