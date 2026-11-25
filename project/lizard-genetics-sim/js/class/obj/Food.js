@@ -10,10 +10,24 @@ class Food {
         objArr.push(this);
     }
 
-    static GenerateFood(amt) {
+    /**
+     * generates a food item with a random chnace per frame
+     * @param {*} chance 
+     */
+    static TickFoodGeneration(chance) {
+        if (Util.RollPercentChance(chance)) {
+            Food.SpawnFood(1);
+        }
+    }
+
+    /**
+     * spawns an immediate amount for food at random position
+     * @param {*} amt 
+     */
+    static SpawnFood(amt) {
         for (let i = 0; i < amt; i++) {
             const pos = Util.getRandomScreenPos();
-            const randNutrition = random(1,10);
+            const randNutrition = random(3,10);
             new Food(pos.x, pos.y, randNutrition);
         }
     }

@@ -244,7 +244,7 @@ class Lizard {
     }
 
     static RollGender() {
-        const isFemale = Util.rollPercentChance(50);
+        const isFemale = Util.RollPercentChance(50);
         if (isFemale) {
             return 'F';
         } else {
