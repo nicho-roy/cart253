@@ -200,11 +200,20 @@ let lizardBaseArr = [
 
 
 let objArr = []; //every item must have: pos, act()
+let simSpeed = 1;
 
 async function setup() {
     pixelDensity(0.001);
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
+
+    let gui = new UIL.Gui({ // interfaccia
+        css: 'right:0; top:0;',
+        bg: '#7a7ab4', // to update new version
+        w: 300,
+        p: 30,
+    });
+    setupGui(gui);
 
     Lizard.SpawnLizards(5);
     Food.SpawnFood(0);
@@ -212,18 +221,19 @@ async function setup() {
     
 }
 
-
 function draw() {
-    Food.TickFoodGeneration(1);    
-
-    drawAll(1);
+    drawSim(simSpeed);
 }
 
-
-//GRAPHICS
-function drawAll(amt) {
+/**
+ * draws the simulation at a speed mult
+ * @param {*} amt 
+ */
+function drawSim(amt) {
     for (let i = 0; i < amt; i++) {
         background(240);
+
+        Food.TickFoodGeneration(1);
         drawArr(objArr);
         drawText();
     }
@@ -237,6 +247,31 @@ function drawText() {
     fpsSmooth = lerp(fpsSmooth, frameRate(), 0.05);
     text(`FPS: ${fpsSmooth.toFixed()}, obj ${objArr.length}`, 20, 20);
     pop();
+}
+
+
+function setupGui(gui) {
+    gui.add('slide', {name: 'Sim Speed', value: 1, min: 1, max: 50, step: 1}).onChange(
+        function(value){ simSpeed = value}
+    );
+    gui.add('button', { name: 'Puase', h:70}).onChange(
+        function () {
+            if (simSpeed == 0) {
+                simSpeed = 1;
+            } else {
+                simSpeed = 0;
+            }
+        }
+    );
+
+}
+
+function isFastForwarding() {
+    if (simSpeed > 1) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function drawArr(arr) {

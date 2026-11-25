@@ -35,7 +35,7 @@ class Lizard {
     static PERCEPTIONRADUIS_MULT = 1.25; //1.25
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
-    static BASE_HUNGER_DRAIN = 0.05; //0.1
+    static BASE_HUNGER_DRAIN = 0.01; //0.1
     static MUTATION_MULT = 1.5;
     constructor(x,y,speed,size,generation,bodyInstructions,colorGenes) {
         this.id = Lizard.ID_COUNTER++;
@@ -64,7 +64,7 @@ class Lizard {
         this.restingHungerDrainMult = 0.2;
         this.restChance = 1; //likelyhood to rest per cycle (framebuffer) once in the hunger range //TODON varry per individual
         this.hunger = 100; //TODON varry per individual, based on size maybe
-        this.breedHungerCost = 100; //TODON varry per individual, derived from hunger
+        this.breedHungerCost = 120; //TODON varry per individual, derived from hunger
         this.restHungerThreshold = 75; //TODON varry per individual
         this.gender = Lizard.RollGender();
         this.generation = generation;
