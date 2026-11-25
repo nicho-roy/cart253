@@ -35,14 +35,13 @@ class Lizard {
     static PERCEPTIONRADUIS_MULT = 1.25; //1.25
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
-    static BASE_HUNGER_DRAIN = 0.1;
+    static BASE_HUNGER_DRAIN = 0.5; //0.1
     static MUTATION_MULT = 1.5;
     constructor(x,y,speed,size,generation,bodyInstructions,colorGenes) {
         this.id = Lizard.ID_COUNTER++;
         this.pos = createVector(x,y);
         this.speed = speed; //0.5
         this.sprintMult = 3;
-        this.isSprinting = false;
         this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
         this.size = size;
         this.targetVector = createVector(x,y);
@@ -59,9 +58,13 @@ class Lizard {
 
         //survival
         this.alive = true;
+        this.isSprinting = false;
+        this.isResting = false;
+        this.restingHungerDrainMult = 0.2;
         this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT; //must call after body instance
         this.hunger = 100;
         this.breedHungerCost = 100;
+        this.restHungerThreshold = 50;
         this.gender = Lizard.RollGender();
         this.generation = generation;
         
@@ -75,6 +78,7 @@ class Lizard {
         this.eatRange = this.size * Lizard.EATRANGE_MULT;
         this.breedState = new LizardBreedState();
         this.breedTarget;
+        this.restState = new LizardRestState();
         this.awake();
 
 
@@ -155,7 +159,8 @@ class Lizard {
     calcHungerDrain() {
         let hungerDrain = Lizard.BASE_HUNGER_DRAIN;
         hungerDrain *= this.size;
-        hungerDrain *= this.speed / 2;
+        hungerDrain *= (this.isSprinting) ? this.speed : this.speed / 2;
+        if (this.isResting) hungerDrain *= this.restingHungerDrainMult;
         this.hunger -= hungerDrain;
         if (this.hunger <= 0) this.alive = false;
     }

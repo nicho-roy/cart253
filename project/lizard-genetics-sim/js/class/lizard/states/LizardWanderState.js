@@ -23,6 +23,7 @@ class LizardWanderState extends LizardBaseState {
         //check if anything to chase
         if (this.detectChaseTarget(lizard)) return;
         if (this.detectBreedTarget(lizard)) return;
+        if (this.checkRest(lizard)) return;
 
         //else wander like normal
         this.wanderAttentionTimer++;
@@ -91,6 +92,13 @@ class LizardWanderState extends LizardBaseState {
         const randY = random(0, height);
         const targetVector = createVector(randX, randY);
         lizard.targetVector = targetVector;
+    }
+
+    checkRest(lizard) {
+        if (lizard.hunger <= lizard.restHungerThreshold) {
+            lizard.targetVector = lizard.pos;
+            lizard.switchState(lizard.restState)
+        }
     }
 
 }
