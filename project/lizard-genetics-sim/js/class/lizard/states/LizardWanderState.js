@@ -69,7 +69,8 @@ class LizardWanderState extends LizardBaseState {
         for (const e of objArr) {
             if (e === lizard) continue;
             if (!(e instanceof Lizard)) continue; //must be another lizard
-            if (!(e.alive)) continue;
+            if (!(e.alive)) continue; //must be alive
+            if (e.gender === lizard.gender) continue; //must be of opposite sex (im not homophobic i promise)
 
             //sets closest as current target if it tghe closest
             const distanceToCurrent = dist(lizard.pos.x, lizard.pos.y, e.pos.x, e.pos.y);

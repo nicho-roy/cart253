@@ -54,7 +54,7 @@ class LizardBreedState extends LizardBaseState {
 
     initiateReproduction(lizard) {
         lizard.breed();
-        lizard.breedTarget = null;
+        // lizard.breedTarget = null;
         this.breedTimer = 0;
         lizard.switchState(lizard.wanderState);
         return;

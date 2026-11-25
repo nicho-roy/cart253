@@ -36,6 +36,7 @@ class Lizard {
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
     static BASE_HUNGER_DRAIN = 0.1;
+    static MUTATION_MULT = 1.5;
     constructor(x,y,speed,size,generation,bodyInstructions,colorGenes) {
         this.id = Lizard.ID_COUNTER++;
         this.pos = createVector(x,y);
@@ -60,7 +61,7 @@ class Lizard {
         this.alive = true;
         this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT; //must call after body instance
         this.hunger = 100;
-        this.breedHungerCost = 50;
+        this.breedHungerCost = 100;
         this.gender = Lizard.RollGender();
         this.generation = generation;
         
@@ -173,8 +174,34 @@ class Lizard {
         this.hunger -= this.breedHungerCost;
         console.log('breed');
         if (this.gender === 'F') {
-            //TODO SPAWN OFFSPRING
+            this.spawnOffspring();
         }
+        this.breedTarget = null;
+    }
+
+    /**
+     * spawns an offspring with the gene ranges of the parents * mutation mult
+     */
+    spawnOffspring() {
+        const partner = this.breedTarget;
+        const speed = random(min(this.speed, partner.speed) / Lizard.MUTATION_MULT, max(this.speed, partner.speed) * Lizard.MUTATION_MULT);
+        const size = random(min(this.size, partner.size) / Lizard.MUTATION_MULT, max(this.size, partner.size) * Lizard.MUTATION_MULT);
+        const gen = this.generation + 1;
+        const r1 = random(min(red(this.colorGenes.color1), red(partner.colorGenes.color1)) / Lizard.MUTATION_MULT, max(red(this.colorGenes.color1), red(partner.colorGenes.color1)) * Lizard.MUTATION_MULT);
+        const g1 = random(min(green(this.colorGenes.color1), green(partner.colorGenes.color1)) / Lizard.MUTATION_MULT, max(green(this.colorGenes.color1), green(partner.colorGenes.color1)) * Lizard.MUTATION_MULT);
+        const b1 = random(min(blue(this.colorGenes.color1), blue(partner.colorGenes.color1)) / Lizard.MUTATION_MULT, max(blue(this.colorGenes.color1), blue(partner.colorGenes.color1)) * Lizard.MUTATION_MULT);
+        const r2 = random(min(red(this.colorGenes.color2), red(partner.colorGenes.color2)) / Lizard.MUTATION_MULT, max(red(this.colorGenes.color2), red(partner.colorGenes.color2)) * Lizard.MUTATION_MULT);
+        const g2 = random(min(green(this.colorGenes.color2), green(partner.colorGenes.color2)) / Lizard.MUTATION_MULT, max(green(this.colorGenes.color2), green(partner.colorGenes.color2)) * Lizard.MUTATION_MULT);
+        const b2 = random(min(blue(this.colorGenes.color2), blue(partner.colorGenes.color2)) / Lizard.MUTATION_MULT, max(blue(this.colorGenes.color2), blue(partner.colorGenes.color2)) * Lizard.MUTATION_MULT);
+        const bodyColorVariance = random(min(this.colorGenes.bodyColorVariance, partner.colorGenes.bodyColorVariance) / Lizard.MUTATION_MULT, max(this.colorGenes.bodyColorVariance, partner.colorGenes.bodyColorVariance) * Lizard.MUTATION_MULT);
+        const limbColorVariance = random(min(this.colorGenes.limbColorVariance, partner.colorGenes.limbColorVariance) / Lizard.MUTATION_MULT, max(this.colorGenes.limbColorVariance, partner.colorGenes.limbColorVariance) * Lizard.MUTATION_MULT);
+        const colorGenes = {
+            color1: color(r1,g1,b1),
+            color2: color(r2,g2,b2),
+            bodyColorVariance: bodyColorVariance,
+            limbColorVariance: limbColorVariance,
+        }
+        new Lizard(this.pos.x, this.pos.y, speed, size, gen, lizardBaseArr, colorGenes);
     }
 
     remove() {
@@ -238,7 +265,7 @@ class Lizard {
      * _DEBUG
      */
     DEBUG_DRAW() {
-        this.drawPerceptionRadius();
+        // this.drawPerceptionRadius();
         this.drawText();
     }
 
