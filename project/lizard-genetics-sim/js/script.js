@@ -206,7 +206,7 @@ async function setup() {
     angleMode(DEGREES);
     createCanvas(CANVAS.x, CANVAS.y);
 
-    Lizard.SpawnLizards(25);
+    Lizard.SpawnLizards(10);
     // Food.GenerateFood(300);
 
     

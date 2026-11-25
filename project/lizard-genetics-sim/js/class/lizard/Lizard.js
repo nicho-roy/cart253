@@ -255,7 +255,7 @@ class Lizard {
         if (!this.alive) {
             fill("#542323");
         }
-        text(`id: ${this.id}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        // text(`id: ${this.id}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`gen: ${this.generation}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`hunger: ${this.hunger.toFixed(0)}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`gender: ${this.gender}`, this.pos.x, this.pos.y + textHeight * textLine++);
