@@ -67,6 +67,7 @@ class Lizard {
         //state machine manager
         this.currentState;
         this.wanderState = new LizardWanderState();
+        this.wanderAttentionTimer = random(150,250);
         this.chaseState = new LizardChaseState();
         this.chaseTarget;
         this.preyTypes = [Food];
@@ -169,7 +170,10 @@ class Lizard {
     }
 
     breed() {
-        
+        this.hunger -= this.breedingHungerCost;
+        if (this.gender === 'F') {
+            //TODO SPAWN OFFSPRING
+        }
     }
 
     remove() {

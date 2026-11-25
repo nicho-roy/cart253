@@ -11,6 +11,7 @@ class LizardWanderState extends LizardBaseState {
     enterState(lizard) {
         // console.log("entered wander state");
         lizard.isSprinting = false;
+        this.wanderAttentionTime = lizard.wanderAttentionTimer;
         this.assignRandomWanderTarget(lizard);
     }
 
