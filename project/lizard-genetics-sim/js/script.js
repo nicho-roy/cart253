@@ -201,6 +201,7 @@ let lizardBaseArr = [
 
 let objArr = []; //every item must have: pos, act()
 let simSpeed = 1;
+let simTick = 0; //essentially the frame count, accounting for sim speed
 
 async function setup() {
     pixelDensity(0.001);
@@ -231,6 +232,7 @@ function draw() {
  */
 function drawSim(amt) {
     for (let i = 0; i < amt; i++) {
+        simTick++;
         background(240);
 
         Food.TickFoodGeneration(1);

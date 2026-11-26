@@ -68,6 +68,8 @@ class Lizard {
         this.restHungerThreshold = 75; //TODON varry per individual
         this.gender = Lizard.RollGender();
         this.generation = generation;
+        this.decayTime = 18000; //5 mins
+        this.decayTimer = 0;
         
         //state machine manager
         this.currentState;
@@ -146,6 +148,8 @@ class Lizard {
             this.moveToTarget();
             this.body.act();
             this.calcHungerDrain();
+        } else {
+            this.runDecay();
         }
         this.draw();
         this.DEBUG_DRAW();
@@ -208,6 +212,13 @@ class Lizard {
             limbColorVariance: limbColorVariance,
         }
         new Lizard(this.pos.x, this.pos.y, speed, size, gen, lizardBaseArr, colorGenes);
+    }
+
+    runDecay() {
+        this.decayTimer++;
+        if (this.decayTimer > this.decayTime) {
+            this.remove();
+        }
     }
 
     remove() {

@@ -40,7 +40,7 @@ class LizardWanderState extends LizardBaseState {
      */
     detectChaseTarget(lizard) {
         //run every X frames for performance
-        if (!((frameCount + lizard.id) % lizard.frameBuffer === 0)) return;
+        if (!((simTick + lizard.id) % lizard.frameBuffer === 0)) return;
 
         let closest = {obj: null, dist: 99999};
         for (const e of objArr) {
@@ -63,7 +63,7 @@ class LizardWanderState extends LizardBaseState {
 
     detectBreedTarget(lizard) {
         //run every X frames for performance
-        if (!((frameCount + lizard.id) % lizard.frameBuffer === 0)) return;
+        if (!((simTick + lizard.id) % lizard.frameBuffer === 0)) return;
         if (lizard.hunger <= lizard.breedHungerCost) return;
 
         let closest = { obj: null, dist: 99999 };
@@ -96,7 +96,7 @@ class LizardWanderState extends LizardBaseState {
 
     checkRest(lizard) {
         //run every X frames for performance
-        if (!((frameCount + lizard.id) % lizard.frameBuffer === 0)) return;
+        if (!((simTick + lizard.id) % lizard.frameBuffer === 0)) return;
         if (lizard.hunger > lizard.restHungerThreshold) return;
         if (!(Util.RollPercentChance(lizard.restChance))) return; //a chance to enter the rest state each frame
 
