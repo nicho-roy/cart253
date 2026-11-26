@@ -2,27 +2,26 @@
 
 
 
+//TODON CONTROLLABLE LIZARDS
 
 //TODO lizard rest/recover state when low on food
 
-//TODON lizard predation, and prey fleeing
-
-
+//TODON lizard predation, and prey fleeing, if size is doubled
 
 //TODON fix hind legs bending awkwardly
 
 //TODON optimize setting limb position to target vector, by making it not set if already at target vector, same with body
 
-//TODON implment alternative limbs for walking
+//TODON fix alternative limbs for walking
 // determine 2 sets of legs, 1: front left and back right, 2: front right and back left, 
 // current set: determines which set of legs should advance, only after the current set of legs moves, can the next one move
-
-//TODON tie speed to step distance
 
 //TODON mini oscillations to body for lizard walking
 
 
-//!!!!!!! BUG WHEN LOOPING THROUGH LIZARD ARRAY IN WANDER.DETECT. CAUSES A STUTTER EVERY 10 FRAMES
+//!!!!! UPDATE REST STATE TO BE MORE LIKELY THE LOWER LIZARD IS ON FOOD, LERP WHEN FOOD LOW
+
+
 
 /**
  * Functions as the behaviour and impluse controller of the lizard
