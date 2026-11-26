@@ -7,7 +7,6 @@
 > <br>
 >
 > **Lizard Survival Mechanics and Rest State:** 
->    - 
 >    - Firstly, I added some debug features like an FPS counter and a stats overlay on each lizard to better track them. This includes a measure on which generation they were born into, their current state in the state machine, their hunger value (or how nurished they are), and other traits that get passed on genetically and contribute to  natrual selection. Lizards will chase food that is in their percaption range as before, however now their hunger decreases over time, and varries based on how fast and large they are. Larger and faster lizards have an advantage in chasing food (although there currently isn't much advantage to being larger yet), however their hunger will drain faster. this will hopefully create competition among the lizards and through natural selection will create lizards best fit to survive the given conditions of the simulation.
 >
 >      ![resting-img](./assets/images/liz-resting.png)
@@ -17,7 +16,6 @@
 > <br>
 >
 > **Added proper reporduction mechanics:** 
->    -
 >    - After further developing the breeding state within the lizard state machine mentioned in the pervious journal, lizards can now reproduce. To facilitate this, lizards now have gender (a string containing either 'M" or 'F'), in which lizards who fulfill the mating requirments will initiate breeding with other lizards of the opposite gender. The mating requirement is simply a minimum hunger value, which depends on the lizard's size, so larger lizards need to consume more food to mate, simulating how smaller animals tend to reproduce at a faster rate. Upon 2 lizards mutually entering the breeding state they will appear to move weirdly in a sort of mating dance ritual while trying to approach one another. This dance was achieved by setting the 2 lizards' target move position to the other's position but with a random offset, allowing the physics body simulation to shine by making the lizards' appear to wiggle. In this state, each lizard has a timer of around 10 seconds that will only tick forward when the lizards' heads are touching. That fact paired with the random offset makes the mating process take a varrying amount of time per individual.
 >
 >      ![liz-mating-img](./assets/images/liz-mating.png)
@@ -27,7 +25,6 @@
 > <br>
 >
 > **Simulation Control Panel GUI:** 
->    -
 >    - Mainly for debugging, I made a GUI panel for controlling simulation options in real time.
 >
 >      ![control-panel-img](./assets/images/control-panel.png)
