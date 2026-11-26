@@ -206,6 +206,7 @@ let foodSpawnRate = 1;
 let showPerception = false;
 let showStats = true;
 let showBody = true;
+let bgColor = "rgb(240, 240, 240)"
 
 async function setup() {
     pixelDensity(0.001);
@@ -237,7 +238,7 @@ function draw() {
 function drawSim(amt) {
     for (let i = 0; i < amt; i++) {
         simTick++;
-        background(240);
+        background(bgColor);
 
         Food.TickFoodGeneration(foodSpawnRate);
         drawArr(objArr);
@@ -257,7 +258,7 @@ function drawText() {
 
 
 function setupGui(gui) {
-    const gui_grp1 = gui.add('group', { name: 'Sim Playback' });
+    const gui_grp1 = gui.add('group', { name: 'PLAYBACK' });
     gui_grp1.add('slide', {name: 'Sim Speed', value: 1, min: 1, max: 50, step: 1}).onChange(
         function(value){ simSpeed = value}
     );
@@ -271,7 +272,7 @@ function setupGui(gui) {
         }
     );
 
-    const gui_grp2 = gui.add('group', { name: 'Graphics' });
+    const gui_grp2 = gui.add('group', { name: 'GRAPHICS' });
     gui_grp2.add('button', { name: 'Toggle Body', h: 30 }).onChange(
         function () { showBody = !showBody }
     );
@@ -281,8 +282,15 @@ function setupGui(gui) {
     gui_grp2.add('button', { name: 'Toggle Percpetion', h: 30 }).onChange(
         function () { showPerception = !showPerception }
     );
+    gui_grp2.add('color', { name: 'Bg Color', callBack: bgColor, h: 30 }).onChange(
+        function (value) {
+            //adjust for the weird format color comes in (hex integer)
+            bgColor = color((value >> 16) & 255, (value >> 8) & 255, value & 255);
+        }
+    );
+    
 
-    const gui_grp3 = gui.add('group', { name: 'Actions' });
+    const gui_grp3 = gui.add('group', { name: 'ACTIONS' });
     gui_grp3.add('button', { name: 'Spawn Lizard', h: 50 }).onChange(
         function () { Lizard.SpawnLizards(1) }
     );
@@ -293,6 +301,9 @@ function setupGui(gui) {
     );
     gui_grp3.add('number', { name: 'Food Rate', value: foodSpawnRate, min: 0, max: 100, step: 0.1 }).onChange(
         function (value) { foodSpawnRate = value }
+    );
+    gui_grp3.add('slide', { name: 'Mutation Rate', value: Lizard.MUTATION_MULT, min: 1, max: 3, step: 0.1 }).onChange(
+        function (value) { Lizard.MUTATION_MULT = value }
     );
 }
 

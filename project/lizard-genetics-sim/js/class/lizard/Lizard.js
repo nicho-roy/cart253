@@ -201,18 +201,18 @@ class Lizard {
      */
     spawnOffspring() {
         const partner = this.breedTarget;
-        const speed = random(min(this.speed, partner.speed) / Lizard.MUTATION_MULT, max(this.speed, partner.speed) * Lizard.MUTATION_MULT);
-        const size = random(min(this.size, partner.size) / Lizard.MUTATION_MULT, max(this.size, partner.size) * Lizard.MUTATION_MULT);
+        const speed = Lizard.RollOffspringGene(this.speed,partner.speed)
+        const size = Lizard.RollOffspringGene(this.size, partner.size)
         const generation = this.generation + 1;
-        const perceptionSkill = random(min(this.perceptionSkill, partner.perceptionSkill) / Lizard.MUTATION_MULT, max(this.perceptionSkill, partner.perceptionSkill) * Lizard.MUTATION_MULT);
-        const r1 = random(min(red(this.colorGenes.color1), red(partner.colorGenes.color1)) / Lizard.MUTATION_MULT, max(red(this.colorGenes.color1), red(partner.colorGenes.color1)) * Lizard.MUTATION_MULT);
-        const g1 = random(min(green(this.colorGenes.color1), green(partner.colorGenes.color1)) / Lizard.MUTATION_MULT, max(green(this.colorGenes.color1), green(partner.colorGenes.color1)) * Lizard.MUTATION_MULT);
-        const b1 = random(min(blue(this.colorGenes.color1), blue(partner.colorGenes.color1)) / Lizard.MUTATION_MULT, max(blue(this.colorGenes.color1), blue(partner.colorGenes.color1)) * Lizard.MUTATION_MULT);
-        const r2 = random(min(red(this.colorGenes.color2), red(partner.colorGenes.color2)) / Lizard.MUTATION_MULT, max(red(this.colorGenes.color2), red(partner.colorGenes.color2)) * Lizard.MUTATION_MULT);
-        const g2 = random(min(green(this.colorGenes.color2), green(partner.colorGenes.color2)) / Lizard.MUTATION_MULT, max(green(this.colorGenes.color2), green(partner.colorGenes.color2)) * Lizard.MUTATION_MULT);
-        const b2 = random(min(blue(this.colorGenes.color2), blue(partner.colorGenes.color2)) / Lizard.MUTATION_MULT, max(blue(this.colorGenes.color2), blue(partner.colorGenes.color2)) * Lizard.MUTATION_MULT);
-        const bodyColorVariance = random(min(this.colorGenes.bodyColorVariance, partner.colorGenes.bodyColorVariance) / Lizard.MUTATION_MULT, max(this.colorGenes.bodyColorVariance, partner.colorGenes.bodyColorVariance) * Lizard.MUTATION_MULT);
-        const limbColorVariance = random(min(this.colorGenes.limbColorVariance, partner.colorGenes.limbColorVariance) / Lizard.MUTATION_MULT, max(this.colorGenes.limbColorVariance, partner.colorGenes.limbColorVariance) * Lizard.MUTATION_MULT);
+        const perceptionSkill = Lizard.RollOffspringGene(this.perceptionSkill, partner.perceptionSkill)
+        const r1 = Lizard.RollOffspringGene(red(this.colorGenes.color1), red(this.colorGenes.color1))
+        const g1 = Lizard.RollOffspringGene(green(this.colorGenes.color1), green(this.colorGenes.color1))
+        const b1 = Lizard.RollOffspringGene(blue(this.colorGenes.color1), blue(this.colorGenes.color1))
+        const r2 = Lizard.RollOffspringGene(red(this.colorGenes.color2), red(partner.colorGenes.color2))
+        const g2 = Lizard.RollOffspringGene(green(this.colorGenes.color2), green(partner.colorGenes.color2))
+        const b2 = Lizard.RollOffspringGene(blue(this.colorGenes.color2), blue(partner.colorGenes.color2))
+        const bodyColorVariance = Lizard.RollOffspringGene(this.colorGenes.bodyColorVariance, partner.colorGenes.bodyColorVariance)
+        const limbColorVariance = Lizard.RollOffspringGene(this.colorGenes.limbColorVariance, partner.colorGenes.limbColorVariance)
         const traitGenes = {
             speed: speed,
             size: size,
@@ -261,8 +261,11 @@ class Lizard {
 
 
     //STATIC
-    static RollOffspringGene(gene) {
-
+    static RollOffspringGene(thisGene,partnerGene) {
+        return random(
+            min(thisGene, partnerGene) / Lizard.MUTATION_MULT,
+            max(thisGene, partnerGene) * Lizard.MUTATION_MULT
+        );
     }
 
     static SpawnLizards(amt) {
