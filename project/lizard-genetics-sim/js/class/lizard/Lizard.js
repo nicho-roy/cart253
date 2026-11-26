@@ -2,7 +2,7 @@
 
 
 
-//TODON CONTROLLABLE LIZARDS
+//TODON CONTROLLABLE LIZARDS, and make spawnable lizards with specific traits
 
 //TODO lizard rest/recover state when low on food
 
