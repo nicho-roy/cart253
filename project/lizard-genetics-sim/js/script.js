@@ -202,6 +202,7 @@ let lizardBaseArr = [
 let objArr = []; //every item must have: pos, act()
 let simSpeed = 1;
 let simTick = 0; //essentially the frame count, accounting for sim speed
+let foodSpawnRate = 1;
 
 async function setup() {
     pixelDensity(0.001);
@@ -216,7 +217,7 @@ async function setup() {
     });
     setupGui(gui);
 
-    Lizard.SpawnLizards(5);
+    Lizard.SpawnLizards(10);
     Food.SpawnFood(0);
 
     
@@ -235,7 +236,7 @@ function drawSim(amt) {
         simTick++;
         background(240);
 
-        Food.TickFoodGeneration(1);
+        Food.TickFoodGeneration(foodSpawnRate);
         drawArr(objArr);
         drawText();
     }
@@ -253,10 +254,11 @@ function drawText() {
 
 
 function setupGui(gui) {
-    gui.add('slide', {name: 'Sim Speed', value: 1, min: 1, max: 50, step: 1}).onChange(
+    const gui_grp1 = gui.add('group', { name: 'Sim Speed' });
+    gui_grp1.add('slide', {name: 'Sim Speed', value: 1, min: 1, max: 50, step: 1}).onChange(
         function(value){ simSpeed = value}
     );
-    gui.add('button', { name: 'Pause', h:70}).onChange(
+    gui_grp1.add('button', { name: 'Pause', h:50}).onChange(
         function () {
             if (simSpeed == 0) {
                 simSpeed = 1;
@@ -264,6 +266,11 @@ function setupGui(gui) {
                 simSpeed = 0;
             }
         }
+    );
+
+    const gui_grp2 = gui.add('group', { name: 'Sim Variables' });
+    gui_grp2.add('number', { name: 'Food Rate', value: foodSpawnRate, min: 0, max: 100, step: 0.1 }).onChange(
+        function (value) { foodSpawnRate = value }
     );
 }
 

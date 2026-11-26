@@ -32,20 +32,21 @@
 class Lizard {
     static ID_COUNTER = 1;
     static SPEED_LIMIT_MULT = 5; //5
-    static PERCEPTIONRADUIS_MULT = 1.25; //1.25
+    static BASE_PERCEPTIONRADUIS = 120; //1.25
+    static PERCEPTION_SKILL_HUNGER_COST = 1; //! TODO IMPLEMENT
     static DEFAULT_MINANGLE = 150;
     static EATRANGE_MULT = 10;
     static BASE_HUNGER = 100;
     static BASE_HUNGER_DRAIN = 0.01; //0.1
     static MATING_COST_MULT = 1.1;
     static MUTATION_MULT = 1.5;
-    constructor(x,y,speed,size,generation,bodyInstructions,colorGenes) {
+    constructor(x, y, traitGenes, colorGenes, bodyInstructions) {
         this.id = Lizard.ID_COUNTER++;
         this.pos = createVector(x,y);
-        this.speed = speed; //0.5
+        this.speed = traitGenes.speed; //0.5
         this.sprintMult = 3;
-        this.velLimit = speed * Lizard.SPEED_LIMIT_MULT;
-        this.size = size;
+        this.velLimit = traitGenes.speed * Lizard.SPEED_LIMIT_MULT;
+        this.size = traitGenes.size;
         this.targetVector = createVector(x,y);
         this.frameBuffer = 15; //frame buffer cooldown so actions dont run every frame
 
@@ -56,11 +57,12 @@ class Lizard {
         this.colorGenes.bodyColorVariance = constrain(colorGenes.bodyColorVariance,0,10); //much much color shift to color2 along the body
         this.colorGenes.limbColorVariance = constrain(colorGenes.limbColorVariance, 0, 10); //much much color shift to color2 along the limbs
         this.bodyInstruction = this.generateBodyInstructions(bodyInstructions);
-        this.body = new BodyJointGroup(this.bodyInstruction, size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
+        this.body = new BodyJointGroup(this.bodyInstruction, this.size, this.pos, this.speed, this.velLimit, Lizard.DEFAULT_MINANGLE);
 
         //survival
         this.alive = true;
-        this.perceptionRadius = this.body.getTotalLength() * Lizard.PERCEPTIONRADUIS_MULT; //must call after body instance
+        this.perceptionSkill = traitGenes.perceptionSkill;
+        this.perceptionRadius = Lizard.BASE_PERCEPTIONRADUIS * this.perceptionSkill; //must call after body instance
         this.isSprinting = false;
         this.isResting = false;
         this.restingHungerDrainMult = 0.2;
@@ -69,7 +71,7 @@ class Lizard {
         this.breedHungerCost = this.hunger * Lizard.MATING_COST_MULT;
         this.restHungerThreshold = 75; //TODON varry per individual
         this.gender = Lizard.RollGender();
-        this.generation = generation;
+        this.generation = traitGenes.generation;
         this.decayTime = 18000; //5 mins
         this.decayTimer = 0;
         
@@ -187,8 +189,7 @@ class Lizard {
     }
 
     breed() {
-        this.hunger -= this.breedHungerCost;
-        console.log('breed');
+        this.hunger -= this.breedHungerCost / Lizard.MATING_COST_MULT;
         if (this.gender === 'F') {
             this.spawnOffspring();
         }
@@ -202,7 +203,8 @@ class Lizard {
         const partner = this.breedTarget;
         const speed = random(min(this.speed, partner.speed) / Lizard.MUTATION_MULT, max(this.speed, partner.speed) * Lizard.MUTATION_MULT);
         const size = random(min(this.size, partner.size) / Lizard.MUTATION_MULT, max(this.size, partner.size) * Lizard.MUTATION_MULT);
-        const gen = this.generation + 1;
+        const generation = this.generation + 1;
+        const perceptionSkill = random(min(this.perceptionSkill, partner.perceptionSkill) / Lizard.MUTATION_MULT, max(this.perceptionSkill, partner.perceptionSkill) * Lizard.MUTATION_MULT);
         const r1 = random(min(red(this.colorGenes.color1), red(partner.colorGenes.color1)) / Lizard.MUTATION_MULT, max(red(this.colorGenes.color1), red(partner.colorGenes.color1)) * Lizard.MUTATION_MULT);
         const g1 = random(min(green(this.colorGenes.color1), green(partner.colorGenes.color1)) / Lizard.MUTATION_MULT, max(green(this.colorGenes.color1), green(partner.colorGenes.color1)) * Lizard.MUTATION_MULT);
         const b1 = random(min(blue(this.colorGenes.color1), blue(partner.colorGenes.color1)) / Lizard.MUTATION_MULT, max(blue(this.colorGenes.color1), blue(partner.colorGenes.color1)) * Lizard.MUTATION_MULT);
@@ -211,13 +213,19 @@ class Lizard {
         const b2 = random(min(blue(this.colorGenes.color2), blue(partner.colorGenes.color2)) / Lizard.MUTATION_MULT, max(blue(this.colorGenes.color2), blue(partner.colorGenes.color2)) * Lizard.MUTATION_MULT);
         const bodyColorVariance = random(min(this.colorGenes.bodyColorVariance, partner.colorGenes.bodyColorVariance) / Lizard.MUTATION_MULT, max(this.colorGenes.bodyColorVariance, partner.colorGenes.bodyColorVariance) * Lizard.MUTATION_MULT);
         const limbColorVariance = random(min(this.colorGenes.limbColorVariance, partner.colorGenes.limbColorVariance) / Lizard.MUTATION_MULT, max(this.colorGenes.limbColorVariance, partner.colorGenes.limbColorVariance) * Lizard.MUTATION_MULT);
+        const traitGenes = {
+            speed: speed,
+            size: size,
+            generation: generation,
+            perceptionSkill: perceptionSkill,
+        }
         const colorGenes = {
             color1: color(r1,g1,b1),
             color2: color(r2,g2,b2),
             bodyColorVariance: bodyColorVariance,
             limbColorVariance: limbColorVariance,
         }
-        new Lizard(this.pos.x, this.pos.y, speed, size, gen, lizardBaseArr, colorGenes);
+        new Lizard(this.pos.x, this.pos.y, traitGenes, colorGenes, lizardBaseArr);
     }
 
     runDecay() {
@@ -250,19 +258,26 @@ class Lizard {
 
 
     //STATIC
+    static RollOffspringGene(gene) {
+
+    }
 
     static SpawnLizards(amt) {
         for (let i = 0; i < amt; i++) {
             const pos = Util.getRandomScreenPos();
-            const speed = random(0.25, 0.75);
-            const size = random(1, 1.5);
+            const traitGenes = {
+                speed: random(0.25, 0.75),
+                size: random(1, 1.5),
+                generation: 1,
+                perceptionSkill: random(0.95, 1.15),
+            }
             const colorGenes = {
                 color1: color(random(0, 255), random(0, 255), random(0, 255)),
                 color2: color(random(0, 255), random(0, 255), random(0, 255)),
                 bodyColorVariance: random(0.5, 2.5),
                 limbColorVariance: random(0.5, 4),
             }
-            new Lizard(pos.x,pos.y,speed,size,1,lizardBaseArr,colorGenes);
+            new Lizard(pos.x,pos.y,traitGenes,colorGenes,lizardBaseArr);
         }
     }
 
@@ -288,7 +303,7 @@ class Lizard {
      * _DEBUG
      */
     DEBUG_DRAW() {
-        // this.drawPerceptionRadius();
+        this.drawPerceptionRadius();
         this.drawText();
     }
 
@@ -308,11 +323,12 @@ class Lizard {
         }
         // text(`id: ${this.id}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`gen: ${this.generation}`, this.pos.x, this.pos.y + textHeight * textLine++);
-        text(`state: ${this.currentState.name}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        text(`state: ${(this.alive) ? this.currentState.name : "deceased"}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`hunger: ${this.hunger.toFixed(0)}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`gender: ${this.gender}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`size: ${this.size.toFixed(2)}`, this.pos.x, this.pos.y + textHeight * textLine++);
         text(`speed: ${this.speed.toFixed(2)}`, this.pos.x, this.pos.y + textHeight * textLine++);
+        text(`perception: ${this.perceptionSkill.toFixed(2)}`, this.pos.x, this.pos.y + textHeight * textLine++);
     }
 
 
