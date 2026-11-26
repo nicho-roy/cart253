@@ -1,7 +1,18 @@
 # Reflective Journal
 
-## 2026-11-19
 
+## 2026-11-26
+> I've added a lot to the lizard simulation, including proper breeding and survival elements for the lizard, along with a GUI for controlling the simulation. I'll go over each in depth:
+> **Added proper reporduction mechanics:** lizard dance, breed conditions, and offsrping generation
+
+
+> **Lizard Rest State:** conditions and intended future implmentations
+> **Simulation Control Panel GUI:** fast fwd options, tips for frame rate
+
+
+
+
+## 2026-11-19
 > Ive decided that im going to be expanding the lizard simulation for my final project. From my last prototype, I coded the procedurally animated body of the lizards, being controlled by the user's mouse. for my final project, I intend to code the "brain" of the lizard, along with their behaviours, as well as adding support for multiple instances of lizards, each of which being individually unique in some way. My final goal is something akin to my _fihmuation_ (fish simulation) project, where individuals can eat, breed, and perish, essentially simulating an ecosystem.
 > That bring me to what I have now. Currently, I've created a new Lizard class, which contains its own instance of the physics body. Formatting them this way makes it far easier to seperate their beviours and the body simulation.
 > With everything seperated nicely, it gives me room to code a state machine for the lizards. I've coded 3 main ones up to this point, but might add more in the future. These states are:

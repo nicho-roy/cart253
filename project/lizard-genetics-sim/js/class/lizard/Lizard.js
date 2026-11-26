@@ -6,6 +6,9 @@
 
 //TODO lizard rest/recover state when low on food
 
+//! TODON REST STATE FIX
+
+
 //TODON lizard predation, and prey fleeing, if size is doubled
 
 //TODON fix hind legs bending awkwardly

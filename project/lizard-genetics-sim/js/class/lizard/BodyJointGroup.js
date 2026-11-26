@@ -106,6 +106,7 @@ class BodyJointGroup {
     /**
      * Constrain body segment joints into a chain, starting from the head
      * functions using the forward portion of the FABRIK algorithm
+     * ? maybe make more efficient by calc x and y without vectors, since they can be computationally expensive
      */
     constrainJointPositions() {
         //constrain the next of each joint, ignoring last
@@ -120,33 +121,6 @@ class BodyJointGroup {
         }
     }
 
-    /**
-     * ! Unused, DEBUG
-     * This was generted by ai and used as a means to test if vectors are slowing down the program. It will go unused in the main scrpit
-     * Constrain body segment joints into a chain, starting from the head
-     * functions using the forward portion of the FABRIK algorithm
-     * Updated to forego using vectors, since they can lead to bad performance with so many calls per frame
-     */
-    DEBUG_constrainJointPositions() {
-        for (let i = 0; i < this.jointArr.length - 1; i++) {
-            const currentJoint = this.jointArr[i];
-            const nextJoint = this.jointArr[i + 1];
-
-            // 1. arrow from current to next (sub)
-            const dx = nextJoint.pos.x - currentJoint.pos.x;
-            const dy = nextJoint.pos.y - currentJoint.pos.y;
-
-            // 2. keep the direction, force the length to jointRadius (setMag)
-            const currentLength = Math.hypot(dx, dy);   // length of the arrow
-            const scale = currentJoint.jointRadius / currentLength;
-            const constrainedX = dx * scale;
-            const constrainedY = dy * scale;
-
-            // 3. start at current joint, follow the arrow (add)
-            nextJoint.pos.x = currentJoint.pos.x + constrainedX;
-            nextJoint.pos.y = currentJoint.pos.y + constrainedY;
-        }
-    }
 
     /**
      * makes sure that the angle between body segments remains above the $minAngle 
