@@ -56,7 +56,7 @@ let lizardBaseArr = [
 let objArr = []; //every item must have: pos, act()
 let simSpeed = 1;
 let simTick = 0; //essentially the frame count, accounting for sim speed
-let foodSpawnRate = 1;
+let foodSpawnRate = 1.5;
 let showPerception = false;
 let showStats = true;
 let showBody = true;
@@ -75,7 +75,7 @@ async function setup() {
     });
     setupGui(gui);
 
-    Lizard.SpawnLizards(10);
+    Lizard.SpawnLizards(30);
     Food.SpawnFood(0);
 
     
