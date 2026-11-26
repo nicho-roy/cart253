@@ -256,7 +256,7 @@ function setupGui(gui) {
     gui.add('slide', {name: 'Sim Speed', value: 1, min: 1, max: 50, step: 1}).onChange(
         function(value){ simSpeed = value}
     );
-    gui.add('button', { name: 'Puase', h:70}).onChange(
+    gui.add('button', { name: 'Pause', h:70}).onChange(
         function () {
             if (simSpeed == 0) {
                 simSpeed = 1;
@@ -265,7 +265,6 @@ function setupGui(gui) {
             }
         }
     );
-
 }
 
 function isFastForwarding() {
