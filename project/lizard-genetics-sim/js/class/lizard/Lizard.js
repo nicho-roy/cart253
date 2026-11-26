@@ -303,8 +303,8 @@ class Lizard {
      * _DEBUG
      */
     DEBUG_DRAW() {
-        this.drawPerceptionRadius();
-        this.drawText();
+        if (showPerception) this.drawPerceptionRadius();
+        if (showStats) this.drawText();
     }
 
     drawPerceptionRadius() {

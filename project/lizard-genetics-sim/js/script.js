@@ -203,6 +203,8 @@ let objArr = []; //every item must have: pos, act()
 let simSpeed = 1;
 let simTick = 0; //essentially the frame count, accounting for sim speed
 let foodSpawnRate = 1;
+let showPerception = false;
+let showStats = true;
 
 async function setup() {
     pixelDensity(0.001);
@@ -271,6 +273,12 @@ function setupGui(gui) {
     const gui_grp2 = gui.add('group', { name: 'Sim Variables' });
     gui_grp2.add('number', { name: 'Food Rate', value: foodSpawnRate, min: 0, max: 100, step: 0.1 }).onChange(
         function (value) { foodSpawnRate = value }
+    );
+    gui_grp2.add('button', { name: 'Toggle Stats', h: 30 }).onChange(
+        function () { showStats = !showStats }
+    );
+    gui_grp2.add('button', { name: 'Toggle Percpetion', h: 30 }).onChange(
+        function () { showPerception = !showPerception }
     );
 }
 
