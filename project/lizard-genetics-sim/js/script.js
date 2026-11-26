@@ -205,6 +205,7 @@ let simTick = 0; //essentially the frame count, accounting for sim speed
 let foodSpawnRate = 1;
 let showPerception = false;
 let showStats = true;
+let showBody = true;
 
 async function setup() {
     pixelDensity(0.001);
@@ -256,7 +257,7 @@ function drawText() {
 
 
 function setupGui(gui) {
-    const gui_grp1 = gui.add('group', { name: 'Sim Speed' });
+    const gui_grp1 = gui.add('group', { name: 'Sim Playback' });
     gui_grp1.add('slide', {name: 'Sim Speed', value: 1, min: 1, max: 50, step: 1}).onChange(
         function(value){ simSpeed = value}
     );
@@ -270,9 +271,9 @@ function setupGui(gui) {
         }
     );
 
-    const gui_grp2 = gui.add('group', { name: 'Sim Variables' });
-    gui_grp2.add('number', { name: 'Food Rate', value: foodSpawnRate, min: 0, max: 100, step: 0.1 }).onChange(
-        function (value) { foodSpawnRate = value }
+    const gui_grp2 = gui.add('group', { name: 'Graphics' });
+    gui_grp2.add('button', { name: 'Toggle Body', h: 30 }).onChange(
+        function () { showBody = !showBody }
     );
     gui_grp2.add('button', { name: 'Toggle Stats', h: 30 }).onChange(
         function () { showStats = !showStats }
@@ -280,14 +281,19 @@ function setupGui(gui) {
     gui_grp2.add('button', { name: 'Toggle Percpetion', h: 30 }).onChange(
         function () { showPerception = !showPerception }
     );
-}
 
-function doSkipDraw() {
-    if (simSpeed > 5) {
-        return true;
-    } else {
-        return false;
-    }
+    const gui_grp3 = gui.add('group', { name: 'Actions' });
+    gui_grp3.add('button', { name: 'Spawn Lizard', h: 50 }).onChange(
+        function () { Lizard.SpawnLizards(1) }
+    );
+    gui_grp3.add('button', { name: 'Clear Bodies', h: 50 }).onChange(
+        function () { objArr.forEach(e => {
+            if (!(e.alive)) e.remove();
+        }) }
+    );
+    gui_grp3.add('number', { name: 'Food Rate', value: foodSpawnRate, min: 0, max: 100, step: 0.1 }).onChange(
+        function (value) { foodSpawnRate = value }
+    );
 }
 
 function drawArr(arr) {

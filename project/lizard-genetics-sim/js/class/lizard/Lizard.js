@@ -153,7 +153,7 @@ class Lizard {
             this.body.act();
             this.calcHungerDrain();
         } else {
-            this.runDecay();
+            // this.runDecay();
         }
         this.draw();
         this.DEBUG_DRAW();
@@ -228,6 +228,9 @@ class Lizard {
         new Lizard(this.pos.x, this.pos.y, traitGenes, colorGenes, lizardBaseArr);
     }
 
+    /**
+     * removes a lizard if dead, after an amount of time
+     */
     runDecay() {
         this.decayTimer++;
         if (this.decayTimer > this.decayTime) {

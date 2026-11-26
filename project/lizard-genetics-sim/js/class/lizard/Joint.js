@@ -11,7 +11,7 @@ class Joint {
     }
 
     draw() {
-        if (doSkipDraw()) return; //do not draw joints if fast forwarding sim
+        if (!showBody) return; //do not draw joints if fast forwarding sim
         noStroke();
         fill(this.fill);
         ellipse(this.pos.x, this.pos.y, this.drawSize, this.drawSize);
