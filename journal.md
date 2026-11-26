@@ -3,25 +3,62 @@
 
 ## 2026-11-26
 > I've added a lot to the lizard simulation, including proper breeding and survival elements for the lizard, along with a GUI for controlling the simulation. I'll go over each in depth:
-> **Added proper reporduction mechanics:** lizard dance, breed conditions, and offsrping generation
+>
+> <br>
+>
+> **Lizard Survival Mechanics and Rest State:** 
+>    - 
+>    - Firstly, I added some debug features like an FPS counter and a stats overlay on each lizard to better track them. This includes a measure on which generation they were born into, their current state in the state machine, their hunger value (or how nurished they are), and other traits that get passed on genetically and contribute to  natrual selection. Lizards will chase food that is in their percaption range as before, however now their hunger decreases over time, and varries based on how fast and large they are. Larger and faster lizards have an advantage in chasing food (although there currently isn't much advantage to being larger yet), however their hunger will drain faster. this will hopefully create competition among the lizards and through natural selection will create lizards best fit to survive the given conditions of the simulation.
+>
+>      ![resting-img](./assets/images/liz-resting.png)
+>
+>    - In testing, I've ran into cases where food scarcity makes for an interesting simulation in theory, but often favours the lizards that drain hunger the slowest. To give the others a fighting chance, I added a "resting" state to all lizards, in which after a certain hunger threshold (when they are nearing starvation), they will stop moving for a random time of around 30 seconds or so, and will drain hunger at a much slower rate. This seemed to increase the survival odds of the lizards since often they would wander aimlessly, wasting a lot of energy in between food spawns. This makes it so lizards can essentially wait for the conditions around them to get better, by waiting for food to spawn before starting to pursue. There is still a bit to iron out in the rest state, as i want to make lizards more likely to rest based on how hungry they are, and for that trait to be genetic, but for now it works as a proof of concept.
+>
+> <br>
+>
+> **Added proper reporduction mechanics:** 
+>    -
+>    - After further developing the breeding state within the lizard state machine mentioned in the pervious journal, lizards can now reproduce. To facilitate this, lizards now have gender (a string containing either 'M" or 'F'), in which lizards who fulfill the mating requirments will initiate breeding with other lizards of the opposite gender. The mating requirement is simply a minimum hunger value, which depends on the lizard's size, so larger lizards need to consume more food to mate, simulating how smaller animals tend to reproduce at a faster rate. Upon 2 lizards mutually entering the breeding state they will appear to move weirdly in a sort of mating dance ritual while trying to approach one another. This dance was achieved by setting the 2 lizards' target move position to the other's position but with a random offset, allowing the physics body simulation to shine by making the lizards' appear to wiggle. In this state, each lizard has a timer of around 10 seconds that will only tick forward when the lizards' heads are touching. That fact paired with the random offset makes the mating process take a varrying amount of time per individual.
+>
+>      ![liz-mating-img](./assets/images/liz-mating.png)
+>
+>    - After mating successfully, the female will produce an offspring with traits derived from both parents with a random mutation offset, and both parents will pay a hunger cost. For now, the offspring is always fully grown, but since real time lizard growth will possibly quite complictad, i probably wont be adding it.
+>
+> <br>
+>
+> **Simulation Control Panel GUI:** 
+>    -
+>    - Mainly for debugging, I made a GUI panel for controlling simulation options in real time.
+>
+>      ![control-panel-img](./assets/images/control-panel.png)
+>    - This requires that I import a package online however, as I couldn't find a file version to simply drop into my file (although I didn't look that hard). As you can see, this allows control over the simulation speed, along with other important variables. The sim speed was as easy as calling a secondary draw method in the draw function an 'i' amount of times in a loop. This suprisingly works very well with such little code, except for when reading the 'frameCount' variable from p5, which doesn't account for the changes to draw. To fix this i just coded my own variable that ticks up in the new draw function.
+>    - **TIP:** when fast forwarding at higher rates, it helps to hide the lizard bodies and rely on watching the position of their debug text instead. For some reason drawing ellipses is very expensive compared to drawing text.
 
-
-> **Lizard Rest State:** conditions and intended future implmentations
-> **Simulation Control Panel GUI:** fast fwd options, tips for frame rate
+>
+>[Lizard Genetics Sim](./project/lizard-genetics-sim/index.html)
+>
+>![gen-sim2-img](./assets/images/liz-sim2.png)
 
 
 
 
 ## 2026-11-19
 > Ive decided that im going to be expanding the lizard simulation for my final project. From my last prototype, I coded the procedurally animated body of the lizards, being controlled by the user's mouse. for my final project, I intend to code the "brain" of the lizard, along with their behaviours, as well as adding support for multiple instances of lizards, each of which being individually unique in some way. My final goal is something akin to my _fihmuation_ (fish simulation) project, where individuals can eat, breed, and perish, essentially simulating an ecosystem.
-> That bring me to what I have now. Currently, I've created a new Lizard class, which contains its own instance of the physics body. Formatting them this way makes it far easier to seperate their beviours and the body simulation.
-> With everything seperated nicely, it gives me room to code a state machine for the lizards. I've coded 3 main ones up to this point, but might add more in the future. These states are:
-> 1) Wander: A base state in which lizards pick a position on screen randomly, and will enter 1 of the other 2 states depending on what enters their perception radius.
-> 2) Chase: The lizard will sprint towards a target if it spots some, and will chase the food until it is in range to be eaten, which it will then default to wander state. The target being food for now, but I might add the option for bigger lizards to chase and eat smaller ones.
-> 3) Breed: This one is unfinished, but the idea is that fit lizards (still havent thought of a fitness condition), wil attempt to breed with other lizards in whom are also in the breed state. Lizard breeding is a whole other thing so ill explain it later.
+>
+> That bring me to what I have now. Currently, I've created a new Lizard class, which contains its own instance of the physics body. Formatting them this way makes it far easier to seperate their beviours and the body simulation. With everything seperated nicely, it gives me room to code a state machine for the lizards. I've coded 3 main ones up to this point, but might add more in the future. These states are:
+>
+> 1. Wander: A base state in which lizards pick a position on screen randomly, and will enter 1 of the other 2 states depending on what enters their perception radius.
+>
+> 2. Chase: The lizard will sprint towards a target if it spots some, and will chase the food until it is in range to be eaten, which it will then default to wander state. The target being food for now, but I might add the option for bigger lizards to chase and eat smaller ones.
+>
+> 3. Breed: This one is unfinished, but the idea is that fit lizards (still havent thought of a fitness condition), wil attempt to breed with other lizards in whom are also in the breed state. Lizard breeding is a whole other thing so ill explain it later.
+>
 > I havent coded breeding yet, but my intention is for them to produce offspring with a mix of the parents genetics, with a random mutation offset, much like the fish simulation.
+>
 > As for individual traits of lizards, they each have 2 colors in their genetics, which will appear on their body in gradients varrying in intensity. Additionaly, they have a speed and size modifier, which will be used more later. For now, the script spawns a few random ones with contrains to their genetics, and they run around and chase food. My next plan is for lizards to get hungry and feel the need to eat, rather than just gorging themselves, which also comes with a starving/resting state for when they are hungry and need to conserve energy. There is so much i want to do for this game, this is only a snippet of the important stuff for now. There are some other minor things I added, such as making the lizards limb alternate while walking and tweaking some other limb behaviours, but they're pretty minor so I wont get into it here. Also, I cleaned up my existing lizard physics code, by finally commenting it, and fixing some organizational issues. My previous code was getting a bit diffuclt to debug so it was necessary.
+>
 >[Lizard Genetics Sim](./project/lizard-genetics-sim/index.html)
+>
 >![gen-sim1-img](./assets/images/gen-sim1.png)
 
 
