@@ -64,7 +64,7 @@ class LizardWanderState extends LizardBaseState {
     detectBreedTarget(lizard) {
         //run every X frames for performance
         if (!((simTick + lizard.id) % lizard.frameBuffer === 0)) return;
-        if (lizard.hunger <= lizard.breedHungerCost) return;
+        if (!(lizard.meetsBreedCondition())) return;
 
         let closest = { obj: null, dist: 99999 };
         for (const e of objArr) {
@@ -72,6 +72,7 @@ class LizardWanderState extends LizardBaseState {
             if (!(e instanceof Lizard)) continue; //must be another lizard
             if (!(e.alive)) continue; //must be alive
             if (e.gender === lizard.gender) continue; //must be of opposite sex (im not homophobic i promise)
+            if (!(e.meetsBreedCondition())) continue; //wont waste energy chasing unmatable targets //! maybe remove for silly mating chase behaviours
 
             //sets closest as current target if it tghe closest
             const distanceToCurrent = dist(lizard.pos.x, lizard.pos.y, e.pos.x, e.pos.y);

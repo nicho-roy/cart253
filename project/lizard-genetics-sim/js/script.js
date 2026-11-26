@@ -267,8 +267,8 @@ function setupGui(gui) {
     );
 }
 
-function isFastForwarding() {
-    if (simSpeed > 1) {
+function doSkipDraw() {
+    if (simSpeed > 5) {
         return true;
     } else {
         return false;

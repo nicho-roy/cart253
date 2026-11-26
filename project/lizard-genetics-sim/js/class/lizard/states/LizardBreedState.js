@@ -17,7 +17,7 @@ class LizardBreedState extends LizardBaseState {
      * to be called every frame of a state
      */
     updateState(lizard) {
-        if (!lizard.breedTarget || !lizard.breedTarget.alive || lizard.hunger < lizard.breedHungerCost) {
+        if (!lizard.breedTarget || !lizard.breedTarget.alive || !(lizard.meetsBreedCondition()) || !(lizard.breedTarget.meetsBreedCondition())) {
             lizard.breedTarget = null;
             lizard.switchState(lizard.wanderState);
             return;
